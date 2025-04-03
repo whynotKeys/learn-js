@@ -372,7 +372,7 @@
 
 # 2025-04-02
 
-**Javascript // Switch문**
+**Javascript // Switch문, While문, For문**
 
 ## 수업 내용
 
@@ -443,6 +443,19 @@ for(var i=1; i<=10; i++){
 alert(sum);
 ```
 
+<br />
+<br />
+
+---
+
+---
+
+# 2025-04-03
+
+**Javascript // break, continue, object, function**
+
+## 수업 내용
+
 ### break
 
 - 반복문이나 switch문을 즉시 종료
@@ -451,3 +464,91 @@ alert(sum);
 ### continue
 
 - 반복문 내에서 남아있는 코드를 건너뛰고 다음 반복으로 실행이 넘어감
+  **※ 가독성이 떨어져서 사용 권장하지 않음**
+
+### object(=객체)
+
+- key-value 쌍의 데이터 집합(속성, property)
+- 속성의 값으로 모든 데이터 타입 지정 가능
+- 값으로 함수가 지정된 속성을 메소드(method)라 함
+- 여러개의 속성을 포함할 수 있음
+- 객체 생성
+
+  1. Object 생성자 함수로 생성 후 속성과 기능 부여. 객체의 속성과 기능에 접근할 때는 dot연산자(.)를 이용하거나 ['속성명'] 표기 사용
+
+  ```javascript
+  var foo = new Object();
+  foo.name = 'kim';
+  foo['age'] = 30;
+  foo.job = 'student';
+  foo['married'] = false;
+
+  console.log(foo['name'], foo.age, foo.job, foo['married']);
+  console.log(typeof foo, foo);
+
+  kim 30 student false
+  object {name: 'kim', age: 30, job: 'student', married: false}
+  ```
+
+  2. JSON(JavaScript Object Notation) 표기법 이용 : { 속성명1: 속성값1, 속성명2: 속성값2, ... }
+
+  ```javascript
+  var foo = {
+    name: 'lee',
+    age: 35,
+    job: 'teacher',
+    married: true
+  };
+
+  console.log(foo['name'], foo.age, foo.job, foo['married']);
+  console.log(typeof foo, foo);
+
+  lee 35 teacher true
+  object {name: 'lee', age: 35, job: 'teacher', married: true}
+  ```
+
+### 함수
+
+- 명령어의 묶음
+- 특정 기능을 재사용 하고 싶을 때 작성
+- 함수이름, 인자목록, 실행구문, 반환값으로 구성됨
+- 형식
+  ```javascript
+    function 함수명(매개변수1, 매개변수2, ...){
+      실행할 구문1;
+      실행할 구문2;
+      ......
+      return 반환값;
+    }
+  ```
+- 함수 사용(호출)
+  ```javascript
+    var result = 함수명(인자값1, 인자값2, ...);
+  ```
+- 2번 이상 반복 코드 사용된다 -> 그냥 함수로 만들어버려
+  1번만 팔요한 기능이면 함수 필요X
+
+- 함수를 위주로 만드는 언어를 절차지향 언어라고 함. 대표적인 예가 C 언어
+- 디버그모드 컨트롤러
+
+  - 좌측 variables 보면 변수와 값 보여줌
+  - 컨트롤러
+    - Continue : 다음 브레이크포인트까지 실행
+    - Step over : 다음 실행줄까지 진행
+    - Step into : **함수 안으로 들어감**
+    - Step out :
+    - Restart : 디버깅 세션을 다시 시작합니다. (프로그램을 처음부터 다시 실행)
+
+- 백준 for문 다풀기 // 주말동안 3단계까지는 다 풀어올 것
+
+## 수업시간에 언급된, 찾아볼 내용
+
+- 절차지향 언어 절차식 /객체식/함수형 언어
+- typeof(##) typeof ##
+
+  <br />
+  <br />
+
+---
+
+---
