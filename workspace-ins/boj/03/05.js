@@ -48,3 +48,7 @@ long int
 long long long long long int
 */
 
+const fs = require("fs");
+const fileData = fs.readFileSync(0).toString().trim().split(" ");
+
+const inputData = parseInt(fileData[0]);
