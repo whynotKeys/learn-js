@@ -1,5 +1,6 @@
 /*
 비교 연산자 >, >=, <, <=, ==, !=, ===, !==
+true/false 값으로 판단
 */
 
 var a = 5;
@@ -20,8 +21,8 @@ console.log(a >= d); // 5 >= 5 = true
 console.log(a <= d); // 5 <= 5 = true
 
 // 문자열 비교
-console.log(a == c); // 동등, 5 == '5' = 5 == 5 = true
-console.log(a === c); // 일치, 5 === '5' = number === string = false
+console.log(a == c); // 동등, 5 == '5' => 5 === 5 => true
+console.log(a === c); // 일치, 5 === '5' => number === string => false
 
 console.log('ch05' > 'ch01'); // 사전순으로 비교, true
 console.log('ch12' > 'ch2'); // 사전순으로 비교, false

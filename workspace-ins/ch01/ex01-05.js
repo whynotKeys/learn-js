@@ -1,11 +1,16 @@
 /*
 변수 선언
+var
+let
+const
 */
 
-var a;
-var b, c;
-var d = 10;
-var e = 100, f = 200;
+var a; // 변수 선언 (추천)
+a = 100; // 변수 초기화
+
+var b, c; // 변수 두개 선언
+var d = 10; // 변수 선언 + 초기화 (추천)
+var e = 100, f = 200; // 변수 두개 선언 + 초기화
 
 var user = "하츄핑";
 var user2 = '아자핑';

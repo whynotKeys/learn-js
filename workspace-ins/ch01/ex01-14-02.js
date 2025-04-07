@@ -12,10 +12,12 @@
 12는 짝수 입니다.
 */
 
-const fs = require("fs");
-const fileData = fs.readFileSync(0).toString();
-console.log(fileData);
+const fs = require("fs"); // file system에서 데이터를 입/출력 할때 사용
+const fileBuffer = fs.readFileSync(0);
+console.log(fileBuffer);
+const data = fileBuffer.toString();
+console.log(data);
 
-let num = Number(fileData);
+let num = Number(data);
 let result = num % 2 === 0 ? '짝수' : '홀수';
 console.log(`${num}은 ${result}입니다.`);

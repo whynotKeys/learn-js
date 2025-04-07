@@ -10,7 +10,7 @@ const m = 10;
 
 for (let i = n; i <= m; i++) {
   //짝수확인
-  if (i % 2 == 0) {
+  if (i % 2 === 0) {
     console.log(i + "는 짝수입니다.");
     break;
   }

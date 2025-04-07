@@ -11,9 +11,9 @@ var s2 = "double quote";
 // boolean
 var b1 = true;
 var b2 = false;
-// undefined
+// type: undefined, value: undefined
 var emptyVal;
-// null
+// type: object, value: null
 var nullVal = null;
 
 console.log(num, floatNum, s1, s2, b1, b2, emptyVal, nullVal);
