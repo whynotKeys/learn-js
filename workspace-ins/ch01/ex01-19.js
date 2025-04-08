@@ -2,8 +2,8 @@
 switch문
 */
 
-const pingName = '시진핑';
-let modifier;
+const pingName = '머핑';
+let modifier = '모르는';
 
 switch (pingName) {
   case '하츄핑':

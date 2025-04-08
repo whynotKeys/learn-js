@@ -136,3 +136,23 @@ No
 No
 */
 
+const fs = require("fs");
+const inputData = fs.readFileSync(0).toString().trim().split("\n");
+
+const x = parseInt(inputData[0]); // 영수증에 적힌 총 금액
+const n = parseInt(inputData[1]); // 구매한 물건의 종류 수
+
+// 종류 수만큼 for문 실행해서 각 물건의 가격*수량을 sum에 추가
+let sum = 0;
+for (i = 2; i < n + 2; i++) {
+  const a = parseInt(inputData[i].split(" ")[0]);
+  const b = parseInt(inputData[i].split(" ")[1]);
+  sum += a * b;
+}
+
+// 계산한 총합과 총 금액을 비교해서 결과값 출력
+if (x === sum) {
+  console.log("Yes");
+} else {
+  console.log("No");
+}

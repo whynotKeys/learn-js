@@ -16,7 +16,7 @@ var invalidId = !(id.length >= 4 && id.length <= 12);
 console.log("id입력 조건에 맞지 않음", invalidId);
 
 console.log(`-----------------`);
-// falsy : number 0, string '', boolean false, null, undefined
+// falsy : number 0, string '', boolean false, object null, undefined undefined
 // truthy : 나머지
 
 // 앞의 값이 참이면 앞의 값을 반환

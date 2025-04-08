@@ -28,3 +28,20 @@
 7
 */
 
+const fs = require("fs");
+const inputData = fs.readFileSync(0).toString().trim().split("\n");
+
+let i = 0;
+for (; ; i++) {
+  const num1 = inputData[i];
+  const num2 = inputData[i];
+
+  if (num1 === undefined || num2 === undefined) {
+    break;
+  }
+
+  const a = Number(inputData[i].split(" ")[0]);
+  const b = Number(inputData[i].split(" ")[1]);
+
+  console.log(a + b);
+}

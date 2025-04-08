@@ -119,20 +119,20 @@
 
 ##### boj
 * 문제 풀이
-  - 💻 A+B - [boj/01/02.js](./workspace-ins/boj/01/02.js)
-  - 💻 곱셈 - [boj/01/10.js](./workspace-ins/boj/01/10.js)
+  - 💻 A+B: [boj/01/02.js](./workspace-ins/boj/01/02.js)
+  - 💻 곱셈: [boj/01/10.js](./workspace-ins/boj/01/10.js)
 * 문제 추천
-  - 💻 A-B - [boj/01/03.js](./workspace-ins/boj/01/03.js)
-  - 💻 A×B - [boj/01/04.js](./workspace-ins/boj/01/04.js)
-  - 💻 A/B - [boj/01/05.js](./workspace-ins/boj/01/05.js)
-  - 💻 사칙연산 - [boj/01/06.js](./workspace-ins/boj/01/06.js)
-  - 💻 ??! - [boj/01/07.js](./workspace-ins/boj/01/07.js)
-  - 💻 1998년생인 내가 태국에서는 2541년생?! - [boj/01/08.js](./workspace-ins/boj/01/08.js)
-  - 💻 나머지 - [boj/01/09.js](./workspace-ins/boj/01/09.js)
-  - 💻 곱셈 - [boj/01/10.js](./workspace-ins/boj/01/10.js)
-  - 💻 꼬마 정민 - [boj/01/11.js](./workspace-ins/boj/11/02.js)
-  - 💻 고양이 - [boj/01/12.js](./workspace-ins/boj/01/12.js)
-  - 💻 개 - [boj/01/13.js](./workspace-ins/boj/01/13.js)
+  - 💻 A-B: [boj/01/03.js](./workspace-ins/boj/01/03.js)
+  - 💻 A×B: [boj/01/04.js](./workspace-ins/boj/01/04.js)
+  - 💻 A/B: [boj/01/05.js](./workspace-ins/boj/01/05.js)
+  - 💻 사칙연산: [boj/01/06.js](./workspace-ins/boj/01/06.js)
+  - 💻 ??!: [boj/01/07.js](./workspace-ins/boj/01/07.js)
+  - 💻 1998년생인 내가 태국에서는 2541년생?!: [boj/01/08.js](./workspace-ins/boj/01/08.js)
+  - 💻 나머지: [boj/01/09.js](./workspace-ins/boj/01/09.js)
+  - 💻 곱셈: [boj/01/10.js](./workspace-ins/boj/01/10.js)
+  - 💻 꼬마 정민: [boj/01/11.js](./workspace-ins/boj/11/02.js)
+  - 💻 고양이: [boj/01/12.js](./workspace-ins/boj/01/12.js)
+  - 💻 개: [boj/01/13.js](./workspace-ins/boj/01/13.js)
 
 ## 2주차 - 4일, 2025.03.31(월) ~ 2025.04.03(목)
 ### 3일차(월)
@@ -161,7 +161,7 @@
 ##### boj
 * 문제 풀이
 * 문제 추천
-  - 두 수 비교하기 - [boj/02/01.js](./workspace-ins/boj/02/01.js)
+  - 두 수 비교하기: [boj/02/01.js](./workspace-ins/boj/02/01.js)
 
 ### 4일차(화)
 ##### 오전(3시간)
@@ -184,14 +184,14 @@
 
 ##### boj
 * 문제 풀이
-  - 💻 두 수 비교하기 - [boj/02/01.js](./workspace-ins/boj/02/01.js)
+  - 💻 두 수 비교하기: [boj/02/01.js](./workspace-ins/boj/02/01.js)
 * 문제 추천
-  - 💻 시험 성적 - [boj/02/02.js](./workspace-ins/boj/02/02.js)
-  - 💻 윤년 - [boj/02/03.js](./workspace-ins/boj/02/03.js)
-  - 💻 사분면 고르기 - [boj/02/04.js](./workspace-ins/boj/02/04.js)
-  - 💻 알람 시계 - [boj/02/05.js](./workspace-ins/boj/02/05.js)
-  - 💻 오븐 시계 - [boj/02/06.js](./workspace-ins/boj/02/06.js)
-  - 💻 주사위 세개 - [boj/02/07.js](./workspace-ins/boj/02/07.js)
+  - 💻 시험 성적: [boj/02/02.js](./workspace-ins/boj/02/02.js)
+  - 💻 윤년: [boj/02/03.js](./workspace-ins/boj/02/03.js)
+  - 💻 사분면 고르기: [boj/02/04.js](./workspace-ins/boj/02/04.js)
+  - 💻 알람 시계: [boj/02/05.js](./workspace-ins/boj/02/05.js)
+  - 💻 오븐 시계: [boj/02/06.js](./workspace-ins/boj/02/06.js)
+  - 💻 주사위 세개: [boj/02/07.js](./workspace-ins/boj/02/07.js)
 
 ### 5일차(수)
 ##### 오전(3시간)
@@ -214,7 +214,39 @@
 
 ##### boj
 * 문제 풀이
-  - 💻 두 수 비교하기 (if문으로 수정) - [boj/02/01.js](./workspace-ins/boj/02/01.js)
+  - 💻 두 수 비교하기 (if문으로 수정): [boj/02/01.js](./workspace-ins/boj/02/01.js)
+
+### 6일차(목)
+##### 오전(3시간)
+* 📜 for문
+  - 💻 [01-21-03 for문을 이용해서 구구단 작성](./workspace-ins/ch01/ex01-21-03.js)
+  - 💻 [01-22 break, continue](./workspace-ins/ch01/ex01-22.js)
+* 📜 참조 타입(Object, 객체)
+  - 💻 [01-23 new Object() - 생성자 함수로 객체 생성](./workspace-ins/ch01/ex01-23.js)
+  - 💻 [01-23-02 국어, 영어, 수학 총점과 평균 출력](./workspace-ins/ch01/ex01-23-02.js)
+
+##### 오후(3시간)
+* 📜 참조 타입(Function, 함수)
+  - 💻 [01-30 기본 함수](./workspace-ins/ch01/ex01-30.js)
+  - 💻 [01-31 매개변수를 가진 함수](./workspace-ins/ch01/ex01-31.js)
+  - 💻 [01-32 매개변수를 가진 함수 - 도어락](./workspace-ins/ch01/ex01-32.js)
+  - 💻 [01-33 반환값이 있는 함수](./workspace-ins/ch01/ex01-33.js)
+  - 💻 [01-34 반환값이 있는 함수 - 토스터](./workspace-ins/ch01/ex01-34.js)
+
+##### boj
+* 문제 추천
+  - 💻 구구단: [boj/03/01.js](./workspace-ins/boj/03/01.js)
+  - 💻 A+B - 3: [boj/03/02.js](./workspace-ins/boj/03/02.js)
+  - 💻 합: [boj/03/03.js](./workspace-ins/boj/03/03.js)
+  - 💻 영수증: [boj/03/04.js](./workspace-ins/boj/03/04.js)
+  - 💻 코딩은 체육과목 입니다: [boj/03/05.js](./workspace-ins/boj/03/05.js)
+  - 💻 빠른 A+B: [boj/03/06.js](./workspace-ins/boj/03/06.js)
+  - 💻 A+B - 7: [boj/03/07.js](./workspace-ins/boj/03/07.js)
+  - 💻 A+B - 8: [boj/03/08.js](./workspace-ins/boj/03/08.js)
+  - 💻 별 찍기 - 1: [boj/03/09.js](./workspace-ins/boj/03/09.js)
+  - 💻 별 찍기 - 2: [boj/03/10.js](./workspace-ins/boj/03/10.js)
+  - 💻 A+B - 5: [boj/03/11.js](./workspace-ins/boj/03/11.js)
+  - 💻 A+B - 4: [boj/03/12.js](./workspace-ins/boj/03/12.js)
 
 
 # 참고 사이트

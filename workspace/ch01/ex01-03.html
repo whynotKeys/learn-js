@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script>
+      console.log("Hello Javascript-head"); // method (객체에 정의한 함수)
+
+      // window-> 브라우저 자체. HTML코드 파싱이 완료된 후에 발생
+      window.addEventListener("load", function () {
+        // 버튼에 클릭 이벤트 추가
+        // 함수 내부에 선언된 지역 변수
+        const btn = document.querySelector("button");
+        btn.addEventListener("click", function () {
+          console.log("버튼 클릭! - 2");
+
+          const imgE = document.querySelector("img");
+          imgE.src = "https://dimg.donga.com/wps/NEWS/IMAGE/2024/01/10/122988546.2.jpg";
+        });
+      });
+    </script>
+    <script src="ex01-03.js"></script>
+  </head>
+  <body>
+    <h1>어서와, 이제 자바스크립트가 좀 익숙해졌지?</h1>
+    <button>클릭</button> <br /><br />
+    <img
+      style="width: 25rem"
+      src="https://cdn.sisajournal.com/news/photo/202403/285556_207658_2949.jpg"
+      alt="티모시샬라샬라쌸라메" />
+  </body>
+
+  <script>
+    console.log("Hello Javascript-body");
+
+    // 버튼에 클릭 이벤트 추가
+    const btn = document.querySelector("button"); // global scope
+    btn.addEventListener("click", function () {
+      console.log("버튼 클릭! - 1");
+    });
+  </script>
+</html>
