@@ -29,3 +29,17 @@ Case #4: 17
 Case #5: 7
 */
 
+const fs = require("fs");
+const inputData = fs.readFileSync(0).toString().trim().split("\n");
+
+const count = parseInt(inputData[0]);
+let result = "";
+
+for (i = 1; i <= count; i++) {
+  let a = parseInt(inputData[i].split(" ")[0]);
+  let b = parseInt(inputData[i].split(" ")[1]);
+
+  result += `Case #${i}: ${a + b}\n`;
+}
+
+console.log(result);

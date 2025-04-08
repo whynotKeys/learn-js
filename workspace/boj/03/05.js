@@ -48,3 +48,15 @@ long int
 long long long long long int
 */
 
+const fs = require("fs");
+const inputData = fs.readFileSync(0).toString().trim();
+
+const x = parseInt(inputData); // 정수 N (4 <= N <= 1000; N은 4의 배수)
+
+let number = 4;
+
+let result = "";
+for (i = 0; i < parseInt(x / number); i++) {
+  result += "long ";
+}
+console.log(`${result}int`);

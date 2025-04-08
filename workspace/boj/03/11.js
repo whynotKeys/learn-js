@@ -30,3 +30,17 @@
 7
 */
 
+const fs = require("fs");
+const inputData = fs.readFileSync(0).toString().trim().split("\n");
+
+let i = 0;
+for (; ; i++) {
+  const a = Number(inputData[i].split(" ")[0]);
+  const b = Number(inputData[i].split(" ")[1]);
+
+  if (a === 0 && b === 0) {
+    break;
+  } else {
+    console.log(a + b);
+  }
+}
