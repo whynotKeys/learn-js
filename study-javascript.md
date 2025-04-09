@@ -557,7 +557,7 @@ alert(sum);
 
 # 2025-04-07
 
-**Javascript // 여태까지 배운 내용 복습**
+**Javascript // bigint, symbol,JSDoc**
 
 ## 수업 내용
 
@@ -591,7 +591,7 @@ alert(sum);
 
 - 자바스크립트에서 함수, 변수, 클래스 등에 문서화를 위한 주석을 다는 표준 형식
 - 함수 만들고 나면 함수에 대해 설명하는 jsdoc 주석을 꼭 달아주는 게 좋다.
-
+- 예시
   ```javascript
   /**
   * 표준 입력장치(console)에서 한 줄로 입력된 두 건의 데이터를 읽어서 숫자로 변환한 후
@@ -602,42 +602,205 @@ alert(sum);
     ...
     }
   ```
-
+- 참고 링크 : https://poiemaweb.com/jsdoc-type-hint
 - 이렇게 작성해두면 커서 올렸을 때 설명에 요 내용 나옴
 - 주요 JSDoc 태그 목록
+  | 태그 | 설명 |
+  |------|------|
+  | `@param` | 함수의 매개변수를 설명 형식: `@param {타입} 변수명 - 설명` |
+  | `@returns` / `@return` | 함수의 반환값을 설명 형식: `@returns {타입} 설명` |
+  | `@description` | 함수나 메서드의 설명을 자세히 적을 때 사용 |
+  | `@type` | 변수의 타입을 명시할 때 사용 형식: `@type {타입}` |
+  | `@typedef` | 사용자 정의 타입을 정의할 때 사용. 타입 안에 들어가는 각 속성의 이름, 타입, 설명은 `@property`로 설명|
+  | `@callback` | 콜백 함수 타입을 정의할 때 사용 |
+  | `@example` | 사용 예시를 작성할 때 사용 코드 블록으로 기재 |
+  | `@throws` / `@exception` | 예외를 던지는 경우 해당 예외에 대해 설명 |
+  | `@deprecated` | 더 이상 사용하지 않는 함수나 속성을 표시할 때 사용 |
+  | `@see` | 관련된 함수나 문서를 참고하라고 연결할 때 사용 |
+  | `@async` | 비동기 함수임을 명시할 때 사용 (`async function`) |
 
-## 조장 커피챗 내용 요약
+  <br />
+  <br />
 
-- 굿즈 없음
+---
 
-- 프로젝트 관련
-  - 2차 프로젝트(바닐라JS)는 시안 없음, 주제 자유임 : 창의력 발휘
-  - 3차 프로젝트는 시안 없고 쇼핑몰 고정, 기능은 API 사용할 것
-    - 백엔드 사용할 수는 있지만 데이터 관리 구조를 상세히 설명할 수 있으면 해라.
-      못할 거 같으면 걍 하지말고 프론트에 집증할 것
-  - 2/3차 프로젝트는 동료평가도 있을 예정
-- 수료 및 운영 관련
+---
 
-  - 8/8 수료식 이외에 오프라인 수업 없음 8/8에는 멋사 건물 17층 라운지에서 해커톤/수료식 온, 오프라인으로 병행 예정
-  - 13기 디스코드/노션/깃허브 계속 남아있을 예정임.
-  - 용쌤 깃허브는 private으로 바뀔 예정. 필요 시 미리 가져가둘 것
-  - 줌 링크도 남아있을 거임
+# 2025-04-08
 
-- 취업 관련 // 취업 지원 팀 별도로 있다고 함
+**Javascript // 백준 문제풀이 및 객체**
 
-  - 수료 후 6개뤟까지 수료생 행적 추적 시 4~50% 정도 취업 된다고 함
-  - 이력서 특강, 면접 도움, 공고 리스팅, 우수 수료생 인증, 지원 프로세스 등...있다고 함
-  - 취업 연계 기업 : 오픈에스지, 멋사 인터십, 펑타이코리아, 카카오 자회사, 커리어넷 등등...
+## 수업 내용
 
-- 우수 수료생(1명)
+### 문제풀이 시 필요한 method/함수
 
-  - 출석률 & 참여율(과제 등) & 매니저, 강사 평가 & 2차/3차 프로젝트 동료평가 등등
+- 숫자로 만드는 방법 : `Number(값)` / `parseInt(값)` : 값을 정수로 만들어 줌
+- `isNaN(값) ? A : B` -> 값이 NaN값인 지 보고 NaN이면 A를, 아니면 B를 반환함
+- `toString()` vs `String()` 차이점 // 숫자를 문자로 바꿀 때는 뭘 쓰든 상관ㄴㄴ
 
--
+  - **toString() 메서드** : 객체의 프로토타입 메서드. 대부분의 타입에서 사용할 수 있지만, null이나 undefined에서는 사용할 수 없음
+  - **String() 함수** : 자바스크립트의 전역 함수. 내부적으로 `toString()` 또는 기타 변환 로직을 사용하지만, null이나 undefined도 안전하게 문자열로 변환
+  - 정리
+    | 구분 | `toString()` | `String()` |
+    |-----------------|--------------------------------|----------------------------------------|
+    | 타입 | 메서드 (객체의 메서드) | 전역 함수 |
+    | null/undefined | ❌ 오류 발생 | ✅ "null", "undefined"로 변환 가능 |
+    | 사용 방식 | `value.toString()` | `String(value)` |
+    | 내부 동작 | 객체의 `toString()` 호출 | 내부적으로 `toString()` 또는 다른 변환 |
+    | 권장 사용 상황 | 값이 명확할 때 | 값이 불확실하거나 안전한 변환이 필요할 때 |
 
-## 수업시간에 언급된, 찾아볼 내용
+- Todo Tree / Code Runner extension 설치
+- 설문 피드백
 
-- gg
+  - 진도가 전공자/경험자 위주이다
+  - 쉬운 예제 제공해달라
+  - 개념을 더 설명해달라
+
+### 객체 생성 방법
+
+1. `new Object()` 생성자 함수로 객체 생성// `ex01-23-01.js` 참고
+
+```javascript
+  new Object() - 생성자 함수로 객체 생성
+```
+
+2. `JSON 표기법`: 리터럴 방식으로 객체 생성// `ex01-24.js` 참고
+
+```javascript
+const foo = {
+  // JSON 표기법으로 객체 생성 및 값 정의
+  name: "JSON핑",
+  age: 7,
+  job: "요정",
+  married: true,
+};
+```
+
+- 프로퍼티 꺼내는 방법 : `1. 대괄호` `2. .으로 연결`
+
+  ```javascript
+  console.log(foo["name"], foo["age"], foo.job, foo.married);
+  ```
+
+  - 객체 마침표(.) 접근법⇒ 키가 유효한 식별자(변수 이름 규칙)일 때만 사용 가능
+  - 자바스크립트 유효한 식별자 기준
+    1. 첫 글자가 문자 (a-z, A-Z) / 언더스코어 (\_) / 달러 기호 ($) 로 시작
+    2. 특수문자를 제외한 문자, 숫자, \_, $ 사용 가능
+    3. 예약어는 식별자로 불가능
+       ※ 예약어 : 프로그래밍 언어에서 사용되거 있거나 사용될 예정이 단어
+       _ex) await, break, class, if, let, function, new… 등등_
+
+- 객체를 네트워크로 전송할 때 혹은 파일로 저장할 때는 꼭 문자열을 큰따옴표로 감싸야 함  
+  : `JSON.stringfy()` 함수를 사용하면 객체를 JSON 형태의 문자열로 변환 가능
+
+  ```javascript
+  // ※ 함수가 있는 객체는 JSON.stringify()로 변환 시 함수가 제외 됨
+  const strFoo = JSON.stringify(foo);
+  console.log("strFoo", strFoo);
+
+  // JSON 형태의 문자열을 객체로 변환 : 다시 객체로 되돌리고 싶을 때 사용
+  const objFoo = JSON.parse(strFoo);
+  ```
+
+- JSDoc 참고 링크 : https://poiemaweb.com/jsdoc-type-hint
+- 함수 MDN 링크 : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions
+
+  <br />
+  <br />
+
+---
+
+---
+
+# 2025-04-09
+
+**Javascript // 여태까지 배운 내용 복습**
+
+## 수업 내용
+
+### 객체와 배열
+
+- JSON 참고 링크 // https://www.json.org/json-ko.html
+- 객체의 요소 : 프로퍼티
+  배열의 요소 : 엘리먼트
+
+- JSON 객체 네트워크로 전송하거나 파일로 저장할 때는 꼭 문자열을 큰 따옴표로 감싸야 함
+  ```javascript
+  const foo = {
+    name: "JSON핑",
+    age: 7,
+    job: "요정",
+    married: true,
+  };
+  ```
+- `JSON.stringfy()` 함수를 사용하면 객체를 JSON 형태의 문자열로 변환 가능
+  ※ 객체 안에 있는 함수의 경우 문자열 변환이 불가능하기 때문에 함수 부분을 제외하고 변환 됨
+
+  ```javascript
+  console.log(JSON.stringify(foo)); // string 형태의 {"name":"함수핑","age":6,"job":"마법사","married":false}
+  console.log(JSON.stringify(foo, null, 2)); // 줄바꿈까지 넣을 수 있음
+
+  const strFoo = JSON.stringify(foo); // 변수에 담기
+  console.log(foo.job, strFoo.job); // 요정, undefined(변환 후에는 문자열이기 때문에 .으로 속성 못꺼냄)
+  ```
+
+- `JSON.parse()` 함수를 사용해서 문자열을 다시 객체로 복원 가능
+
+  ```javascript
+  const objFoo = JSON.parse(strFoo);
+  ```
+
+- `for in`구문
+
+  - `for (var prop in obj){...};
+    ```javascript
+    for (var prop in foo) {
+      console.log(prop + ": " + foo[prop]);
+    }
+    ```
+
+- `for of`구문
+
+  - `for (var prop of obj){...};
+
+    ```javascript
+    for (var elem of arr) {
+      console.log(elem);
+    }
+    ```
+
+- `delete` : 객체의 속성 삭제
+
+  ```javascript
+  const foo = {
+    name: "푸푸핑",
+    mainJob: "fairy",
+  };
+  console.log(foo.name, foo["mainJob"]); // 푸푸핑 fairy
+
+  delete foo.mainJob;
+  console.log(foo.name, foo["mainJob"]); // 푸푸핑 undefined
+  ```
+
+- 배열은 객체의 일종으로, 객체가 가지는 모든 특징을 갖고 있으며 추가로 `length`를 갖고 `push` 등의 특별한 기능을 쓸 수 있음
+- **유사 배열 객체 (Like-Array Object)**
+  : 배열과 비슷하게 사용할 수 있는 객체. 사용법을 보면 배열 같지만 실제 배열이 아닌 일반 객체인 것
+
+  - 특징
+
+    - index를 통한 접근: 배열처럼 index를 사용해서 각 요소에 접근 가능
+    - length 속성: 배열처럼 length 속성이 있어서 for 구문을 이용하면 모든 요소 참조 가능
+    - 배열 메서드 없음: forEach, map 등의 배열 메서드가 없음
+    - arguments, NodeList, String 등의 내장 객체가 유사 배열 객체로 만들어져 있음
+
+  - 주로 읽기를 목적으로 사용되는 객체일 경우(배열 요소를 제어하는 메서드가 필요 없음)
+    배열보다 더 적은 비용으로 생성 가능
+  - 배열로 변환 : Array.from(obj)을 사용하면 쉽게 배열로 변환 가능
+
+### 2차원 배열
+
+- 배열 안에 또 다른 배열들이 들어있는 배열
+- 행렬이나 테이블 형식의 데이터를 표현할 수 있음
 
   <br />
   <br />
