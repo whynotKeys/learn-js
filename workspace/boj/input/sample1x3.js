@@ -16,9 +16,9 @@ function getData() {
 
   const result = new Object();
 
-  result.a = parseInt(inputData[0]);
-  result.b = parseInt(inputData[1]);
-  result.c = parseInt(inputData[2]);
+  result.a = isNaN(inputData[0]) ? inputData[0] : parseInt(inputData[0]);
+  result.b = isNaN(inputData[1]) ? inputData[1] : parseInt(inputData[1]);
+  result.c = isNaN(inputData[2]) ? inputData[2] : parseInt(inputData[2]);
 
   return result;
 }
