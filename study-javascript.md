@@ -714,7 +714,7 @@ const foo = {
 
 # 2025-04-09
 
-**Javascript // 여태까지 배운 내용 복습**
+**Javascript // 객체와 배열**
 
 ## 수업 내용
 
@@ -801,6 +801,45 @@ const foo = {
 
 - 배열 안에 또 다른 배열들이 들어있는 배열
 - 행렬이나 테이블 형식의 데이터를 표현할 수 있음
+
+  <br />
+  <br />
+
+---
+
+---
+
+# 2025-04-10
+
+**Javascript // **
+
+## 수업 내용
+
+### 문제 풀이 백준 02-07 ~ 03-
+
+- `for of`구문 관련
+  - for of로 가져오는 element는 복사한 값으로, 해당 값에 재정의하겠다고 값을 넣어도 원본은 변함 없음
+  - 예시
+    ```javascript
+    // 적용되지 않는 코드 : 배열의 값을 변경해야 할 때는 for...of 사용X. 요소 값만 꺼내 쓸 때 사용
+    for (let elem of rowArr) {
+      elem = isNaN(elem) ? elem : parseInt(elem);
+    }
+    ```
+- `.repeat()` 함수
+
+  - 반복할 대상에 붙여서 사용, 괄호 안에는 반복횟수 입력
+  - 예시
+    ```javascript
+    const longTimes = bytes / 4;
+    result = "long ".repeat(longTimes);
+    ```
+
+- 시간 측정 함수
+
+  - `console.time("Single Logs");` // 시간 측정 시작
+  - `console.timeEnd("Single Logs");` // 시간 측정 종료
+    ※ 괄호 안의 내용은 임의로 지정. 시작과 끝만 동일하게 맞춰주면 됨
 
   <br />
   <br />

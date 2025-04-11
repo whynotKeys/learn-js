@@ -1,7 +1,40 @@
+/*
+제목: A+B - 3
+설명: A+B를 여러 번 출력하는 문제
+제출: https://www.acmicpc.net/submit/10950
+
+문제
+두 정수 A와 B를 입력받은 다음, A+B를 출력하는 프로그램을 작성하시오.
+
+입력
+첫째 줄에 테스트 케이스의 개수 T가 주어진다.
+각 테스트 케이스는 한 줄로 이루어져 있으며, 각 줄에 A와 B가 주어진다. (0 < A, B < 10)
+
+출력
+각 테스트 케이스마다 A+B를 출력한다.
+
+예제 입력 1
+5
+1 1
+2 3
+3 4
+9 8
+5 2
+
+예제 출력 1
+2
+5
+7
+17
+7
+*/
+
 function main() {
   const data = getData();
-  // data에서 값을 꺼내서 해결하는 코드 작성
-  console.log(data);
+  for (let i = 1; i < data.length; i++) {
+    const rowArr = data[i];
+    console.log(rowArr[0] + rowArr[1]);
+  }
 }
 main();
 
@@ -28,10 +61,3 @@ function getData() {
 
   return result;
 }
-
-// 이렇게 수정하면 값이 text로 들어감 -> 꺼내서 재정의해도 원본이 바뀌지 않음
-// 배열의 값을 변경해야 할 때는 for...of 사용X. 요소 값만 꺼내 쓸 때 사용
-// for (let elem of rowArr) {
-//   elem = isNaN(elem) ? elem : parseInt(elem);
-// }
-// result.push(rowArr);

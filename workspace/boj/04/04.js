@@ -184,3 +184,42 @@
 1
 */
 
+function main() {
+  const data = getData();
+
+  const maxVal = Math.max(...data);
+  let index = 0;
+  for (let i in data) {
+    if (data[i] === maxVal) {
+      index = Number(i) + 1;
+    }
+  }
+
+  // const list = data[1];
+  console.log(maxVal);
+  console.log(index);
+}
+main();
+
+/**
+ * 표준 입력장치(console)에서 여러 줄로 입력된 데이터를 읽어서 숫자로 변환한 후
+ * 배열로 저장하여 반환한다.
+ * @returns {[]} 1차원 배열
+ */
+function getData() {
+  const fs = require("fs");
+
+  const inputData = fs.readFileSync(0).toString(); // 입력값을 가져옴
+  const arr = inputData.trim().split("\n"); // 줄바꿈 기준으로 나누어 저장
+
+  const result = []; // return 할 배열 생성
+
+  for (let i = 0; i < arr.length; i++) {
+    // for문에 넣어서 값 꺼내어 배열에 저장
+    const row = arr[i];
+    const value = isNaN(row) ? row : parseInt(row); // 숫자만 들어갈 수 있도록 다듬음
+    result.push(value);
+  }
+
+  return result;
+}
