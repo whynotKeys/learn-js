@@ -40,11 +40,11 @@
 // 공 1~N번 무한대 개
 
 // 던지기 시도 M번
-// 같은 번호 바구니에 넣고 이미 공 있으면 빼고 넣음.
+// 바구니에 이미 공 있으면 빼고 넣음.
 
 //   N: 출력돼야하는 숫자 수
 //   M: 밑에 입력될 줄 수
-//   i j k : i~j번 바구니에 k번 공 넣음
+//   i j k : i~j번 바구니에 전부 k번 공을 넣음
 
 function main() {
   const data = getData();
@@ -52,25 +52,27 @@ function main() {
   const basketCount = data[0][0]; // N
   const tryCount = data[0][1]; // M
 
-  let basket = new Array(basketCount).fill(0); // 바구니 생성해서 모두 0 넣어줌
+  const basket = new Array(basketCount).fill(0); // 바구니 생성해서 모두 0 넣어줌
 
-  for (i = 1; i <= tryCount; i++) { // 한 번의 시도로 매칭되는 바구니와 공 번호 추출
+  for (i = 1; i <= tryCount; i++) {
+    // 한 번의 시도로 매칭되는 바구니와 공 번호 추출
     let min = data[i][0];
     let max = data[i][1];
     let k = data[i][2];
 
-    for (num = min; num <= max; num++) {// 공 번호를 순서에 맞춰 basket 배열에 입력
-      basket[num-1] = k;
+    for (num = min; num <= max; num++) {
+      // 공 번호를 순서에 맞춰 basket 배열에 입력
+      basket[num - 1] = k;
     }
   }
 
-// 만들어진 바구니의 번호 배열을 형식에 맞춰 문자열에 입력
-  let result = '';
-  for(let elem of basket){
-    result += elem+' ';
-  }
+  // 만들어진 바구니의 번호 배열을 형식에 맞춰 문자열에 입력
+  // let result = "";
+  // for (let elem of basket) {
+  //   result += elem + " ";
+  // }
 
-  console.log(result);
+  console.log(basket.join(" ")); // .join이 배열 사이에 ' '넣어서 문자열 만들어줌
 }
 main();
 
@@ -94,4 +96,3 @@ function getData() {
 
   return result.length === 1 ? result[0] : result; // 입력값이 1개인 경우 1차배열로 나오도록 함
 }
-
