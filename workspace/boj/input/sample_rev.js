@@ -10,10 +10,7 @@ main();
  * @returns {[]} 2차원 배열
  */
 function getData() {
-  const fs = require("fs");
-
-  const inputData = fs.readFileSync(0).toString(); // 입력값을 가져옴
-  const arr = inputData.trim().split("\n"); // 줄바꿈 기준으로 나누어 저장
+  const arr = require("fs").readFileSync(0).toString().trim().split("\n"); // 입력값을 가져오고 줄바꿈 기준으로 나누어 저장
 
   const result = []; // return 할 2차원 배열
 
@@ -23,10 +20,10 @@ function getData() {
     for (let k = 0; k < rowArr.length; k++) {
       rowArr[k] = isNaN(rowArr[k]) ? rowArr[k] : parseInt(rowArr[k]); // 요소가 숫자인 경우만 정수형으로 변환하고, 문자인 경우는 원래 값 그대로 둠
     }
-    result.push(rowArr);
+    result.push(rowArr.length === 1 ? rowArr[0] : rowArr); // 입력값이 1개인 경우 값으로 바로 나오도록 함
   }
 
-  return result;
+  return result.length === 1 ? result[0] : result; // 입력값이 1개인 경우 1차배열로 나오도록 함
 }
 
 // 이렇게 수정하면 값이 text로 들어감 -> 꺼내서 재정의해도 원본이 바뀌지 않음
