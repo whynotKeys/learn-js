@@ -29,14 +29,25 @@
 7
 */
 
-const fs = require("fs");
-const fileData = fs.readFileSync(0).toString().trim().split("\n");
+function main() {
+  const data = getData();
+  // console.log(data); // [ [ 5 ], [ 1, 1 ], [ 2, 3 ], [ 3, 4 ], [ 9, 8 ], [ 5, 2 ] ]
+  for (let i = 1; i<data.length; i++) {
+    const rowArr = data[i];
+    console.log(rowArr[0] + rowArr[1]);
+  }
+}
+main();
 
-let T = parseInt(fileData[0]); // 라인개수
-
-for (let i = 1; i <= T; i++) {
-  const data = fileData[i].split(" "); // i번째 줄에서 스페이스로 나누고 
-  const A = parseInt(data[0]); // i줄에서 첫번째로 받는 값이 A
-  const B = parseInt(data[1]); // i줄에서 두번째로 받는 값이 B
-  console.log(A + B); // A와 B를 더한다
+function getData() {
+  const fs = require("fs");
+  const fileData = fs.readFileSync(0).toString();
+  const arr = fileData.trim().split("\n");
+  const result = [];
+  for (let row of arr) {
+    const rowArr = row.split(' ');
+    for (let k=0; k<rowArr.length; k++) rowArr[k] = isNaN(rowArr[k]) ? rowArr[k] : parseInt(rowArr[k]);
+    result.push(rowArr);
+  }
+  return result;
 }

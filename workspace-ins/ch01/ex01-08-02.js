@@ -13,9 +13,20 @@
 var a = 10;
 var b = 5;
 
-console.log(a + b);
-console.log(a - b);
-console.log(a * b);
-console.log(a / b);
-console.log(a % b);
-console.log(a ** b); // 10 ^ 3
+// 덧셈 연산자 (+)
+console.log(a + b); // 10 + 5 = 15
+
+// 뺄셈 연산자 (-)
+console.log(a - b); // 10 - 5 = 5
+
+// 곱셈 연산자 (*)
+console.log(a * b); // 10 * 5 = 50
+
+// 나눗셈 연산자 (/)
+console.log(a / b); // 10 / 5 = 2
+
+// 나머지 연산자 (%)
+console.log(a % b); // 10 % 5 = 0
+
+// 거듭제곱 연산자 (**)
+console.log(a ** b); // 10 ^ 5 = 100000

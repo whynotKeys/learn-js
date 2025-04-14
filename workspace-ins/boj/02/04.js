@@ -27,7 +27,8 @@
 단, x좌표와 y좌표는 모두 양수나 음수라고 가정한다.
 
 입력
-첫 줄에는 정수 x가 주어진다. (−1000 ≤ x ≤ 1000; x ≠ 0) 다음 줄에는 정수 y가 주어진다. (−1000 ≤ y ≤ 1000; y ≠ 0)
+첫 줄에는 정수 x가 주어진다. (−1000 ≤ x ≤ 1000; x ≠ 0) 
+다음 줄에는 정수 y가 주어진다. (−1000 ≤ y ≤ 1000; y ≠ 0)
 
 출력
 점 (x, y)의 사분면 번호(1, 2, 3, 4 중 하나)를 출력한다.
@@ -45,9 +46,40 @@
 4
 */
 
-const fs = require("fs");
-const inputData = fs.readFileSync(0).toString().trim().split("\n");
-// console.log(inputData);
+function main() {
+  const data = getData();
+  // data에서 값을 꺼내서 문제 해결하는 코드 작성
+  const x = data.a;
+  const y = data.b;
 
-const x = parseInt(inputData[0]);
-const y = parseInt(inputData[1]);
+  let result;
+
+  if (x > 0 && y > 0) {
+    result = 1;
+  } else if (x > 0 && y < 0) {
+    result = 4;
+  } else if (x < 0 && y > 0) {
+    result = 2;
+  } else {
+    result = 3;
+  }
+
+  console.log(result);
+}
+main();
+
+/**
+ * 표준 입력장치(콘솔)에서 두 줄로 입력된 줄당 한 건의 데이터를 읽어서 숫자로 변환한 후
+ * 객체에 a, b 속성으로 저장하여 반환한다.
+ * @returns {object} a, b 속성에 입력값이 저장된 객체
+ */
+function getData() {
+  const fs = require("fs");
+  const fileData = fs.readFileSync(0).toString().trim().split("\n");
+
+  const result = new Object();
+
+  result.a = isNaN(fileData[0]) ? fileData[0] : parseInt(fileData[0]);
+  result.b = isNaN(fileData[1]) ? fileData[1] : parseInt(fileData[1]);
+  return result;
+}

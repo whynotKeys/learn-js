@@ -46,21 +46,26 @@ const systemManagement = 55; // 5. 정보 시스템 구축 관리
 아쉽지만 불합격입니다. 사유: 과락 40점 미달(30점)
 */
 
+// 각 과목의 점수 정의
 const softwareDesign = 30; // 1. 소프트웨어 설계
 const softwareDevelopment = 80; // 2. 소프트웨어 개발
 const databaseSetup = 50; // 3. 데이터베이스 구축
 const programmingUsage = 70; // 4. 프로그래밍 언어 활용
 const systemManagement = 55; // 5. 정보 시스템 구축 관리
 
+// 총점과 평균 계산
 const sum = softwareDesign + softwareDevelopment + databaseSetup + programmingUsage + systemManagement;
 const avg = sum / 5;
 
+// 기본 점수 정보 출력
 console.log('총점:', sum);
 console.log('평균:', avg);
 
+// 최고점과 최저점을 저장할 변수 초기화
 let max = 0;
 let min = 0;
 
+// 최고점 찾기 - if-else if문을 사용하여 각 과목을 비교
 if (softwareDesign > softwareDevelopment && softwareDesign > databaseSetup 
     && softwareDesign > programmingUsage && softwareDesign > systemManagement) {
   max = softwareDesign;
@@ -77,13 +82,15 @@ if (softwareDesign > softwareDevelopment && softwareDesign > databaseSetup
   max = systemManagement;
 }
 
+// 최저점 찾기 - Math.min 함수를 사용하여 간단하게 계산
 min = Math.min(softwareDesign, softwareDevelopment, databaseSetup, programmingUsage, systemManagement);
 
+// 최고점과 최저점 출력
 console.log('최고점:', max);
 console.log('최저점:', min);
 
-
-let minScore = softwareDesign; // 48
+// 최저점 찾기 - if문을 사용한 대체 방법
+let minScore = softwareDesign; // 초기값 설정
 if (softwareDevelopment < minScore) {
   minScore = softwareDevelopment;
 } 
@@ -98,11 +105,13 @@ if (systemManagement < minScore) {
 } 
 console.log('minScore:', minScore);
 
-
+// 합격 여부 판정
+// 조건: 평균 60점 이상이고 모든 과목이 40점 이상
 // if (avg >= 60 && softwareDesign >= 40 && softwareDevelopment >= 40 && databaseSetup >= 40 && programmingUsage >= 40 && systemManagement >= 40) {
 if (avg >= 60 && min >= 40) {
   console.log('축하합니다. 합격입니다.');
 } else {
+  // 불합격 사유 출력
   if (avg < 60) {
     console.log(`아쉽지만 불합격입니다. 사유: 평균 60점 미달(${ avg }점)`);
   }

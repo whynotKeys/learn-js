@@ -27,7 +27,26 @@ N을 입력받은 뒤, 구구단 N단을 출력하는 프로그램을 작성하�
 2 * 9 = 18
 */
 
-const fs = require("fs");
-const fileData = fs.readFileSync(0).toString().trim().split(" ");
+function main() {
+  const data = getData();
+  // console.log(data);
+  const dan = data[0][0];
 
-const inputData = parseInt(fileData[0]);
+  for (let i=1; i<=9; i++) {
+    console.log(`${dan} * ${i} = ${dan * i}`);
+  }
+}
+main();
+
+function getData() {
+  const fs = require("fs");
+  const fileData = fs.readFileSync(0).toString();
+  const arr = fileData.trim().split("\n");
+  const result = [];
+  for (let row of arr) {
+    const rowArr = row.split(' ');
+    for (let k=0; k<rowArr.length; k++) rowArr[k] = isNaN(rowArr[k]) ? rowArr[k] : parseInt(rowArr[k]);
+    result.push(rowArr);
+  }
+  return result;
+}

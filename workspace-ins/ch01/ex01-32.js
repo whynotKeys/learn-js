@@ -4,11 +4,22 @@
 올바른 비밀번호가 입력되면 문이 열린다.
 잘못된 비밀번호가 입력되면 경보음이 울린다.
 
+[실행 예시]
+- doorLock('111111') -> 삐! 삐! 삐! 삐!
+- doorLock('3242351234') -> 문이 열립니다.
+- doorLock() -> 삐! 삐! 삐! 삐!
 */
 
+// 비밀번호를 매개변수로 받는 도어락 함수
+// password가 전달되지 않으면 빈 문자열('')이 기본값으로 설정됨
 function doorLock(password = '') {
+  // 실제 비밀번호 설정
   const pwd = '1234';
+  // 입력된 비밀번호의 뒤에서부터 실제 비밀번호 길이만큼 잘라냄
+  // 예: '3242351234'의 경우 뒤에서 4자리인 '1234'만 추출
   const subPassword = password.slice(-pwd.length);
+  
+  // 추출된 비밀번호와 실제 비밀번호 비교
   if (subPassword === pwd) {
     console.log('문이 열립니다.');
   } else {
@@ -16,6 +27,7 @@ function doorLock(password = '') {
   }
 }
 
-doorLock('111111');
-doorLock('3242351234');
-doorLock();
+// 테스트 케이스
+doorLock('111111');      // 잘못된 비밀번호
+doorLock('3242351234');  // 올바른 비밀번호 (뒤 4자리가 '1234')
+doorLock();             // 비밀번호 미입력

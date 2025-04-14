@@ -35,21 +35,34 @@ A와 B가 같은 경우에는 '=='를 출력한다.
 ==
 */
 
-// 입력값 예시: 
-// 10 20
-const fs = require("fs");
-const fileData = fs.readFileSync(0).toString().trim().split(" ");
-// console.log(fileData);
 
-const a = parseInt(fileData[0]); // 10
-const b = parseInt(fileData[1]); // 20
-
-// console.log(a > b ? '>' : (a < b ? '<' : '=='));
-
-if (a > b) {
-  console.log('>');
-} else if (a < b) {
-  console.log('<');
-} else {
-  console.log('==');
+function main() {
+  const data = getData();
+  // data에서 값을 꺼내서 문제 해결하는 코드 작성
+  if (data.a < data.b) {
+    console.log('<');
+  } else if (data.a > data.b) {
+    console.log('>');
+  } else {
+    console.log('==');
+  }
 }
+main();
+
+/**
+ * 표준 입력장치(콘솔)에서 한 줄로 입력된 두 건의 데이터를 읽어서 숫자로 변환한 후
+ * 객체에 a, b 속성으로 저장하여 반환한다.
+ * @returns {object} a, b 속성에 입력값이 저장된 객체
+ */
+function getData() {
+  const fs = require("fs");
+  const fileData = fs.readFileSync(0).toString().trim().split(" ");
+
+  const result = new Object();
+
+  result.a = parseInt(fileData[0]); // result.a = 10
+  result.b = parseInt(fileData[1]); // result.b = 20
+
+  return result;
+}
+
