@@ -14,9 +14,14 @@
     <button>+</button>
   </div>
   <script>
-    // id가 "container"인 요소를 찾기
-    const container = document.getElementById('container');
+    // container 하위의 button 요소 찾기
+    const btn = document.querySelector('#container > button');
+    const countSpan = document.querySelector('#container > span');
 
+    btn.addEventListener('click', function(){
+      const count = parseInt(countSpan.firstChild.nodeValue);
+      countSpan.firstChild.nodeValue = count + 1;
+    });
   </script>
 </body>
 </html>

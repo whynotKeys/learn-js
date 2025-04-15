@@ -342,6 +342,24 @@
   - 💻 입력값 2차원 배열로 추출하는 샘플 완성 - [boj/input/sample.js](./workspace-ins/boj/input/sample.js)
   - 💻 오븐 시계 - [boj/02/06.js](./workspace-ins/boj/02/06.js)
 
+### 12일차(월)
+#### 오전(3시간)
+* 📜 5장 클라이언트 사이드 자바스크립트
+* 📜 DOM
+* 📜 노드 찾기 1 - getElementById()
+  - 💻 [05-01 쇼핑 목록 관리](./workspace-ins/ch05/ex05-01.html)
+  - 💻 [05-01-02 id로 요소 찾기 - getElementById()](./workspace-ins/ch05/ex05-01-02.js)
+* 📜 노드 찾기 2 - getElementsByTagName()
+  - 💻 [05-01-02 태그명으로 요소 찾기 - getElementsByTagName()](./workspace-ins/ch05/ex05-01-02.js)
+
+#### 오후(3시간)
+* 📜 노드 찾기 3 - 트리구조 이용
+  - 💻 [05-01-03 트리 구조를 이용한 요소 찾기](./workspace-ins/ch05/ex05-01-03.js)
+* 📜 노드 찾기 4 - getElementsByClassName()
+  - 💻 [05-01-03 class 명으로 요소 찾기 - getElementsByClassName()](./workspace-ins/ch05/ex05-01-03.js)
+* 📜 노드 찾기 5 - querySelector()
+  - 💻 [05-01-04 CSS 셀렉터로 요소 찾기 = querySelector()](./workspace-ins/ch05/ex05-01-04.js)
+  - 💻 [05-02 Counter](./workspace-ins/ch05/ex05-02.html)
 
 
 # 참고 사이트
