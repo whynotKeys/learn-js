@@ -361,6 +361,17 @@
   - 💻 [05-01-04 CSS 셀렉터로 요소 찾기 = querySelector()](./workspace-ins/ch05/ex05-01-04.js)
   - 💻 [05-02 Counter](./workspace-ins/ch05/ex05-02.html)
 
+### 13일차(화)
+#### 오전(3시간)
+* 📜 innerHTML, outerHTML, textContent, innerText
+  - 💻 [05-03 쇼핑과 영화 목록](./workspace-ins/ch05/ex05-03.html)
+
+#### 오후(3시간)
+* 이벤트 등록 방식 3가지
+  - 💻 [05-04 이벤트 등록 방법](./workspace-ins/ch05/ex05-04.html)
+* 📜 요소노드 생성, 추가, 삽입, 삭제, 복사
+  - 💻 [05-03 쇼핑과 영화 목록](./workspace-ins/ch05/ex05-03.html)
+
 
 # 참고 사이트
 ## 자바스크립트 학습
