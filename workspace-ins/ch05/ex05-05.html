@@ -20,7 +20,7 @@
               <button type="button" onclick="handleAdd()">추가</button>
             </div>
             <ul class="todolist">
-              <li data-no="1">
+              <!-- <li data-no="1">
                 <span>1</span>
                 <span><s>샘플1</s></span>
                 <button type="button">삭제</button>
@@ -34,7 +34,7 @@
                 <span>3</span>
                 <span>샘플3</span>
                 <button type="button">삭제</button>
-              </li>
+              </li> -->
             </ul>
           </li>
         </ul>
@@ -93,6 +93,25 @@
       // <li data-no="3">
       // elem.dataset.no -> 3
       liElem.dataset.no = item.no;
+
+      // "삭제" 버튼에 클릭 이벤트 핸들러 추가
+      deleteElem.addEventListener('click', function(event){
+        // no를 찾아서~~~ 첫번째 방법
+        // const btn = event.target; // 클릭 이벤트가 발생한 요소(<button>)
+        // // btn의 조상중 셀렉터와 일치하는 가장 가까운 조상
+        // const liNode = btn.closest('li'); // <li data-no="3">
+        // deleteItem(liNode.dataset.no);
+
+        // no를 찾아서~~~ 두번째 방법
+        // TODO 클로저 단원에서 이상한 부분 확인
+        // deleteItem(item.no);
+      });
+
+      // 삭제 이벤트 등록
+      deleteElem.setAttribute('onclick', `deleteItem(${item.no})`);
+
+      // 완료/미완료 처리
+      titleElem.setAttribute('onclick', `toggleDone(${item.no})`);
       
       // <li>
       //   <span>3</span>
@@ -102,12 +121,11 @@
       return liElem;
     }
 
-
     // "추가" 버튼 클릭 이벤트 핸들러
     function handleAdd(){
       const inputElem = document.querySelector('.todoinput > input');
-      if(inputElem.value !== '') {
-        addItem(inputElem.value); // <input>, <select> 같은 폼의 입력 요소에는 value 속성으로 사용자가 입력/선택한 값이 저장되어 있음
+      if(inputElem.value.trim() !== '') {
+        addItem(inputElem.value.trim()); // <input>, <select> 같은 폼의 입력 요소에는 value 속성으로 사용자가 입력/선택한 값이 저장되어 있음
         inputElem.value = '';
         inputElem.focus();
       }
@@ -115,7 +133,7 @@
 
     // 엔터 키를 눌렀을때 처리할 이벤트 핸들러
     function handleKeyup(event){ // 키보드 이벤트 정보를 가지고 있는 Event 객체
-      console.log(event);
+      if(event.key === 'Enter') handleAdd();
     }
 
     // let itemNo = 3;
@@ -141,7 +159,8 @@
 
     // 완료/미완료 처리
     function toggleDone(no){
-
+      console.log(no);
+      
     }
 
     // 할일 삭제
