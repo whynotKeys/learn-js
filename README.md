@@ -382,11 +382,76 @@
 #### 오후(4시간)
 * 💻 [05-05 Todo List - 할일 삭제](./workspace-ins/ch05/ex05-05.html)
 
+### 15일차(목)
+#### 오전(3시간)
+* 💻 [05-05 Todo List - 완료/미완료 처리](./workspace-ins/ch05/ex05-05.html)
+* 💻 [05-05-02 Todo List - 다양한 방식의 toggleDone 구현](./workspace-ins/ch05/ex05-05-02.html)
+
+#### 오후(3시간)
+* 📜 DOM으로 HTML 속성 접근
+  - 💻 [05-06 HTML 속성 접근](./workspace-ins/ch05/ex05-06.html)
+* 📜 style 다루기
+  - 💻 [05-07 style 속성 접근](./workspace-ins/ch05/ex05-07.html)
+* 📜 class 다루기
+  - 💻 [05-08 class 속성 접근](./workspace-ins/ch05/ex05-08.html)
+* 📜 이벤트 핸들러 등록 방법 1, 2, 3
+* 📜 Event 객체
+  - 💻 [05-09 Event 객체](./workspace-ins/ch05/ex05-09.html)
+* 📜 버블링과 갭처링
+  - 💻 [05-10 버블링과 캡처링](./workspace-ins/ch05/ex05-10.html)
+* 📜 이벤트 위임
+  - 💻 [05-11 이벤트 위임](./workspace-ins/ch05/ex05-11.html)
+
+## 5주차 - 5일, 2025.04.21(월) ~ 2025.04.25(금)
+### 16일차(월)
+#### 오전(3시간)
+* 2강 함수 시작
+* 📜 일급 객체
+  - 💻 [02-01 변수, 배열 엘리먼트, 다른 객체의 프로퍼티에 함수 할당](./workspace-ins/ch02/ex02-01.js)
+  - 💻 [02-02 함수를 다른 함수의 인자로 전달](./workspace-ins/ch02/ex02-02.js)
+  - 💻 [02-03 함수를 다른 함수의 리턴값으로 활용](./workspace-ins/ch02/ex02-03.js)
+  - 💻 [02-04 함수도 객체처럼 프로퍼티를 가질 수 있다.](./workspace-ins/ch02/ex02-04.js)
+* 📜 함수 생성 1 (선언문)
+  - 💻 [02-05 선언문](./workspace-ins/ch02/ex02-05.js)
+* 📜 함수 생성 2 (표현식)
+  - 💻 [02-06 표현식 - 익명함수](./workspace-ins/ch02/ex02-06.js)
+  - 💻 [02-07 표현식 - 기명함수](./workspace-ins/ch02/ex02-07.js)
+  - 💻 [02-08 표현식 - 기명함수 사용(팩토리얼 함수)](./workspace-ins/ch02/ex02-08.js)
+
+#### 오후(3시간)
+* 📜 함수 생성 3 (생성자 함수)
+  - 💻 [02-09 Function 생성자 함수](./workspace-ins/ch02/ex02-09.js)
+* 📜 함수 생성 4 (화살표 함수)
+  - 💻 [02-10 화살표 함수](./workspace-ins/ch02/ex02-10.js)
+  - 💻 [02-10-02 화살표 함수 - 배열 메서드에서 사용](./workspace-ins/ch02/ex02-10-02.js)
+* 📜 호이스팅
+  - 💻 [02-11 선언문 방식과 함수 호이스팅](./workspace-ins/ch02/ex02-11.js)
+  - 💻 [02-11-02 선언문 방식과 함수 호이스팅(실제 호출되는 순서에 맞춰서)](./workspace-ins/ch02/ex02-11-02.js)
+  - 💻 [02-12 변수 호이스팅](./workspace-ins/ch02/ex02-12.js)
+  - 💻 [02-12-02 표현식 방식과 함수 호이스팅](./workspace-ins/ch02/ex02-12-02.js)
+  - 💻 [02-12-03 표현식 방식과 함수 호이스팅(실제 호출되는 순서에 맞춰서)](./workspace-ins/ch02/ex02-12-03.js)
+* 📜 매개변수와 인자의 수
+* 📜 암묵적 매개변수
+  - 💻 [02-13 매개변수와 인자수, arguments](./workspace-ins/ch02/ex02-13.js)
+  - 💻 [02-13-02 arguments 대신 나머지 매개변수 사용](./workspace-ins/ch02/ex02-13-02.js)
+
 
 # 참고 사이트
 ## 자바스크립트 학습
 * 모던 자바스크립트 튜토리얼: <https://ko.javascript.info>
 * MDN 자바스크립트: <https://developer.mozilla.org/ko/docs/Web/JavaScript>
+* 코딩 에브리바디 자바스크립트: <https://codingeverybody.kr/category/javascript>
+* 웹 개발자 튜토리얼: <https://poiemaweb.com>
+
+## 코딩 테스트
+* 백준
+  - https://www.acmicpc.net
+  - 단계별로 풀어보기: https://www.acmicpc.net/step
+* 프로그래머스 코딩 테스트
+  - https://school.programmers.co.kr/learn/challenges
+  - 기초 트레이닝: https://school.programmers.co.kr/learn/challenges/training?order=acceptance_desc&languages=javascript
+  - 입문: https://school.programmers.co.kr/learn/challenges/beginner?order=acceptance_desc
+  - 레벨 1: https://school.programmers.co.kr/learn/challenges?order=acceptance_asc&languages=javascript&page=1&levels=1
 
 ## 온라인 웹 개발 에디터(HTML, CSS, JS)
 * CodePen: <https://codepen.io>
