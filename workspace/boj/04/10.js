@@ -24,13 +24,13 @@
 3
 40 80 60
 예제 출력 1
-75
+75.0
 
 예제 입력 2 - 10⁻² 이하의 오차를 허용한다는 말은 정확히 소수 2번째 자리까지 출력하라는 뜻이 아니다.
 3
 10 20 30
 예제 출력 2
-66.66666666666667
+66.666667
 
 예제 입력 3
 4
@@ -48,7 +48,7 @@
 2
 3 10
 예제 출력 5
-65
+65.0
 
 예제 입력 6
 4
@@ -60,7 +60,7 @@
 1
 50
 예제 출력 7
-100
+100.0
 
 예제 입력 8
 9
@@ -69,3 +69,46 @@
 55.55555555555556
 */
 
+// 세준아 근데 최고점 말고 그냥 다른 일정 값을 곱하는 게 낫지 않니? 최고점이 30이면 어떡해
+
+function main() {
+  const data = getData();
+
+  const subjectCount = data[0][0]; // 과목 수
+  const subjectScores = data[1]; // 시험 점수 배열
+  const bestScore = Math.max(...subjectScores); // 시험 점수 중 최고점
+
+  const fakeScores = new Array(subjectCount); // 조작점수를 넣을 배열 생성
+  let sum = 0;
+  for (let i = 0; i < subjectCount; i++) {
+    fakeScores[i] = (subjectScores[i] / bestScore) * 100;
+    sum += fakeScores[i];
+  }
+  // 문제에서 요구하는대로 형식 수정 (소수점 1~6자리까지 표기)
+  let result = sum / subjectCount;
+
+  console.log(result);
+}
+
+main();
+
+/**
+ * 표준 입력장치(console)에서 여러 줄로 입력된 데이터를 읽어서 숫자로 변환한 후 배열로 저장하여 반환한다.
+ * @returns {[]} 2차원 배열
+ */
+function getData() {
+  const arr = require("fs").readFileSync(0).toString().trim().split("\n"); // 입력값을 가져오고 줄바꿈 기준으로 나누어 저장
+
+  const result = []; // return 할 2차원 배열
+
+  for (let row of arr) {
+    // for...of 문에 넣어서 값 꺼내어 2차원 배열에 저장
+    let rowArr = row.split(" ");
+    for (let k = 0; k < rowArr.length; k++) {
+      rowArr[k] = isNaN(rowArr[k]) ? rowArr[k] : parseInt(rowArr[k]); // 요소가 숫자인 경우만 정수형으로 변환하고, 문자인 경우는 원래 값 그대로 둠
+    }
+    result.push(rowArr); //얘는 걍 다 배열로 받게 함
+  }
+
+  return result.length === 1 ? result[0] : result; // 입력값이 1개인 경우 1차배열로 나오도록 함
+}

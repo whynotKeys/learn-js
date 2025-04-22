@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>쇼핑목록</title>
+
+    <script>
+      // HTML 문서 로딩 완료(=DOM 객체 생성 완료), 이미지, css 같은 외부 컨텐츠 로딩 완료 후에 발생하는 이벤트
+      // window.addEventListener("load", function () {}); // 객체 읽은 후에 스크립트 실행하도록
+
+      // HTML 문서 로딩 완료(=DOM 객체 생성 완료) 후에 발생하는 이벤트
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // 첫번째 버튼 찾기
+        const btn1 = document.querySelector("div > button");
+        const btn2 = btn1.nextElementSibling;
+        const btn3 = btn2.nextElementSibling;
+
+        //이벤트 등록 방법1 : elem.on<event> 속성에 이벤트 핸들러 추가
+        btn1.onclick = function () {
+          const movies = document.querySelector("#movies");
+          const firstLi = movies.firstElementChild;
+          const secondLi = firstLi?.nextElementSibling;
+
+          console.log(secondLi?.firstChild.nodeValue);
+          // textContent: 요소노드의 내부 텍스트노드의 문자열 값을 가지고 있는 속성
+          console.log(secondLi?.textContent);
+        };
+
+        // 이벤트 등록 방법3: addEventListener()
+        btn3.addEventListener("click", function () {
+          const targetList = document.querySelectorAll(".list");
+          for (let i = 0; i < targetList.length; i++) {
+            const firstLi = targetList[i].firstElementChild;
+
+            // 해당 노드를 삭제한다.
+            // if(firstLi) firstLi.remove();
+            // firstLi?.remove(); // 옵셔널 체이닝으로 있을 때만 삭제
+
+            // 나를 기준으로 내 부모를 찾고 그 자식(=나)을 제거
+            firstLi?.parentNode.removeChild(firstLi); // 예전에는 이 방식만 있었음
+          }
+        });
+      });
+
+      // 마지막에 우유 추가
+      function addMilk() {
+        console.log("우유 추가 예정");
+        const shoppingList = document.getElementById("purchases");
+        // innerHTML: 요소 노드의 내부 HTML 코드값을 문자열로 가지고 있는 속성(자신 제외 자손들만)
+        // console.log(shoppingList.innerHTML);
+        // outerHTML: 요소 노드의 내부 HTML 코드값을 문자열로 가지고 있는 속성(자신 포함한 자손들)
+        // console.log(shoppingList.outerHTML);
+
+        /* 풀어쓴 버전 */
+        // const newShoppingList = shoppingList.innerHTML + "<li>우유</li>";
+        // shoppingList.innerHTML = newShoppingList;
+
+        /* 줄여쓴 버전 */
+        // shoppingList.innerHTML += "<li>우유</li>";
+
+        /* create~쓴 버전 */
+        const newLi = document.createElement("li"); // <li>
+        const newTxt = document.createTextNode("우유"); // 우유
+
+        console.log(newLi.childNodes, newLi.firstChild, newLi.lastChild);
+        newLi.appendChild(newTxt);
+        console.log(newLi.childNodes, newLi.firstChild, newLi.lastChild);
+        shoppingList.appendChild(newLi); // 부모요소에 자식을 맨 끝에 추가하겠다
+        shoppingList.insertBefore(newLi, shoppingList.firstChild); // 부모요소에 자식을 맨 앞에 추가하겠다
+      }
+    </script>
+  </head>
+  <body>
+    <h1>쇼핑 목록</h1>
+    <div>
+      <button>두번째 영화 찾기</button>
+      <!-- 이벤트 등록 방법2 : HTML 요소의 on<event> 속성의 값으로 이벤트 발생 시 실행할 코드를 등록 -->
+      <button onclick="addMilk(); console.log('우유 추가 완료');">우유 추가</button>
+      <button>첫번째 항목 삭제</button>
+    </div>
+
+    <p>마트에서 사야할 목록</p>
+    <ul id="purchases" class="list">
+      <li>두부</li>
+      <li>계란</li>
+      <li>라면</li>
+    </ul>
+
+    <p>보고싶은 영화 목록</p>
+    <ul id="movies" class="list">
+      <li>어벤저스</li>
+      <li>다크나이트</li>
+      <li>미션임파서블</li>
+    </ul>
+  </body>
+</html>

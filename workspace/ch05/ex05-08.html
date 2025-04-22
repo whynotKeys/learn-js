@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM</title>
+    <style>
+      /* CSS 클래스 정의 */
+      .pad100 {
+        padding: 100px;
+      }
+      .size30 {
+        font-size: 30px;
+      }
+      .line-through {
+        text-decoration: line-through; /* 취소선 스타일 */
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const list = document.querySelector("ul");
+        console.log(list.className);
+        console.log(list.classList);
+
+        list.className = "good bye";
+
+        /* 버튼 클릭하면 다른 클래스 적용되도록 */
+        const btn = document.querySelector("button");
+        btn.addEventListener("click", function () {
+          // style로 읽는 건 HTML에 in-line 으로 입력되어있는 값을 가져오는 거지 실제 사이즈를 읽어오는 게 아님!!
+          // = style 객체는 인라인 스타일만 접근 가능(CSS 파일이나 <style> 태그 스타일은 접근 안됨)
+          console.log(list.style.fontSize);
+
+          //getComputedStyle(요소) 를 사용해서 실제 적용된 스타일을 읽어올 수 있음 ※ 읽기 전용. 재정의불가
+          const computedStyle = getComputedStyle(list);
+          console.log(computedStyle.fontSize);
+
+          list.classList = "pad100 size30";
+          console.log(computedStyle.fontSize);
+        });
+
+        // /* <for문으로> 클릭 시 취소선 부여하는 기능 */
+        // for (let item of list.children) {
+        //   item.addEventListener("click", function (event) {
+        //     console.log("event.target: ", event.target);
+
+        //     // remove/add로 구현
+        //     // if (event.target.classList.contains("line-through")) {
+        //     //   // 지정한 class 유무 여부 반환
+        //     //   event.target.classList.remove("line-through"); // line-through class 삭제
+        //     // } else {
+        //     //   event.target.classList.add("line-through"); // line-through class 삭제
+        //     // }
+
+        //     // toggle로 구현
+        //     event.target.classList.toggle("line-through"); //있으면 제거하고 없으면 추가
+        //   });
+        // }
+
+        /* <이벤트 위임>으로 클릭 시 취소선 부여하는 기능 
+        부모에게 기능을 부여해서 자식에게 적용*/
+        list.addEventListener("click", function (event) {
+          console.log(event.target);
+          console.log(event.currentTarget);
+          if (event.target.nodeName === "LI") {
+            // nodeName은 항상 대문자로 들어옴
+            event.target.classList.toggle("line-through");
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>DOM - class 속성 접근</h1>
+    <button>class 추가</button>
+    <ul class="hello bye">
+      <li>두부</li>
+      <li>계란</li>
+      <li>콩나물</li>
+    </ul>
+  </body>
+</html>
