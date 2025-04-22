@@ -1,17 +1,20 @@
 /*
-do-while
+do-while 반복문 예제
+do-while은 조건을 확인하기 전에 먼저 코드를 한 번 실행한 후,
+조건이 참인 동안 계속해서 반복하는 반복문입니다.
 
 do {
   반복할 코드;
 } while (조건);
 */
 
-let i = 1;
-let sum = 0;
+// 1부터 10까지의 합을 구하는 프로그램
+let i = 1;      // 반복문 카운터 변수 초기화
+let sum = 0;    // 합계를 저장할 변수 초기화
 
 do {
-  sum += i;
-  i++;
-} while (i <= 10);
+  sum += i;     // 현재 i 값을 sum에 더함
+  i++;          // i 값을 1 증가
+} while (i <= 10);  // i가 10 이하일 때까지 반복
 
-console.log(sum);
+console.log(sum);  // 최종 합계 출력

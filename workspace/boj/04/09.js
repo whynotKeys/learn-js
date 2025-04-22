@@ -130,3 +130,60 @@ M번 바구니의 순서를 역순으로 만든 다음, 바구니에 적혀있�
 6 7 3 2 1 10 9 8 4 5
 */
 
+// 바구니 문제 고만 갖고와
+
+// N개의 바구니가 왼쪽부터 오른쪽까지 1~N번 : 출력되야하는 값의 수
+// 역순 바꾸기 M번 시도 -> 일정 범위만큼 역순으로 재배치
+// i~j번의 순서 역순 재배치 : 2~막줄
+
+function main() {
+  const data = getData();
+
+  const basketCount = data[0][0];
+  const changeTry = data[0][1];
+
+  // 초기 세팅 : 바구니에 번호 넣어주기
+  const baskets = new Array(basketCount);
+  for (let i = 0; i < baskets.length; i++) {
+    baskets[i] = i + 1;
+  }
+
+  // 바꾸기 시도 정의
+  for (let i = 1; i <= changeTry; i++) {
+    let minIndex = data[i][0] - 1;
+    let maxIndex = data[i][1] - 1;
+
+    for (let k = 0; k < Math.floor(maxIndex - minIndex + 1) / 2; k++) {
+      // 인덱스끼리 뺀 값의 반만큼 실행
+      let temp = baskets[minIndex + k]; // 교환을 위한 임시값 저장
+      baskets[minIndex + k] = baskets[maxIndex - k]; // i바구니 자리에 j바구니 놓기
+      baskets[maxIndex - k] = temp; // j바구니 자리에 i바구니를 놓기
+    }
+  }
+
+  result = baskets.join(" ");
+  console.log(result);
+}
+
+main();
+
+/**
+ * 표준 입력장치(console)에서 여러 줄로 입력된 데이터를 읽어서 숫자로 변환한 후 배열로 저장하여 반환한다.
+ * @returns {[]} 2차원 배열
+ */
+function getData() {
+  const arr = require("fs").readFileSync(0).toString().trim().split("\n"); // 입력값을 가져오고 줄바꿈 기준으로 나누어 저장
+
+  const result = []; // return 할 2차원 배열
+
+  for (let row of arr) {
+    // for...of 문에 넣어서 값 꺼내어 2차원 배열에 저장
+    let rowArr = row.split(" ");
+    for (let k = 0; k < rowArr.length; k++) {
+      rowArr[k] = isNaN(rowArr[k]) ? rowArr[k] : parseInt(rowArr[k]); // 요소가 숫자인 경우만 정수형으로 변환하고, 문자인 경우는 원래 값 그대로 둠
+    }
+    result.push(rowArr.length === 1 ? rowArr[0] : rowArr); // 입력값이 1개인 경우 값으로 바로 나오도록 함
+  }
+
+  return result.length === 1 ? result[0] : result; // 입력값이 1개인 경우 1차배열로 나오도록 함
+}

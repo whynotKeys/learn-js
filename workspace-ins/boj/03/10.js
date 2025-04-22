@@ -24,7 +24,28 @@
 *****
 */
 
-const fs = require("fs");
-const fileData = fs.readFileSync(0).toString().trim().split(" ");
+function main() {
+  const data = getData();
+  // console.log(data);
 
-const inputData = parseInt(fileData[0]);
+  // for(let i=1;i<=data;i++) console.log(' '.repeat(data-i)+'*'.repeat(i));
+  
+  for (let i=1; i<=data; i++) {
+    const space = ' '.repeat(data-i);
+    const star = '*'.repeat(i);
+    console.log(space + star);
+  }
+}
+
+function getData() {
+  const arr = require("fs").readFileSync(0).toString().trim().split("\n");
+  const result = [];
+  for (let row of arr) {
+    const rowArr = row.split(' ');
+    for (let k=0; k<rowArr.length; k++) rowArr[k] = isNaN(rowArr[k]) ? rowArr[k] : parseInt(rowArr[k]);
+    result.push(rowArr.length === 1 ? rowArr[0] : rowArr);
+  }
+  return result.length===1 ? result[0] : result;
+}
+
+main();

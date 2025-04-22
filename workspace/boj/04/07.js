@@ -83,19 +83,11 @@ X대학 M교수님은 프로그래밍 수업을 맡고 있다.
 
 function main() {
   const data = getData();
-  console.log(data);
-
-  // const maxVal = Math.max(...data);
-  // let index = 0;
-  // for (let i in data) {
-  //   if (data[i] === maxVal) {
-  //     index = Number(i) + 1;
-  //   }
-  // }
-
-  // // const list = data[1];
-  // console.log(maxVal);
-  // console.log(index);
+  const students = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+  ];
+  let missed = students.filter((x) => !data.includes(x)); // 차집합 구해서 missed 에 넣기
+  console.log(Math.min(...missed), Math.max(...missed));
 }
 main();
 

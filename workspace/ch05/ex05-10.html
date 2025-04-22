@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM</title>
+    <style>
+      form,
+      div,
+      p {
+        margin: 10px;
+        border: 1px solid blue;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const div = document.querySelector("div");
+        const p = document.querySelector("p");
+
+        form.addEventListener(
+          "click",
+          function () {
+            console.log(" form 클릭했겠다");
+          },
+          true
+        ); // useCapture 생락하면 false(버블링), true로 지정하면 capturing 단계에서 사용
+        div.addEventListener(
+          "click",
+          function () {
+            console.log("    div 클릭했겠다");
+          },
+          true
+        );
+        p.addEventListener("click", function () {
+          console.log("        p 클릭했겠다");
+          // event.stopPropagation(); // 이벤트 전파 중지
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>DOM - 버블링과 캡처링</h1>
+    <form>
+      FORM
+      <div>
+        DIV
+        <p>P</p>
+      </div>
+    </form>
+  </body>
+</html>

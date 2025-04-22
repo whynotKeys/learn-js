@@ -2,16 +2,18 @@
 if-else if문을 사용하여 학점을 출력하세요.
 */
 
+// 점수 변수 선언 및 초기화
 const score = 99;
 
-if (score >= 90 && score <= 100) { // score가 90 이상 100 이하이면 "A" 출력
+// 90점 이상 100점 이하인 경우 A학점
+if (score >= 90 && score <= 100) {
   console.log('A');
-} else if (score >= 80) { // score가 80 이상 90 미만이면 "B" 출력
+} else if (score >= 80) { // 80점 이상 90점 미만인 경우 B학점
   console.log('B');
-} else if (score >= 70) { // score가 70 이상 80 미만이면 "C" 출력
+} else if (score >= 70) { // 70점 이상 80점 미만인 경우 C학점
   console.log('C');
-} else if (score >= 60) { // score가 60 이상 70 미만이면 "D" 출력
+} else if (score >= 60) { // 60점 이상 70점 미만인 경우 D학점 
   console.log('D');
-} else { // score가 60 미만이면 "F" 출력
+} else { // 60점 미만인 경우 F학점
   console.log('F');
 }

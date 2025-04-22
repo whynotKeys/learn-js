@@ -857,7 +857,7 @@ const foo = {
 - 배열 함수들
 
   - `.join()` : 배열 사이에 괄호 안의 값을 넣어서 문자열 만들어줌
-    ```javascript
+    ```**javascript**
     ["a", "b", "c"].join(); // 'a,b,c'
     ["a", "b", "c"].join("-"); // 'a-b-c'
     [1, 2, 3].join(" / "); // '1 / 2 / 3'
@@ -982,3 +982,259 @@ function getAge(year) {
 ---
 
 ---
+
+# 2025-04-14
+
+**Javascript // 클라이언트 사이드 js(DOM, Node)**
+
+## 수업 내용
+
+### 피드백 정리
+
+- 코드에 대한 세세한 설명 필요
+  - 코드에 주석을 자세히 추가
+- 자세한 강의 자료 필요
+  - 다음 사이트 참고(PPT에 링크 추가)
+    - https://ko.javascript.info/
+    - https://codingeverybody.kr/category/javascript/
+    - https://poiemaweb.com/
+- 라운지에 올라온 질문에 대한 답변
+  - 매일 질문 스레드를 따로 생성할 테니 답변이 필요한 질문은 스레드에 올릴것
+- 나중에 배울꺼다 하지말고 설명을 하거나 언급을 말거나
+  - 수업 흐름상 어쩔수 없이 언급을 해야 하는 부분에는 TODO 추가
+- 문제 풀이 결과 공개 부담됨
+  - 문제 풀이 종료 시간 공지
+  - 지목하지 않고 자발적으로 공개할 사람만 공개
+- 중간 중간 코드 공유
+  - 실습 시작, 종료시 코드 푸시
+- 백준 문제 풀이
+  - 질의응답에 올리면 회고시간에 스터디룸에서 따로 풀이 진행
+- 다음날 배울 내용에 대한 언급
+- 어떤 주제에 대해 중요하지 않다고 하면서 오래 설명할 때가 있음
+  - 난이도 있는 질문은 모아서 회고 시간에 설명
+- 화면 공유 놓치지 않도록 더 신경
+
+### 웹 브라우저에서 작동하는 자바스크립트 환경
+
+- **ECMAScript**: 자바스크립트 언어에 대한 표준
+
+  - https://ecma-international.org/publications-and-standards/standards/ecma-262
+
+- **DOM(Document Object Model)**: 웹페이지 제어를 위한 표준
+  - 페이지 안 쪽을 제어하기 위한 부분
+  - https://dom.spec.whatwg.org
+  - window.document 등
+  - Event
+- **BOM(Browser Object Model)**: 웹페이지 외부의 브라우저 기능 제어를 위한 표준
+  - 위쪽 브라우저 바 제어하기 위한 부분
+  - HTML 표준: https://html.spec.whatwg.org
+    - window.navigator: 브라우저와 운영체제에 대한 정보 제공
+    - window.location: 현재 페이지의 URL에 대한 제어(읽기, 수정)
+    - window.history: 브라우저의 과거 페이지 이동 정보에 대한 제어(읽기, 수정)
+    - alert, setTimeout 등
+- **Web APIs:** 브라우저가 제공하는 웹 기능을 위한 표준 (=HTML5)
+  - https://spec.whatwg.org
+  - XMLHttpRequest: 서버와 통신에 사용되는 객체(Ajax)
+  - Web Storage, Notifications API, WebSocket 등
+
+### 노드(Node)
+
+- DOM 트리구조는 모든 구성원이 각각의 객체로 인식되며 이러한 객체 하나하나를 노드라고 함
+- 노드의 종류(주로 사용되는 노드)
+
+  - 문서노드(document node)
+  - 요소노드(element node)
+  - 속성노드(attribute node)
+  - 텍스트노드(text node)
+
+- HTML안의 요소 // js 파싱과정에서 객체(속성&메소드)가 되는 애들
+
+  - 태그로 되어있는 애들 = **엘리먼트 노드**
+  - 태그 안쪽의 텍스트 = **텍스트 노드**
+  - 태그 안의 id/class/속성등 = **어트리뷰트 노드**(=속성 노드)
+
+- HTML 문서 구조 그리기 (동기분 거 복붙해옴)
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="ko-KR">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Counter</title>
+    </head>
+    <body>
+      <header>
+        <h1>Counter</h1>
+      </header>
+      <div id="container">
+        <span>0</span>
+        <button>+</button>
+      </div>
+
+      <script>
+        // id가 "container"인 요소를 찾기
+        const container = document.getElementById("container");
+        console.log(container);
+      </script>
+    </body>
+  </html>
+  ```
+
+  ```
+  html
+  ├── head
+  │   └── title
+  │       └── "Counter" (텍스트 노드)
+  └── body
+      ├── header
+      │   └── h1
+      │       └── "Counter" (텍스트 노드)
+      └── div (id="container")
+          ├── span
+          │   └── "0" (텍스트 노드)
+          └── button
+              └── "+" (텍스트 노드)
+  ```
+
+### 다양한 노드 선택 방법
+
+- 태그의 id를 이용하여 노드 찾기
+  - `document.getElementById(id)` : id 속성값에 해당하는 노드객체를 반환
+  - 예시
+    ```javascript
+    const purchases = document.getElementById("purchases");
+    ```
+- 태그명을 이용하여 노드 찾기
+
+  - `요소노드.getElementsByTagName(tagName)` : 지정한 요소노드의 하위 모든 요소를 대상으로 태그명(tagName)에 해당하는 요소노드를 배열로 반환
+    (tagName에 `*`을 지정하면 모든 요소를 배열로 반환)
+  - 예시
+    ```javascript
+    const liList = purchases.getElementsByTagName("li");
+    ```
+
+- class 속성으로 노드 찾기
+
+  - `document.getElementsByClassName(className)` : class 속성값이 className인 요소 노드의 목록을 반환
+  - 예시
+    ```javascript
+    const purchases = document.getElementsByClassName("list")[0];
+    ```
+
+- CSS 셀렉터로 노드 찾기
+  - Selector: CSS에서 사용하는 노드 선택 구문
+    https://www.w3.org/TR/css3-selectors/
+  - `document.querySelector(selector)` : 지정한 selector 구문에 매칭되는 노드 목록 중 첫번째 노드를 반환
+  - `document.querySelectorAll(selector)` : 지정한 selector 구문에 매칭되는 노드 목록을 반환
+  - 예시
+    ```javascript
+    var purchases = document.querySelector(".list");
+    var purchases = document.querySelector("#purchases");
+    var purchases = document.querySelectorAll("ul")[0];
+    ```
+    <br />
+    <br />
+
+---
+
+---
+
+# 2025-04-15
+
+**Javascript // **
+
+## 수업 내용
+
+###
+
+    <br />
+    <br />
+
+---
+
+---
+
+# 2025-04-16
+
+**Javascript // **
+
+## 수업 내용
+
+###
+
+    <br />
+    <br />
+
+---
+
+---
+
+# 2025-04-17
+
+**Javascript // **
+
+## 수업 내용
+
+###
+
+선택자 기준
+:last-child 부모의 진짜 마지막 자식 부모의 마지막 요소가 li여야 함
+:last-of-type 같은 태그 중에서 마지막 li들 중 마지막이면 됨
+
+자바스크립트로 cllass 접근
+contextmenu -> 우클릭 이벤트
+
+target : 실제로 이벤트가 발생한 요소
+currentTarget : 그 이벤트를 처리중인 요소
+
+버블링
+캡쳐링
+
+    <br />
+    <br />
+
+---
+
+---
+
+# 2025-04-21
+
+**Javascript // 일급 객체, 함수 생성, 호이스팅**
+
+## 수업 내용
+
+### 일급 객체(First-class object)
+
+- 변수, 배열 엘리먼트, 다른 객체의 프로퍼티에 할당될 수 있다.
+- 함수의 인자로 전달될 수 있다.
+- 함수의 결과 값으로 반환될 수 있다.
+- 리터럴로 생성될 수 있다.
+- 동적으로 생성된 프로퍼티를 가질 수 있다.
+
+함수 생성
+
+화살표 함수
+const add = x => x + 10; //여기서 매개변수가 없으면 const add = () => return 10; 일케
+
+함수 호이스팅
+선언문 형태로 정의한 함수는 호출 위치보다 아래에 작성돼도 작동한다
+js앤잔이 실행 전에 호이스팅 단계를 거치는데 이 때 선언문 형태의 함수가 생성되기 때문!
+
+표현식 형태(변수로 선언)
+arguments까지 함
+
+<br />
+<br />
+
+---
+
+---
+
+# 2025-04-22
+
+**Javascript // **
+
+## 수업 내용
+
+###

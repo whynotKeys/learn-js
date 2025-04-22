@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이벤트 처리</title>
+  </head>
+  <body>
+    <h1>이벤트 처리</h1>
+    <div>
+      <!-- 이벤트 등록 방법2 : HTML 요소의 on<event> 속성의 값으로 이벤트 발생 시 실행할 코드를 등록 -->
+      <button onclick="console.log('눌렀겠다?');">눌러볼까말까볼까말까</button>
+    </div>
+
+    <script>
+      const btn = document.querySelector("button");
+      // 이벤트 등록 방법 1: elem.om<event> 속성에 이벤트 추가
+      // 중복으로 이벤트 설정 시 더 최근에(아래에) 등록한 것만 작동
+      // DOM Level 0 방식(비표준)
+      btn.onclick = function () {
+        console.log("1. 왜눌렀어잉");
+      };
+      btn.onclick = function () {
+        console.log("2. 누르지말지");
+      };
+
+      // 이벤트 등록 방법 3: addEventListener()
+      // 중복으로 이벤트 설정 시 둘 다 작동
+      // DOM Level 2 방식(표준!)
+      btn.addEventListener("click", function () {
+        console.log("3. 누름누름");
+      });
+
+      btn.addEventListener("click", handleclick); // () 없는 이유 : 호출하는 거 아니라숴
+
+      setTimeout(function () {
+        btn.removeEventListener("click", handleclick);
+      }, 1000 * 2);
+
+      function handleclick() {
+        console.log("4. 눌렀소");
+      }
+    </script>
+  </body>
+</html>

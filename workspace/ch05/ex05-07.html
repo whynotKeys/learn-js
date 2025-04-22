@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const smile = document.querySelector("span");
+        console.log(smile.style);
+        console.log(smile.style.left);
+
+        // 함수를 지정한 시간이 흐른 뒤에 실행 (인자 : 함수,시간(ms단위))
+        setTimeout(function () {
+          smile.style.left = "172px";
+          smile.style.top = "33px";
+          smile.style.fontSize = "20px";
+          // smile.style.transition = "0.3s";
+        }, 1000);
+
+        /*
+        오른쪽으로 갈수록 커지는 스마일 객체가 커서를 쫓아다니게 함
+        */
+        document.addEventListener("mousemove", function (event) {
+          const x = event.clientX - smile.clientWidth; // /2하면 커서 위치로 옴
+          const y = event.clientY - smile.clientHeight;
+
+          // smile.style.left = x + "px"; // 단위 꼭 붙여줘야 함
+          // smile.style.top = y + "px"; // 단위 꼭 붙여줘야 함
+          // smile.style.fontSize = x / 5 + "px"; // 단위 꼭 붙여줘야 함
+
+          //위와 같은 효과 cssText 사용해서 구현
+          smile.style.cssText = `left:${x}px; top: ${y}px; font-size: ${x / 5}px; position:fixed;`;
+        });
+
+        /* 잡기 코드 */
+
+        // smile.style.transition = "0.3s";
+
+        // // 시작 시간 저장
+        // const startTime = Date.now();
+        // console.log(startTime);
+
+        // // 랜덤 이동 설정
+        // const moveInterval = setInterval(function () {
+        //   const maxX = window.innerWidth - 100;
+        //   const maxY = window.innerHeight - 100;
+
+        //   const randomX = Math.floor(Math.random() * maxX);
+        //   const randomY = Math.floor(Math.random() * maxY);
+
+        //   smile.style.left = randomX + "px";
+        //   smile.style.top = randomY + "px";
+        // }, 300); //
+
+        // // 클릭 시 이동 멈추고 시간 측정
+        // smile.addEventListener("click", function () {
+        //   clearInterval(moveInterval); // 이동 멈춤
+        //   const endTime = Date.now();
+        //   const seconds = ((endTime - startTime) / 1000).toFixed(2); // 소수점 2자리
+
+        //   alert(`잡았다 이놈시키! ${seconds}초 만에 잡았어!`);
+        // });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>DOM - style 속성 접근</h1>
+    <span style="position: fixed; left: 26px; top: 26px; font-size: 26px">😆</span>
+  </body>
+</html>

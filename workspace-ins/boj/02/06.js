@@ -39,19 +39,48 @@ KOI 전자에서는 건강에 좋고 맛있는 훈제오리구이 요리를 간�
 0 13
 */
 
-// 입력값 예시: 
-/*
-17 40
-80
-*/
-const fs = require("fs");
-const fileData = fs.readFileSync(0).toString().trim().split("\n");
+function main() {
+  const data = getData();
+  // data에서 값을 꺼내서 문제 해결하는 코드 작성
+  const h = data[0][0];
+  const m = data[0][1];
+  const c = data[1][0];
 
-const now = fileData[0].split(" ");
+  let totalMin = (h * 60 + m + c) % (60 * 24);
 
-const h = parseInt(now[0]); // 17
-const m = parseInt(now[1]); // 40
+  // if(totalMin >= 60*24) {
+  //   totalMin -= 60*24;
+  // }
 
-const cookingTime = parseInt(fileData[1]); // 80
+  const result = {
+    h: Math.floor(totalMin / 60),
+    m: totalMin % 60
+  };
 
-console.log(h, m, cookingTime);
+  console.log(result.h, result.m);
+}
+main();
+
+/**
+ * 표준 입력장치(콘솔)에서 여러줄로 입력된 줄당 여러 건의 데이터를 읽어서 숫자로 변환한 후
+ * 배열로 저장하여 반환한다.
+ * @returns {[]} 2차원 배열
+ */
+function getData() {
+  const fs = require("fs");
+  // '23 48\n25\n'
+  const fileData = fs.readFileSync(0).toString();
+  // ['23 48', '25']
+  const arr = fileData.trim().split("\n");
+
+  const result = []; // 리턴할 2차원 배열
+  for (let i=0; i< arr.length; i++) {
+    const row = arr[i]; // '23 48', '25'
+    const rowArr = row.split(' '); // ['23', '48'], ['25']
+    for (let k=0; k<rowArr.length; k++) {
+      rowArr[k] = isNaN(rowArr[k]) ? rowArr[k] : parseInt(rowArr[k]);
+    }
+    result.push(rowArr);
+  }
+  return result;
+}
