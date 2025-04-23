@@ -451,7 +451,7 @@
   - https://school.programmers.co.kr/learn/challenges
   - 기초 트레이닝: https://school.programmers.co.kr/learn/challenges/training?order=acceptance_desc&languages=javascript
   - 입문: https://school.programmers.co.kr/learn/challenges/beginner?order=acceptance_desc
-  - 레벨 1: https://school.programmers.co.kr/learn/challenges?order=acceptance_asc&languages=javascript&page=1&levels=1
+  - 레벨 1: https://school.programmers.co.kr/learn/challenges?order=acceptance_desc&languages=javascript&page=1&levels=1
 
 ## 온라인 웹 개발 에디터(HTML, CSS, JS)
 * CodePen: <https://codepen.io>
