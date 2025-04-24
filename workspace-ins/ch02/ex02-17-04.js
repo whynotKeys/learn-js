@@ -1,5 +1,6 @@
 /*
 카운터 예제
+Function.prototype.bind는 this를 지정하는 기능 뿐만 아니라 커링을 구현한 함수이기 때문에 인자값도 미리 전달이 가능
 */
 
 var count = 0;
