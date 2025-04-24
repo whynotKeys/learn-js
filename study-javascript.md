@@ -1233,8 +1233,230 @@ arguments까지 함
 
 # 2025-04-22
 
+**Javascript // 함수 호출, this**
+
+## 수업 내용
+
+### 함수 호출
+
+1.  **함수 이름으로 호출** (:일반적인 함수 호출 방법)
+
+    - `함수명()`
+    - `this` = window 객체
+      ※ window 객체는 어디서나 참조 가능하므로 굳이 this를 사용할 필요 없음
+    - 호출 예시
+
+      ```javascript
+      function f1() {
+        console.log(this);
+        // 아래와 같다.
+        // this.console.log(this);
+        // window.console.log(this);
+      }
+      const f2 = function () {
+        console.log(this);
+      };
+
+      f1();
+      f2();
+      console.log(this); // window
+      ```
+
+2.  **메서드로 호출** (:객체에 정의된 메서드를 호출할 때)
+
+    - `객체.메서드명()`
+    - `this` = 메서드를 정의한 객체
+    - 호출 예시
+
+      ```javascript
+      window.name = "global"; // window, 브라우저가 가지고 있는 전역 객체 -> Node.js에서 실행 불가
+      global.name = "global"; // global, Node.js가 가지고 있는 전역 객체 -> 웹브라우저에서 실행 불가
+      globalThis.name = "global"; // 브라우저는 window, Node.js는 global 객체를 가리킴 -> 둘 다 실행 가능!
+
+      const getPingName = function () {
+        return this.name;
+      };
+      const baro = { name: "바로핑", age: 11, getName: getPingName };
+      const rara = { name: "라라핑", age: 9, getName: getPingName };
+      console.log(baro.age, baro.getName()); // baro
+      console.log(rara.age, rara.getName()); // rara
+      ```
+
+    - 화살표 함수의 `this`는 상위 Scope의 this를 찾는 점 주의!
+
+3.  **apply(), call() 사용하여 호출** (:함수에 정의된 메서드)
+
+    - `함수명.apply(), 함수명.call()` 형태로 호출
+    - `this` = apply(), call() 메소드의 첫번째 인자로 전달되는 객체
+    - this를 명시적으로 지정할 수 있음
+    - 각 메서드의 매개변수
+
+      - apply(p1, p2) : 첫 번째 매개변수(p1)에는 this로 사용할 객체를 전달, 두 번째 매개변수(p2)에는 함수에 전달할 인자값 배열
+      - call(p1, p2, p3, ...) : 첫 번째 매개변수(p1)에는 this로 사용할 객체를 전달, 두 번째 이후의 매개변수(p2, p3, …)에는 함수에 전달할 인자값을 차례대로 지정
+
+    - 호출 예시
+
+      ```javascript
+      function add(x, y) {
+        console.log(this);
+        return x + y;
+      }
+      console.log(add(10, 20)); // 30, this = window
+      console.log(add.call({ name: "call" }, 30, 40)); // 70, this = { name: "call" }
+      console.log(add.apply({ name: "apply" }, [50, 60])); // 110, this = { name: "apply" }
+      // apply는 인자 2개 : 2번째 인자는 배열로 전달
+      ```
+
+4.  **생성자 함수(객체지향 언어의 클래스와 비슷) 호출** (:함수를 생성자로 사용할 경우)
+
+    - `new 함수명()` 형태로 호출
+    - `this` = 생성자를 통해 생성된 객체
+    - 생성자로 호출될 때의 내부 동작
+
+      1. 비어있는 객체를 새로 생성
+      2. 새로 생성된 객체는 this 매개변수로 생성자 함수에 전달
+      3. 명시적으로 반환하는 객체가 없다면 생성된 객체를 반환
+      4. 객체지향 프로그램의 new 연산자와 비슷한 동작
+
+    - 생성자 함수로 만들어진 객체를 `Instance`라고 함
+    - 생성자를 작성할 때 고려해야 할 것들
+
+      - 일반 함수처럼 호출할 수 있지만, 이럴 경우 생성자 내부의 this는 window 객체를 가리키므로 객체에 종속적인 값을 지정할 수 없으므로 의미가 없다.
+      - _명명(naming) 규칙_
+        - 일반 함수: 작업할 동작을 나타내는 동사로 이름 짓고 소문자로 시작
+        - 생성자: 생성할 객체를 나타내는 명사로 이름 짓고 대문자로 시작
+
+    - 호출 예시
+
+    ```javascript
+    const getPingName = function () {
+      return this.name;
+    };
+    // 객체를 생성해서 반환하는 함수(생성자 함수) : new 연산자와 함께 사용해야 함
+    function Ping(name, age) {
+      this.age = age;
+      this.name = name;
+      this.getName = function () {
+        return this.name;
+      };
+    }
+
+    //new의 동작
+    // 1. 빈 객체를 참조하는 this 생성
+    // 2. this를 생성자 함수에 전달
+    // 3.생성자 함수가 아무것도 리턴하지 않는다면 this를 자동으로 리턴
+    const baro = new Ping("바로핑", 8);
+
+    baro.age++;
+    baro.height = 120;
+
+    console.log(baro.age, baro.getName(), baro.height); // getName()의 this는 baro
+    console.log(getPingName(), getPingName.call(baro)); // this = window, this = baro
+    ```
+
+- **※ 요약 : 함수 호출 방법에 따른 this가 가리키는 것**
+  1. 그냥 함수 이름으로 부르기 -> **window**
+  2. `.~`로 부르기 -> **해당 객체**
+  3. `.call()`, `.apply()` -> **내가 지정한**(괄호에 넣은) **객체**
+  4. `new 함수이름`(생성자 함수)로 부른 거 : **빈 객체**
+
+### 자바스크립트의 생성자 함수들
+
+    ```javascript
+    // Function
+    let f = new Function("x", "y", "return x + y;");
+    let f = (x, y) => {
+      return x + y;
+    };
+
+    // Object
+    let obj = new Object();
+    let obj = {};
+
+    // String, Number, Boolean
+    const name = new String('김철수');
+    const age = new Number(30);
+    const male = new Boolean(true);
+
+    // Array
+    let arr = new Array();
+    let arr = [];
+
+    // Date
+    const date = new Date();
+    ```
+
+### 정리
+
+1. **함**수는 **곧** **객**체다 : 함수는 속성과 method를 가질 수 있음
+
+- `console.dir(함수명)` 콘솔에서 찍어봤을 때 `Prototype`이라는 항목에서 함수의 메소드를 확인할 수 있음
+
+2. **배**열은 **곧** 체다 : 배열도 같은 방식으로 배열의 메소드 확인 가능
+3. **디**스는 **곧** **거**시기다 : this가 가리키는 것은 호출 될 때마다 바뀐다
+
+<br />
+<br />
+
+---
+
+---
+
+# 2025-04-23
+
 **Javascript // **
 
 ## 수업 내용
 
-###
+### 익명 함수 (Anonymous function)
+
+- 익명 함수의 사용처
+  1. 함수의 이름 대신 변수명, 속성명으로 사용할 경우
+     - 함수를 변수에 저장
+     - 객체의 메서드로 지정
+  2. 함수를 인자값으로 전달할 경우
+     - 전달한 인자값은 호출되는 함수 내부에서 적절한 매개변수를 지정해서 사용
+
+### 콜백 함수
+
+### 순수 함수오 ㅏ고차 함수
+
+### Memoization
+
+순수함수일 때 메모이제이션 사용 가능
+
+리액트는 처음 들어가면 화면 구성하는 모든 요소 다 받고 js파일들 다 받아서 오래 걸림!
+서버사이드 렌더링을 사용해서 첫 페이지를 빨리 보여주려고 나온 게 Next.js임
+
+### 프로토 타입
+
+```
+
+```
+
+<br />
+<br />
+
+---
+
+---
+
+# 2025-04-24
+
+**Javascript // **
+
+## 수업 내용
+
+### 상속
+- 상속 받는다 = 확장한다라고도 표현할 수 있음
+
+
+
+
+
+UNPKG : https://unpkg.com/ 들어가서 주소 위에 lodash 붙인 후 엔터
+나오는 화면이 최신 버전 로데쉬 라이브러리. 주소 복사 후 html 파일에 script 태그 src로 넣기 : 라이브러리 사용 가능
+
+
+내일 시험 : 10문제, 40점 만점, 코딩 문제 있음 // 시스템상 문제 정답 처리 어려우니 직접 채점하실 예정 
+            오픈북 : 소스코드, 책, 검색 가능. AI는 안됨       
