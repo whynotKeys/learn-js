@@ -37,7 +37,7 @@
     git pull origin main
     ```
 * 충돌 발생시 임시로 필요한 코드만 복사
-    * 현재 폴더 하위에 sample/02 폴더만 복사하는 예시
+    - 현재 폴더 하위에 sample/02 폴더만 복사하는 예시
     ```sh
     npx degit https://github.com/FEBC-13/JS/sample/02 sample/02 
     ```
@@ -59,7 +59,7 @@
 
 ## sample 폴더 복사
 * sample/01/workspace 폴더를 복사해서 프로젝트 루트에 붙여넣기
-* 완성된 강사의 코드는 **workspace-ins** 폴더에서 확인할 수 있음
+* 완성된 강사의 코드는 [workspace-ins](<https://github.com/FEBC-13/JS/tree/main/workspace-ins>) 폴더에서 확인할 수 있음
 
 ## 웹 서버 구동
 1. VSCode의 터미널로 이동
@@ -76,6 +76,86 @@
 * 각 예제 클릭해서 테스트
   - .js: Javascript 문법 관련 실습은 브라우저 개발자 도구 > 콘솔 탭에서 결과 확인
   - .html: DOM, Ajax 관련 실습은 새로운 화면으로 이동 후 테스트
+
+## TypeScript Compiler 설치
+* node.js용 TypeScript Compiler 모듈을 global로 설치(어느 경로에서나 tsc 명령어 사용 가능)
+* VSCode > View > Terminal
+```sh
+npm i -g typescript
+```
+
+## 터미널 테스트
+* workspace/ch06/ex06-01.ts 파일 작성
+
+```ts
+function hello(name: string): string {
+  return 'Hello ' + name;
+}
+console.log(hello('TypeScript'));
+```
+
+### Node.js로 실행
+#### 컴파일
+
+```sh
+cd workspace/ch06
+tsc ex06-01.ts
+```
+
+#### 실행
+
+```sh
+node ex06-01.js
+```
+
+### ts-node로 실행
+* TypeScript 코드를 JavaScript로 컴파일하지 않고 바로 실행할 수 있게 해주는 Node.js 확장 모듈
+
+#### ts-node 설치
+```sh
+npm i ts-node -g
+```
+
+#### 실행
+```sh
+ts-node ex06-01.ts
+```
+
+## 타입스크립트 설정 파일
+* tsconfig.json 파일은 타입스크립트의 설정 파일로, 컴파일러(tsc)가 코드를 어떻게 처리할지를 정의
+
+### 타입스크립트 설정 파일(tsconfig.json) 생성
+* 프로젝트 루트로 이동 후 실행
+```sh
+tsc --init
+```
+
+### tsconfig.json 파일 수정
+* js로 컴파일시 적용할 버전을 es2022로 지정
+  - "compilerOptions"의 "target": "es2022"
+* 모듈 시스템을 es2022로 지정(import/export)
+  - "compilerOptions"의 "module": "es2022"
+* 소스 파일의 루트 폴더를 프로젝트 루트로 지정
+  - "compilerOptions"의 "rootDir": "./" 주석 해제
+* ts 파일과 컴파일된 js 파일을 분리해서 관리
+  - 일반적으로 ts와 js 파일 분리를 위해서 설정함
+  - 이번 교육에서는 컴파일된 js 파일을 쉽게 확인하기 위해서 ts와 같은 폴더에 컴파일되도록 다음 설정은 하지 않음
+  - ~~"compilerOptions"의 "outDir": "./" 주석 해제 후 "./workspace/dist"로 수정~~
+* workspace 하위의 모든 파일을 대상으로 컴파일
+  - "compilerOptions" 아래에 "include": ["workspace/**/*"] 추가
+* 컴파일에서 제외할 폴더나 파일 지정
+  - "compilerOptions" 아래에 "exclude": ["node_modules", "sample/**/*"] 추가
+* 전체 옵션은 다음 URL 참고
+  - <https://www.typescriptlang.org/ko/tsconfig>
+
+## tsc --watch 옵션
+* 하위 폴더를 포함해서 ts 파일 변경을 감지하고 자동으로 컴파일한 후 outDir로 지정한 폴더에 js 파일 생성
+* 프로젝트 루트에서 실행
+
+```sh
+tsc --watch
+```
+
 
 # 팁
 * VSCode에서 소스코드 비교

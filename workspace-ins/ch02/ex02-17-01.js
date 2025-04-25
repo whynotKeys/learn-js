@@ -18,4 +18,4 @@ const myObj = {
 
 myObj.visit(); // this = myObj
 myObj.visit();
-console.log('방문자수', myObj.count); // 2
+console.log('방문자수', myObj.count); // 4
