@@ -6,6 +6,8 @@
     <link rel="shortcut icon" href="img/favicon.ico" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://unpkg.com/jquery@3.7.1/dist/jquery.js"></script>
+    <!--lodash library 추가 -->
+    <script src="https://unpkg.com/lodash@4.17.21/lodash.js"></script>
     <script src="js/mylib.js"></script>
     <script>
       $(function () {
@@ -259,6 +261,64 @@
         </section>
         <section class="chapter">
           <div class="chapter-title">
+            <h3 tabindex="0">3강: 프로토타입, 상속과 클래스</h3>
+            <button>예제목록 펼치기</button>
+          </div>
+          <section class="paragraph">
+            <h4 class="paragraph-title">3.1 프로토타입</h4>
+            <ul>
+              <li><a href="ch03/ex03-01.js">03-01 prototype 속성 - Score 생성자 함수</a></li>
+              <li><a href="ch03/ex03-02.js">03-02 함수를 중복으로 정의 - User 생성자 함수</a></li>
+              <li><a href="ch03/ex03-03.js">03-03 prototype으로 함수의 중복을 제거 - User 생성자 함수</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">3.2 상속과 클래스</h4>
+            <ul>
+              <li>
+                <a href="ch03/ex03-04.js"
+                  >03-04 프로토타입 체인을 이용한 상속 기능 구현 - HighSchool, College 생성자 함수</a
+                >
+              </li>
+              <li><a href="ch03/ex03-05.js">03-05 중계 클래스를 이용한 상속 - HighSchool, College 생성자 함수</a></li>
+              <li><a href="ch03/ex03-06.js">03-06 클래스 정의와 상속 - HighSchool, College 클래스</a></li>
+            </ul>
+          </section>
+        </section>
+        <section class="chapter">
+          <div class="chapter-title">
+            <h3 tabindex="0">4강: 클로저</h3>
+            <button>예제목록 펼치기</button>
+          </div>
+          <section class="paragraph">
+            <h4 class="paragraph-title">4.1 클로저</h4>
+            <ul>
+              <li><a href="ch04/ex04-01.js">04-01 클로저를 사용하는 예제</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">4.2 클로저 용법</h4>
+            <ul>
+              <li><a href="ch04/ex04-02.js">04-02 클로저를 활용한 private 변수</a></li>
+              <li><a href="ch04/ex04-03.js">04-03 커링</a></li>
+              <li><a href="ch04/ex04-03-01.js">04-03-01 커링 사용 사례</a></li>
+              <li><a href="ch04/ex04-03-02.js">04-03-02 curry() 함수 작성</a></li>
+              <li><a href="ch04/ex04-04.js">04-04 Partial application</a></li>
+              <li><a href="ch04/ex04-04-01.js">04-04-01 Function.prototype.partial() 함수 추가</a></li>
+              <li><a href="ch04/ex04-05.js">04-05 Wrapper - 메모이제이션</a></li>
+              <li><a href="ch04/ex04-06.js">04-06 Wrapper - 메모이제이션, 클로저</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">4.3 즉시실행 함수</h4>
+            <ul>
+              <li><a href="ch04/ex04-07.js">04-07 즉시실행 함수</a></li>
+              <li><a href="ch04/ex04-08.html">04-08 즉시실행 함수가 필요한 예제 (클로저)</a></li>
+            </ul>
+          </section>
+        </section>
+        <section class="chapter">
+          <div class="chapter-title">
             <h3 tabindex="0">5강: 클라이언트 사이드 자바스크립트 (DOM, Event, BOM, Ajax, Web APIs)</h3>
             <button>예제목록 펼치기</button>
           </div>
@@ -295,6 +355,97 @@
           <section class="paragraph">
             <h4 class="paragraph-title">5.5 Web APIs</h4>
             <ul></ul>
+          </section>
+        </section>
+
+        <section class="chapter">
+          <div class="chapter-title">
+            <h3 tabindex="0">6강: 타입스크립트</h3>
+            <button>예제목록 펼치기</button>
+          </div>
+          <section class="paragraph">
+            <h4 class="paragraph-title">6.1 개발 환경 구축</h4>
+            <ul>
+              <li><a href="ch06/ex06-01.js">06-01 개발 환경 확인</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">6.2 타입 기본</h4>
+            <ul>
+              <li><a href="ch06/ex06-02.js">06-02 주요 타입</a></li>
+              <li><a href="ch06/ex06-03.js">06-03 함수에 타입 지정</a></li>
+              <li><a href="ch06/ex06-04.js">06-04 선택적 파라미터(optional parameter)</a></li>
+              <li><a href="ch06/ex06-05-01.js">06-05-01 유니언 타입(union type)</a></li>
+              <li><a href="ch06/ex06-05-02.js">06-05-02 유니언 타입과 타입 가드</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">6.3 타입 별칭</h4>
+            <ul>
+              <li><a href="ch06/ex06-06.js">06-06 유니언 타입에 타입 별칭 지정</a></li>
+              <li><a href="ch06/ex06-07.js">06-07 타입 별칭으로 객체의 타입 선언</a></li>
+              <li><a href="ch06/ex06-08.js">06-08 인터섹션 타입(intersection type)</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">6.4 인터페이스</h4>
+            <ul>
+              <li><a href="ch06/ex06-09.js">06-09 인터페이스로 객체의 타입 선언</a></li>
+              <li><a href="ch06/ex06-10.js">06-10 인터페이스 사용 - 변수, 함수의 매개변수, 리턴타입</a></li>
+              <li><a href="ch06/ex06-11.js">06-11 인터페이스 사용 - 클래스의 타입 지정</a></li>
+              <li>
+                <a href="ch06/ex06-12.js"
+                  >06-12 인터페이스 정의 - 객체의 속성과 메서드, 익명 함수, 선택적 속성, 읽기 전용 속성</a
+                >
+              </li>
+              <li><a href="ch06/ex06-14.js">06-14 인터페이스 상속</a></li>
+              <li><a href="ch06/ex06-15.js">06-15 인터페이스 상속 - 계층 구조</a></li>
+              <li><a href="ch06/ex06-16.js">06-16 인터페이스 상속 - 다중 상속</a></li>
+              <li><a href="ch06/ex06-17.js">06-17 인터페이스 선언 병합</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">6.5 제네릭</h4>
+            <ul>
+              <li><a href="ch06/ex06-18-01.js">06-18-01 echo 함수 - 일반 함수</a></li>
+              <li><a href="ch06/ex06-18-02.js">06-18-02 echo 함수 - 제네릭 함수</a></li>
+              <li><a href="ch06/ex06-18-03.js">06-18-03 echo 함수 - 제네릭 타입 제약</a></li>
+              <li><a href="ch06/ex06-19-01.js">06-19-01 드롭다운 리스트 생성 - 자바스크립트</a></li>
+              <li><a href="ch06/ex06-19-02.js">06-19-02 드롭다운 리스트 생성 - 타입스크립트</a></li>
+              <li><a href="ch06/ex06-19-03.js">06-19-03 드롭다운 리스트 생성 - 유니온 타입</a></li>
+              <li><a href="ch06/ex06-19-04.js">06-19-04 드롭다운 리스트 생성 - 제네릭 인터페이스와 함수</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">6.6 타입 추론</h4>
+            <ul>
+              <li><a href="ch06/ex06-21.js">06-21 변수와 객체의 타입 추론</a></li>
+              <li><a href="ch06/ex06-22.js">06-22 함수의 타입 추론</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">6.7 타입 단언</h4>
+            <ul>
+              <li><a href="ch06/ex06-23.js">06-23 타입 단언</a></li>
+              <li><a href="ch06/ex06-24-01.js">06-24-01 타입 단언이 필요한 JS 코드</a></li>
+              <li><a href="ch06/ex06-24-02.js">06-24-02 JS로 작성된 코드를 TS로 리팩토링</a></li>
+              <li><a href="ch06/ex06-25.js">06-25 함수가 null을 리턴할 수 있을 경우</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">6.8 타입 가드</h4>
+            <ul>
+              <li><a href="ch06/ex06-26.js">06-26 typeof 연산자</a></li>
+              <li><a href="ch06/ex06-27.js">06-27 instanceof 연산자</a></li>
+              <li><a href="ch06/ex06-28.js">06-28 속성 값으로 체크</a></li>
+              <li><a href="ch06/ex06-29.js">06-29 타입 가드 함수 작성</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">6.9 기타</h4>
+            <ul>
+              <li><a href="ch06/ex06-30.js">06-30 함수 호환</a></li>
+            </ul>
           </section>
         </section>
       </div>

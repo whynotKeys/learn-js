@@ -1142,12 +1142,131 @@ function getAge(year) {
 
 # 2025-04-15
 
-**Javascript // **
+**Javascript // 이벤트 등록, 노드 생성/삽입/삭제/복사**
 
 ## 수업 내용
 
-###
+### 이벤트(event)
+- 이벤트란?
+  - 브라우저에서 어떤 일이 일어 났음을 알려주는 신호
+  - 클릭, 키보드 입력, 마우스 이동, 스크롤 등의 작업
+  - 주로 요소 노드에서 발생
 
+- 이벤트 핸들러(event handler)
+  - 특정 이벤트가 발생했을 때 실행되는 함수
+  - 이벤트가 발생하는 대상에 이벤트와 이벤트 핸들러를 등록해서 이벤트 처리
+
+- 대표적인 이벤트 종류
+   - 마우스 이벤트 : `click`, `dblclick`, `mousemove`, `mouseover/mouseout`, `mousedown/mouseup`, `contextmenu`
+   - 키보드 이벤트 : `keydown`/`keyup`
+   - 폼 이벤트 : `focus`/`blur`, `input`, `change`, `submit`
+   - 스크롤 이벤트 : `scroll`
+   - 문서 로딩 이벤트 : `load`, `DOMContentLoaded`, `beforeunload`/`unload`
+
+- 이벤트 핸들러 등록 방법
+  1. DOM 프로퍼티에 할당 (: DOM Level 0 방식 (HTML 표준))  
+    - 요소 노드의 `on<event>` 속성에 이벤트 핸들러를 등록하면 `<event>`가 발생했을 때 등록한 핸들러가 호출됨
+    - 중복으로 이벤트 설정 시 더 최근에(아래에) 등록한 것만 작동!
+    - 예시
+    ```html
+    <button>눌러봐</button>    
+    ```
+    ```javascript
+      const btn = document.querySelector("button");
+      btn.onclick = function () {
+        console.log("1. 왜눌렀어잉");
+      };
+      btn.onclick = function () {
+        console.log("2. 누르지말지");
+      };
+      // 2.누르지말지 만 콘솔에 표시 됨
+    ```
+  2. HTML 인라인 방식 (: DOM Level 0 방식 (HTML 표준))
+    -  HTML 태그의 `on<event>` 속성에 `<event>`가 발생 했을 때 실행할 코드 지정 
+      (`onclick`, `onmousemove`, `onkeydown` 등)
+    -  브라우저는 실행할 코드로 구성된 이벤트 핸들러를 만들어서 요소 노드의 `on<event>` 속성에 등록
+    - 예시
+    ```html
+    <button onclick="console.log('눌렀겠다?');">눌러볼까말까볼까말까</button>
+    ```
+  3. `elem.addEventListener(event, handler, [useCapture])` 사용 (: DOM Level 2 방식 (DOM 표준))
+    - elem 요소노드에 event 발생시 실행할 handler 함수를 등록
+    - 중복으로 이벤트 설정 시 둘 다 작동
+    - 괄호 안에 들어갈 매개변수
+      - *event*: 이벤트 이름 (click, mousemove, keydown 등)
+      - *handler*: 핸들러 함수
+      - *useCaptur*e: 캡처링 단계의 이벤트 캐치 여부. 기본은 false이고 버블링 단계의 이벤트를 캐치 
+    - 이벤트 핸들러 삭제 방법 : `elem.removeEventListener(event, handler, [useCapture])`
+      - elem 요소노드에 event 발생시 실행할 handler 함수를 제거  
+        핸들러를 등록할 때 지정했던 매개변수와 동일한 인자값의 핸들러가 삭제됨
+    - 예시
+    ```html
+    <button>눌러봐</button>    
+    ```
+    ```javascript
+    const btn = document.querySelector('button');
+      btn.addEventListener("click", function () {
+        console.log("3. 누름누름");
+      });
+
+      btn.addEventListener("click", handleclick); // () 없는 이유 : 호출하는 거 아니라서
+
+      setTimeout(function () {
+        btn.removeEventListener("click", handleclick); // handler 함수 제거
+      }, 1000 * 2);
+
+      function handleclick() {
+        console.log("나는 핸들클릭 함수!");
+      }
+
+    ```
+### 노드 생성/삽입/삭제/복사
+- 노드 생성
+  - document 객체의 createXxx() 메소드를 이용
+    | 메소드 | 설명 |
+    |:------|:-----|
+    | `createElement(nodeName)` | 지정한 태그명으로 요소 노드 생성 |
+    | `createTextNode(nodeValue)` | 지정한 내용으로 텍스트 노드 생성 |
+    | `createAttribute(attributeName)` | 지정한 이름으로 속성 노드 생성 |
+  - 예시
+  ```javascript
+    const newLiNode = document.createElement("li");
+    const newTextNode = document.createTextNode("우유");
+  ```
+- 노드 추가
+  - 요소노드.appendChild(childNode) : 지정한 노드를(childNode) 요소노드의 마지막 자식노드로 추가
+  - 예시
+  ```javascript
+    const newLiNode = document.createElement("li"); // 리스트 엘리먼트 생성
+    const newTextNode = document.createTextNode("우유"); // 우유 텍스트 엘리먼트 생성
+    newLiNode.appendChild(newTextNode); // 리스트 엘리먼트의 자식 요소로 텍스트 엘리먼트를 추가
+  ```
+- 노드 삽입
+  - 요소노드.insertBefore(newNode, targetNode) : 지정한 노드를(newNode) targetNode 앞에 삽입
+  - 예시
+  ```javascript
+    const purchases = document.getElementById("purchases"); // ID가 purchases인 요소 가져옴
+    purchases.insertBefore(newLiNode, purchases.firstChild); // 가져온 요소 안의 타켓 요소 앞에 새 요소 삽입
+    // 부모요소.insertBefort(새 요소, 새 요소의 뒤에 올 요소)
+  ```
+- 노드 삭제
+  - 요소노드.removeChild(childNode) : 지정한 자식 노드를(childNode) 삭제
+  - 요소노드.remove() : 자기자신을 삭제  
+  - 예시
+  ```javascript
+    const purchases = document.getElementById("purchases");// ID가 purchases인 요소 가져옴
+    purchases.removeChild(purchases.firstElementChild); // purchases의 첫번 째 자식 노드(purchases.firstElementChild)를 삭제
+    purchases.firstElementChild.remove();
+  ```
+- 노드 복사
+  - 노드.cloneNode(haveChild) : 지정한 노드를 복사, 
+    // `haveChild`가 `true`이면 하위 모든 노드를 같이 복사하고 `false(기본값)`이면 지정 노드만 복사
+  - 예시
+  ```javascript
+    const purchases = document.getElementById("purchases"); // ID가 purchases인 요소 가져옴
+    const cloneLi = purchases.firstChild.cloneNode(true); // purchases 하위 첫 자식과 그 하위의 모든 요소 복사
+    purchases.appendChild(cloneLi); // 복사한 노드를 추가
+  ```
     <br />
     <br />
 
@@ -1157,22 +1276,78 @@ function getAge(year) {
 
 # 2025-04-16
 
-**Javascript // **
+**Javascript // todoList 구현**
 
 ## 수업 내용
 
-###
+### addEventListener 사용 시 `load`와 `DOMContentLoaded`의 차이
+```javascript
+// load : HTML 문서 로딩 완료(= DOM 객체 생성 완료)
+//        이미지/css/js파일 같은 외부 리소스까지 모두 로딩 된 후 발생하는 이벤트
+window.addEventListener('load', function(){});
+  // 모든 리소스가 완전히 로드된 후 실행할 코드
 
+// DOMContentLoaded : HTML 문서 로딩 완료(= DOM 객체 생성 완료) 후에 발생하는 이벤트
+document.addEventListener('DOMContentLoaded', function(){});
+  // DOM 트리가 완성되었을 때 실행할 코드
+```
+
+### 다양한 방식으로 DOM 요소를 만들고 접근 (feat. ex05-05.html)
+
+```html
+  <div class="todoinput">
+    <input type="text" autofocus onkeyup="handleKeyup(event)" /> <!--keyup이벤트-->
+    <button type="button" onclick="handleAdd()">추가</button>
+  </div>
+```
+```javascript
+  const liElem = document.createElement("li"); // <li> 엘리먼트 요소 생성
+  const noElem = document.createElement("span"); // <span> 엘리먼트 요소 생성
+
+  const noTxt = document.createTextNode(item.no); // 텍스트 요소 생성 : 3
+
+  noElem.appendChild(noTxt); // <span>3</span> 엘리먼트 요소의 자식으로 텍스트 요소 넣어서 조립
+  liElem.appendChild(noElem); // <li><span>3</span></li> 엘리먼트 요소의 자식으로 엘리먼트 요소 넣어서 조립
+  
+  liElem.setAttribute("type", "button"); // 속성 더하는 메소드
+  liElem.setAttribute("tabindex", 0); // 속성 더하는 메소드, 탭 포커싱 추가
+
+  //삭제 버튼에 클릭 이벤트 핸들러 추가 (삭제방법1)
+  buttonElem.addEventListener("click", function (event) {
+    const btn = event.target; // click event가 발생한 요소 (button)
+    // closest = btn의 조상 중 기재한 셀렉터와 일치하는 가장 가까운 조상 찾기
+    const liNode = btn.closest("li");
+    liNode.firstChild.remove(); // 지정 요소의 첫번 쨰 자식 요소 삭제하기
+  });
+
+
+  function handleAdd() {
+  // querySeletor로 요소 찾기 : todoinput class 안의 input 요소
+    const inputElem = document.querySelector(".todoinput > input");
+
+    if (inputElem.value.trim() !== "") {
+      addItem(" " + inputElem.value);
+      inputElem.value = ""; // 인풋 clear
+      inputElem.focus(); // 등록 후에 포커스 입력창에 가도록 설정
+    }
+  }
+
+
+  function deleteItem(no) {
+  const targetLi = document.querySelector(`.todolist > li[data-no="${no}"]`); // 특정 속성값을 가진 요소 찾기
+  targetLi.remove();
+  }
+
+```
     <br />
     <br />
-
 ---
 
 ---
 
 # 2025-04-17
 
-**Javascript // **
+**Javascript // HTML표준속성**
 
 ## 수업 내용
 
@@ -1187,7 +1362,7 @@ contextmenu -> 우클릭 이벤트
 
 target : 실제로 이벤트가 발생한 요소
 currentTarget : 그 이벤트를 처리중인 요소
-
+PPT05 p.31~
 버블링
 캡쳐링
 
@@ -1233,8 +1408,259 @@ arguments까지 함
 
 # 2025-04-22
 
+**Javascript // 함수 호출, this**
+
+## 수업 내용
+
+### 함수 호출
+
+1.  **함수 이름으로 호출** (:일반적인 함수 호출 방법)
+
+    - `함수명()`
+    - `this` = window 객체
+      ※ window 객체는 어디서나 참조 가능하므로 굳이 this를 사용할 필요 없음
+    - 호출 예시
+
+      ```javascript
+      function f1() {
+        console.log(this);
+        // 아래와 같다.
+        // this.console.log(this);
+        // window.console.log(this);
+      }
+      const f2 = function () {
+        console.log(this);
+      };
+
+      f1();
+      f2();
+      console.log(this); // window
+      ```
+
+2.  **메서드로 호출** (:객체에 정의된 메서드를 호출할 때)
+
+    - `객체.메서드명()`
+    - `this` = 메서드를 정의한 객체
+    - 호출 예시
+
+      ```javascript
+      window.name = "global"; // window, 브라우저가 가지고 있는 전역 객체 -> Node.js에서 실행 불가
+      global.name = "global"; // global, Node.js가 가지고 있는 전역 객체 -> 웹브라우저에서 실행 불가
+      globalThis.name = "global"; // 브라우저는 window, Node.js는 global 객체를 가리킴 -> 둘 다 실행 가능!
+
+      const getPingName = function () {
+        return this.name;
+      };
+      const baro = { name: "바로핑", age: 11, getName: getPingName };
+      const rara = { name: "라라핑", age: 9, getName: getPingName };
+      console.log(baro.age, baro.getName()); // baro
+      console.log(rara.age, rara.getName()); // rara
+      ```
+
+    - 화살표 함수의 `this`는 상위 Scope의 this를 찾는 점 주의!
+
+3.  **apply(), call() 사용하여 호출** (:함수에 정의된 메서드)
+
+    - `함수명.apply(), 함수명.call()` 형태로 호출
+    - `this` = apply(), call() 메소드의 첫번째 인자로 전달되는 객체
+    - this를 명시적으로 지정할 수 있음
+    - 각 메서드의 매개변수
+
+      - apply(p1, p2) : 첫 번째 매개변수(p1)에는 this로 사용할 객체를 전달, 두 번째 매개변수(p2)에는 함수에 전달할 인자값 배열
+      - call(p1, p2, p3, ...) : 첫 번째 매개변수(p1)에는 this로 사용할 객체를 전달, 두 번째 이후의 매개변수(p2, p3, …)에는 함수에 전달할 인자값을 차례대로 지정
+
+    - 호출 예시
+
+      ```javascript
+      function add(x, y) {
+        console.log(this);
+        return x + y;
+      }
+      console.log(add(10, 20)); // 30, this = window
+      console.log(add.call({ name: "call" }, 30, 40)); // 70, this = { name: "call" }
+      console.log(add.apply({ name: "apply" }, [50, 60])); // 110, this = { name: "apply" }
+      // apply는 인자 2개 : 2번째 인자는 배열로 전달
+      ```
+
+4.  **생성자 함수(객체지향 언어의 클래스와 비슷) 호출** (:함수를 생성자로 사용할 경우)
+
+    - `new 함수명()` 형태로 호출
+    - `this` = 생성자를 통해 생성된 객체
+    - 생성자로 호출될 때의 내부 동작
+
+      1. 비어있는 객체를 새로 생성
+      2. 새로 생성된 객체는 this 매개변수로 생성자 함수에 전달
+      3. 명시적으로 반환하는 객체가 없다면 생성된 객체를 반환
+      4. 객체지향 프로그램의 new 연산자와 비슷한 동작
+
+    - 생성자 함수로 만들어진 객체를 `Instance`라고 함
+    - 생성자를 작성할 때 고려해야 할 것들
+
+      - 일반 함수처럼 호출할 수 있지만, 이럴 경우 생성자 내부의 this는 window 객체를 가리키므로 객체에 종속적인 값을 지정할 수 없으므로 의미가 없다.
+      - _명명(naming) 규칙_
+        - 일반 함수: 작업할 동작을 나타내는 동사로 이름 짓고 소문자로 시작
+        - 생성자: 생성할 객체를 나타내는 명사로 이름 짓고 대문자로 시작
+
+    - 호출 예시
+
+    ```javascript
+    const getPingName = function () {
+      return this.name;
+    };
+    // 객체를 생성해서 반환하는 함수(생성자 함수) : new 연산자와 함께 사용해야 함
+    function Ping(name, age) {
+      this.age = age;
+      this.name = name;
+      this.getName = function () {
+        return this.name;
+      };
+    }
+
+    //new의 동작
+    // 1. 빈 객체를 참조하는 this 생성
+    // 2. this를 생성자 함수에 전달
+    // 3.생성자 함수가 아무것도 리턴하지 않는다면 this를 자동으로 리턴
+    const baro = new Ping("바로핑", 8);
+
+    baro.age++;
+    baro.height = 120;
+
+    console.log(baro.age, baro.getName(), baro.height); // getName()의 this는 baro
+    console.log(getPingName(), getPingName.call(baro)); // this = window, this = baro
+    ```
+
+- **※ 요약 : 함수 호출 방법에 따른 this가 가리키는 것**
+  1. 그냥 함수 이름으로 부르기 -> **window**
+  2. `.~`로 부르기 -> **해당 객체**
+  3. `.call()`, `.apply()` -> **내가 지정한**(괄호에 넣은) **객체**
+  4. `new 함수이름`(생성자 함수)로 부른 거 : **빈 객체**
+
+### 자바스크립트의 생성자 함수들
+
+    ```javascript
+    // Function
+    let f = new Function("x", "y", "return x + y;");
+    let f = (x, y) => {
+      return x + y;
+    };
+
+    // Object
+    let obj = new Object();
+    let obj = {};
+
+    // String, Number, Boolean
+    const name = new String('김철수');
+    const age = new Number(30);
+    const male = new Boolean(true);
+
+    // Array
+    let arr = new Array();
+    let arr = [];
+
+    // Date
+    const date = new Date();
+    ```
+
+### 정리
+
+1. **함**수는 **곧** **객**체다 : 함수는 속성과 method를 가질 수 있음
+
+- `console.dir(함수명)` 콘솔에서 찍어봤을 때 `Prototype`이라는 항목에서 함수의 메소드를 확인할 수 있음
+
+2. **배**열은 **곧** 체다 : 배열도 같은 방식으로 배열의 메소드 확인 가능
+3. **디**스는 **곧** **거**시기다 : this가 가리키는 것은 호출 될 때마다 바뀐다
+
+<br />
+<br />
+
+---
+
+---
+
+# 2025-04-23
+
 **Javascript // **
 
 ## 수업 내용
 
-###
+### 익명 함수 (Anonymous function)
+
+- 익명 함수의 사용처
+  1. 함수의 이름 대신 변수명, 속성명으로 사용할 경우
+     - 함수를 변수에 저장
+     - 객체의 메서드로 지정
+  2. 함수를 인자값으로 전달할 경우
+     - 전달한 인자값은 호출되는 함수 내부에서 적절한 매개변수를 지정해서 사용
+
+### 콜백 함수
+
+### 순수 함수오 ㅏ고차 함수
+
+### Memoization
+
+순수함수일 때 메모이제이션 사용 가능
+
+리액트는 처음 들어가면 화면 구성하는 모든 요소 다 받고 js파일들 다 받아서 오래 걸림!
+서버사이드 렌더링을 사용해서 첫 페이지를 빨리 보여주려고 나온 게 Next.js임
+
+### 프로토 타입
+
+```
+
+```
+
+<br />
+<br />
+
+---
+
+---
+
+# 2025-04-24
+
+**Javascript // **
+
+## 수업 내용
+
+### 상속
+
+- 상속 받는다 = 확장한다라고도 표현할 수 있음
+
+UNPKG : https://unpkg.com/ 들어가서 주소 위에 lodash 붙인 후 엔터
+나오는 화면이 최신 버전 로데쉬 라이브러리. 주소 복사 후 html 파일에 script 태그 src로 넣기 : 라이브러리 사용 가능
+
+내일 시험 : 10문제, 40점 만점, 코딩 문제 있음 // 시스템상 문제 정답 처리 어려우니 직접 채점하실 예정
+오픈북 : 소스코드, 책, 검색 가능. AI는 안됨
+
+<br />
+<br />
+
+---
+
+---
+
+# 2025-04-25
+
+**Javascript // **
+
+## 수업 내용
+
+### // mtlib.js
+
+리액트에 memoization 관련 기능 3가지 있음
+
+### // 즉시실행함수(IIFE)
+- 함수를 괄호로 감싸tj 끝에 ()를 붙여서 실행 후 바로 없어지도록 함 : 메모리 절약 가능
+- 변수도 함수 내에서만 사용하므로 바깥의 변수와 충돌 X 독립적인 공간 확보 가능. 
+- 특정 코드 블럭을 독립 모듈로 사용하느 효과
+- 라이브러리 래핑
+  - ((some) => {})(Some.long.reference.to.c...) => 긴 이름을 즉시실행 함수로 감싸고 매개변수를 짧은 변수로 대테
+- 루프에서 사용
+
+forEach() // 
+
+
+### TypeScript
+
+$tsc --watch 하면 ts파일 수정 후 저장 시 알아서 컴파일!!
+tuple : 길이와 타입이 정해진 타입

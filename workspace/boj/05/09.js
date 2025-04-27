@@ -38,3 +38,39 @@
 938
 */
 
+function main() {
+  const data = getData();
+
+  const number1 = parseInt(reverseWord(data[0]));
+  const number2 = parseInt(reverseWord(data[1]));
+  result = Math.max(number1, number2);
+
+  console.log(result);
+}
+
+main();
+
+/**
+ * 가져온 인자를 역순으로 반환한다
+ * @returns {string}
+ */
+function reverseWord(arg) {
+  const original = arg;
+  let reversed = new Array();
+
+  for (let i = 1; i <= original.length; i++) {
+    reversed.push(original[original.length - i]);
+  }
+  result = reversed.join("");
+  return result;
+}
+
+/**
+ * 표준 입력장치(console)에서 한 줄로 입력된 데이터를 읽어서 배열로 반환한다.
+ * @returns {[]} 2차원 배열
+ */
+function getData() {
+  const arr = require("fs").readFileSync(0).toString().trim().split(" "); // 입력값을 가져오고 공백 기준으로 나누어 저장
+
+  return arr;
+}
