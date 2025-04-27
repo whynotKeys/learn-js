@@ -1142,12 +1142,131 @@ function getAge(year) {
 
 # 2025-04-15
 
-**Javascript // **
+**Javascript // 이벤트 등록, 노드 생성/삽입/삭제/복사**
 
 ## 수업 내용
 
-###
+### 이벤트(event)
+- 이벤트란?
+  - 브라우저에서 어떤 일이 일어 났음을 알려주는 신호
+  - 클릭, 키보드 입력, 마우스 이동, 스크롤 등의 작업
+  - 주로 요소 노드에서 발생
 
+- 이벤트 핸들러(event handler)
+  - 특정 이벤트가 발생했을 때 실행되는 함수
+  - 이벤트가 발생하는 대상에 이벤트와 이벤트 핸들러를 등록해서 이벤트 처리
+
+- 대표적인 이벤트 종류
+   - 마우스 이벤트 : `click`, `dblclick`, `mousemove`, `mouseover/mouseout`, `mousedown/mouseup`, `contextmenu`
+   - 키보드 이벤트 : `keydown`/`keyup`
+   - 폼 이벤트 : `focus`/`blur`, `input`, `change`, `submit`
+   - 스크롤 이벤트 : `scroll`
+   - 문서 로딩 이벤트 : `load`, `DOMContentLoaded`, `beforeunload`/`unload`
+
+- 이벤트 핸들러 등록 방법
+  1. DOM 프로퍼티에 할당 (: DOM Level 0 방식 (HTML 표준))  
+    - 요소 노드의 `on<event>` 속성에 이벤트 핸들러를 등록하면 `<event>`가 발생했을 때 등록한 핸들러가 호출됨
+    - 중복으로 이벤트 설정 시 더 최근에(아래에) 등록한 것만 작동!
+    - 예시
+    ```html
+    <button>눌러봐</button>    
+    ```
+    ```javascript
+      const btn = document.querySelector("button");
+      btn.onclick = function () {
+        console.log("1. 왜눌렀어잉");
+      };
+      btn.onclick = function () {
+        console.log("2. 누르지말지");
+      };
+      // 2.누르지말지 만 콘솔에 표시 됨
+    ```
+  2. HTML 인라인 방식 (: DOM Level 0 방식 (HTML 표준))
+    -  HTML 태그의 `on<event>` 속성에 `<event>`가 발생 했을 때 실행할 코드 지정 
+      (`onclick`, `onmousemove`, `onkeydown` 등)
+    -  브라우저는 실행할 코드로 구성된 이벤트 핸들러를 만들어서 요소 노드의 `on<event>` 속성에 등록
+    - 예시
+    ```html
+    <button onclick="console.log('눌렀겠다?');">눌러볼까말까볼까말까</button>
+    ```
+  3. `elem.addEventListener(event, handler, [useCapture])` 사용 (: DOM Level 2 방식 (DOM 표준))
+    - elem 요소노드에 event 발생시 실행할 handler 함수를 등록
+    - 중복으로 이벤트 설정 시 둘 다 작동
+    - 괄호 안에 들어갈 매개변수
+      - *event*: 이벤트 이름 (click, mousemove, keydown 등)
+      - *handler*: 핸들러 함수
+      - *useCaptur*e: 캡처링 단계의 이벤트 캐치 여부. 기본은 false이고 버블링 단계의 이벤트를 캐치 
+    - 이벤트 핸들러 삭제 방법 : `elem.removeEventListener(event, handler, [useCapture])`
+      - elem 요소노드에 event 발생시 실행할 handler 함수를 제거  
+        핸들러를 등록할 때 지정했던 매개변수와 동일한 인자값의 핸들러가 삭제됨
+    - 예시
+    ```html
+    <button>눌러봐</button>    
+    ```
+    ```javascript
+    const btn = document.querySelector('button');
+      btn.addEventListener("click", function () {
+        console.log("3. 누름누름");
+      });
+
+      btn.addEventListener("click", handleclick); // () 없는 이유 : 호출하는 거 아니라서
+
+      setTimeout(function () {
+        btn.removeEventListener("click", handleclick); // handler 함수 제거
+      }, 1000 * 2);
+
+      function handleclick() {
+        console.log("나는 핸들클릭 함수!");
+      }
+
+    ```
+### 노드 생성/삽입/삭제/복사
+- 노드 생성
+  - document 객체의 createXxx() 메소드를 이용
+    | 메소드 | 설명 |
+    |:------|:-----|
+    | `createElement(nodeName)` | 지정한 태그명으로 요소 노드 생성 |
+    | `createTextNode(nodeValue)` | 지정한 내용으로 텍스트 노드 생성 |
+    | `createAttribute(attributeName)` | 지정한 이름으로 속성 노드 생성 |
+  - 예시
+  ```javascript
+    const newLiNode = document.createElement("li");
+    const newTextNode = document.createTextNode("우유");
+  ```
+- 노드 추가
+  - 요소노드.appendChild(childNode) : 지정한 노드를(childNode) 요소노드의 마지막 자식노드로 추가
+  - 예시
+  ```javascript
+    const newLiNode = document.createElement("li"); // 리스트 엘리먼트 생성
+    const newTextNode = document.createTextNode("우유"); // 우유 텍스트 엘리먼트 생성
+    newLiNode.appendChild(newTextNode); // 리스트 엘리먼트의 자식 요소로 텍스트 엘리먼트를 추가
+  ```
+- 노드 삽입
+  - 요소노드.insertBefore(newNode, targetNode) : 지정한 노드를(newNode) targetNode 앞에 삽입
+  - 예시
+  ```javascript
+    const purchases = document.getElementById("purchases"); // ID가 purchases인 요소 가져옴
+    purchases.insertBefore(newLiNode, purchases.firstChild); // 가져온 요소 안의 타켓 요소 앞에 새 요소 삽입
+    // 부모요소.insertBefort(새 요소, 새 요소의 뒤에 올 요소)
+  ```
+- 노드 삭제
+  - 요소노드.removeChild(childNode) : 지정한 자식 노드를(childNode) 삭제
+  - 요소노드.remove() : 자기자신을 삭제  
+  - 예시
+  ```javascript
+    const purchases = document.getElementById("purchases");// ID가 purchases인 요소 가져옴
+    purchases.removeChild(purchases.firstElementChild); // purchases의 첫번 째 자식 노드(purchases.firstElementChild)를 삭제
+    purchases.firstElementChild.remove();
+  ```
+- 노드 복사
+  - 노드.cloneNode(haveChild) : 지정한 노드를 복사, 
+    // `haveChild`가 `true`이면 하위 모든 노드를 같이 복사하고 `false(기본값)`이면 지정 노드만 복사
+  - 예시
+  ```javascript
+    const purchases = document.getElementById("purchases"); // ID가 purchases인 요소 가져옴
+    const cloneLi = purchases.firstChild.cloneNode(true); // purchases 하위 첫 자식과 그 하위의 모든 요소 복사
+    purchases.appendChild(cloneLi); // 복사한 노드를 추가
+  ```
     <br />
     <br />
 
@@ -1157,22 +1276,78 @@ function getAge(year) {
 
 # 2025-04-16
 
-**Javascript // **
+**Javascript // todoList 구현**
 
 ## 수업 내용
 
-###
+### addEventListener 사용 시 `load`와 `DOMContentLoaded`의 차이
+```javascript
+// load : HTML 문서 로딩 완료(= DOM 객체 생성 완료)
+//        이미지/css/js파일 같은 외부 리소스까지 모두 로딩 된 후 발생하는 이벤트
+window.addEventListener('load', function(){});
+  // 모든 리소스가 완전히 로드된 후 실행할 코드
 
+// DOMContentLoaded : HTML 문서 로딩 완료(= DOM 객체 생성 완료) 후에 발생하는 이벤트
+document.addEventListener('DOMContentLoaded', function(){});
+  // DOM 트리가 완성되었을 때 실행할 코드
+```
+
+### 다양한 방식으로 DOM 요소를 만들고 접근 (feat. ex05-05.html)
+
+```html
+  <div class="todoinput">
+    <input type="text" autofocus onkeyup="handleKeyup(event)" /> <!--keyup이벤트-->
+    <button type="button" onclick="handleAdd()">추가</button>
+  </div>
+```
+```javascript
+  const liElem = document.createElement("li"); // <li> 엘리먼트 요소 생성
+  const noElem = document.createElement("span"); // <span> 엘리먼트 요소 생성
+
+  const noTxt = document.createTextNode(item.no); // 텍스트 요소 생성 : 3
+
+  noElem.appendChild(noTxt); // <span>3</span> 엘리먼트 요소의 자식으로 텍스트 요소 넣어서 조립
+  liElem.appendChild(noElem); // <li><span>3</span></li> 엘리먼트 요소의 자식으로 엘리먼트 요소 넣어서 조립
+  
+  liElem.setAttribute("type", "button"); // 속성 더하는 메소드
+  liElem.setAttribute("tabindex", 0); // 속성 더하는 메소드, 탭 포커싱 추가
+
+  //삭제 버튼에 클릭 이벤트 핸들러 추가 (삭제방법1)
+  buttonElem.addEventListener("click", function (event) {
+    const btn = event.target; // click event가 발생한 요소 (button)
+    // closest = btn의 조상 중 기재한 셀렉터와 일치하는 가장 가까운 조상 찾기
+    const liNode = btn.closest("li");
+    liNode.firstChild.remove(); // 지정 요소의 첫번 쨰 자식 요소 삭제하기
+  });
+
+
+  function handleAdd() {
+  // querySeletor로 요소 찾기 : todoinput class 안의 input 요소
+    const inputElem = document.querySelector(".todoinput > input");
+
+    if (inputElem.value.trim() !== "") {
+      addItem(" " + inputElem.value);
+      inputElem.value = ""; // 인풋 clear
+      inputElem.focus(); // 등록 후에 포커스 입력창에 가도록 설정
+    }
+  }
+
+
+  function deleteItem(no) {
+  const targetLi = document.querySelector(`.todolist > li[data-no="${no}"]`); // 특정 속성값을 가진 요소 찾기
+  targetLi.remove();
+  }
+
+```
     <br />
     <br />
-
 ---
 
 ---
 
 # 2025-04-17
 
-**Javascript // **
+**Javascript // HTML표준속성**
 
 ## 수업 내용
 
@@ -1187,7 +1362,7 @@ contextmenu -> 우클릭 이벤트
 
 target : 실제로 이벤트가 발생한 요소
 currentTarget : 그 이벤트를 처리중인 요소
-
+PPT05 p.31~
 버블링
 캡쳐링
 
@@ -1448,15 +1623,44 @@ arguments까지 함
 ## 수업 내용
 
 ### 상속
+
 - 상속 받는다 = 확장한다라고도 표현할 수 있음
-
-
-
-
 
 UNPKG : https://unpkg.com/ 들어가서 주소 위에 lodash 붙인 후 엔터
 나오는 화면이 최신 버전 로데쉬 라이브러리. 주소 복사 후 html 파일에 script 태그 src로 넣기 : 라이브러리 사용 가능
 
+내일 시험 : 10문제, 40점 만점, 코딩 문제 있음 // 시스템상 문제 정답 처리 어려우니 직접 채점하실 예정
+오픈북 : 소스코드, 책, 검색 가능. AI는 안됨
 
-내일 시험 : 10문제, 40점 만점, 코딩 문제 있음 // 시스템상 문제 정답 처리 어려우니 직접 채점하실 예정 
-            오픈북 : 소스코드, 책, 검색 가능. AI는 안됨       
+<br />
+<br />
+
+---
+
+---
+
+# 2025-04-25
+
+**Javascript // **
+
+## 수업 내용
+
+### // mtlib.js
+
+리액트에 memoization 관련 기능 3가지 있음
+
+### // 즉시실행함수(IIFE)
+- 함수를 괄호로 감싸tj 끝에 ()를 붙여서 실행 후 바로 없어지도록 함 : 메모리 절약 가능
+- 변수도 함수 내에서만 사용하므로 바깥의 변수와 충돌 X 독립적인 공간 확보 가능. 
+- 특정 코드 블럭을 독립 모듈로 사용하느 효과
+- 라이브러리 래핑
+  - ((some) => {})(Some.long.reference.to.c...) => 긴 이름을 즉시실행 함수로 감싸고 매개변수를 짧은 변수로 대테
+- 루프에서 사용
+
+forEach() // 
+
+
+### TypeScript
+
+$tsc --watch 하면 ts파일 수정 후 저장 시 알아서 컴파일!!
+tuple : 길이와 타입이 정해진 타입

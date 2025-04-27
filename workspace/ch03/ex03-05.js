@@ -40,19 +40,20 @@ function College(kor, eng) {
 // College.prototype = new F();
 // College.prototype.constructor = College; // 생성자 함수 재지정
 
+// js/mylib.js로 이동
 // Child가 Parent를 상속받도록 하는 함수 생성해서 사용
-function inherit(Parent, Child) {
-  // 임시 인스턴스인 F를 생성해서 Parent의 prototype을 참조하도록 함
-  // const F = new Function();
-  // F.prototype = Parent.prototype;
-  // Child.prototype = new F();
+// function inherit(Parent, Child) {
+//   // 임시 인스턴스인 F를 생성해서 Parent의 prototype을 참조하도록 함
+//   // const F = new Function();
+//   // F.prototype = Parent.prototype;
+//   // Child.prototype = new F();
 
-  // Object.create() : 지정한 prototype 객체를 참조하는 인스턴스 생성
-  // 위 세 줄과 아래 한 줄이 동일한 효과!
-  Child.prototype = Object.create(Parent.prototype);
-  Child.prototype.constructor = Child; // 생성자 함수 재지정
-}
-inherit(HighSchool, College);
+//   // Object.create() : 지정한 prototype 객체를 참조하는 인스턴스 생성
+//   // 위 세 줄과 아래 한 줄이 동일한 효과!
+//   Child.prototype = Object.create(Parent.prototype);
+//   Child.prototype.constructor = Child; // 생성자 함수 재지정
+// }
+mylib.inherit(HighSchool, College);
 
 College.prototype.grade = function () {
   if (this.avg() >= 90) return "A";
