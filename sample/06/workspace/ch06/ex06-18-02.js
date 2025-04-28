@@ -5,7 +5,7 @@
     { value: 'Seoul', selected: false },
     { value: 'busan' },
     { value: 'GwangJu', selected: true },
-    // { value: 56789 },
+    { value: 56789 },
   ];
 
   const zipcodeList = [
@@ -14,9 +14,12 @@
     { value: 56789 },
   ];
 
-  // TODO: 아래와 같이 출력 되도록 함수 작성
+  // FIXME: 아래 출력 결과와 같이 출력 되도록 함수 작성
   function createDropdownList(list){
+    let value;
+    let options = '';
     
+    return `<select>\n${ options }\n</select>`;
   }
 
   /* 출력 결과
