@@ -22,5 +22,10 @@
   haru.age++;
   console.log(haru.age, haru3.age); // 7 6
 
+  const haru4 = { ...haru, breed: '이탈리안 그레이 하운드' };
+  haru.age++;
+  console.log(haru.age, haru4.age); // 8 7
+  console.log(haru4);
+
 })();
 
