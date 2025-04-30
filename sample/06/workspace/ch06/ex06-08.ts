@@ -20,6 +20,6 @@
 //     done: false
 //   };
 
-//   console.log(todo1.title, todo2.content);
+//   console.log(todo1.title, todo1.content);
 //   console.log(todo2.id, todo2.title, todo2.content, todo2.done);
 // })();

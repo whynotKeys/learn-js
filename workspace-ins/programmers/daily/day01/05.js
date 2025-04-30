@@ -18,5 +18,8 @@ const rl = readline.createInterface({
 });
 
 rl.on('close', function () {
-  
+  // \: 이스케이프 문자. \n, \t
+  // \ 자체를 문자로 표현하고 싶으면 \\
+  // " 자체를 문자롤 표한하고 싶으면 \"
+  console.log(`!@#$%^&*(\\'"<>?:;`);
 });
