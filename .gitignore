@@ -1,4 +1,10 @@
 .vscode
 .history
+.github
 PPT/~$*
-tempCode**.js
+tempCodeRunnerFile.*
+workspace-ins/ch06/*.js
+workspace-ins/ch07/*.js
+# workspace-ins/ts-refactoring/**/*
+workspace-ins/ts-refactoring/**/*.js
+!workspace-ins/ts-refactoring/convert-js-to-ts.js

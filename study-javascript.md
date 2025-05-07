@@ -1147,80 +1147,96 @@ function getAge(year) {
 ## 수업 내용
 
 ### 이벤트(event)
+
 - 이벤트란?
+
   - 브라우저에서 어떤 일이 일어 났음을 알려주는 신호
   - 클릭, 키보드 입력, 마우스 이동, 스크롤 등의 작업
   - 주로 요소 노드에서 발생
 
 - 이벤트 핸들러(event handler)
+
   - 특정 이벤트가 발생했을 때 실행되는 함수
   - 이벤트가 발생하는 대상에 이벤트와 이벤트 핸들러를 등록해서 이벤트 처리
 
 - 대표적인 이벤트 종류
-   - 마우스 이벤트 : `click`, `dblclick`, `mousemove`, `mouseover/mouseout`, `mousedown/mouseup`, `contextmenu`
-   - 키보드 이벤트 : `keydown`/`keyup`
-   - 폼 이벤트 : `focus`/`blur`, `input`, `change`, `submit`
-   - 스크롤 이벤트 : `scroll`
-   - 문서 로딩 이벤트 : `load`, `DOMContentLoaded`, `beforeunload`/`unload`
+
+  - 마우스 이벤트 : `click`, `dblclick`, `mousemove`, `mouseover/mouseout`, `mousedown/mouseup`, `contextmenu`
+  - 키보드 이벤트 : `keydown`/`keyup`
+  - 폼 이벤트 : `focus`/`blur`, `input`, `change`, `submit`
+  - 스크롤 이벤트 : `scroll`
+  - 문서 로딩 이벤트 : `load`, `DOMContentLoaded`, `beforeunload`/`unload`
 
 - 이벤트 핸들러 등록 방법
-  1. DOM 프로퍼티에 할당 (: DOM Level 0 방식 (HTML 표준))  
-    - 요소 노드의 `on<event>` 속성에 이벤트 핸들러를 등록하면 `<event>`가 발생했을 때 등록한 핸들러가 호출됨
-    - 중복으로 이벤트 설정 시 더 최근에(아래에) 등록한 것만 작동!
-    - 예시
-    ```html
-    <button>눌러봐</button>    
-    ```
-    ```javascript
-      const btn = document.querySelector("button");
-      btn.onclick = function () {
-        console.log("1. 왜눌렀어잉");
-      };
-      btn.onclick = function () {
-        console.log("2. 누르지말지");
-      };
-      // 2.누르지말지 만 콘솔에 표시 됨
-    ```
+
+  1. DOM 프로퍼티에 할당 (: DOM Level 0 방식 (HTML 표준))
+
+  - 요소 노드의 `on<event>` 속성에 이벤트 핸들러를 등록하면 `<event>`가 발생했을 때 등록한 핸들러가 호출됨
+  - 중복으로 이벤트 설정 시 더 최근에(아래에) 등록한 것만 작동!
+  - 예시
+
+  ```html
+  <button>눌러봐</button>
+  ```
+
+  ```javascript
+  const btn = document.querySelector("button");
+  btn.onclick = function () {
+    console.log("1. 왜눌렀어잉");
+  };
+  btn.onclick = function () {
+    console.log("2. 누르지말지");
+  };
+  // 2.누르지말지 만 콘솔에 표시 됨
+  ```
+
   2. HTML 인라인 방식 (: DOM Level 0 방식 (HTML 표준))
-    -  HTML 태그의 `on<event>` 속성에 `<event>`가 발생 했을 때 실행할 코드 지정 
-      (`onclick`, `onmousemove`, `onkeydown` 등)
-    -  브라우저는 실행할 코드로 구성된 이벤트 핸들러를 만들어서 요소 노드의 `on<event>` 속성에 등록
-    - 예시
-    ```html
-    <button onclick="console.log('눌렀겠다?');">눌러볼까말까볼까말까</button>
-    ```
+
+  - HTML 태그의 `on<event>` 속성에 `<event>`가 발생 했을 때 실행할 코드 지정
+    (`onclick`, `onmousemove`, `onkeydown` 등)
+  - 브라우저는 실행할 코드로 구성된 이벤트 핸들러를 만들어서 요소 노드의 `on<event>` 속성에 등록
+  - 예시
+
+  ```html
+  <button onclick="console.log('눌렀겠다?');">눌러볼까말까볼까말까</button>
+  ```
+
   3. `elem.addEventListener(event, handler, [useCapture])` 사용 (: DOM Level 2 방식 (DOM 표준))
-    - elem 요소노드에 event 발생시 실행할 handler 함수를 등록
-    - 중복으로 이벤트 설정 시 둘 다 작동
-    - 괄호 안에 들어갈 매개변수
-      - *event*: 이벤트 이름 (click, mousemove, keydown 등)
-      - *handler*: 핸들러 함수
-      - *useCaptur*e: 캡처링 단계의 이벤트 캐치 여부. 기본은 false이고 버블링 단계의 이벤트를 캐치 
-    - 이벤트 핸들러 삭제 방법 : `elem.removeEventListener(event, handler, [useCapture])`
-      - elem 요소노드에 event 발생시 실행할 handler 함수를 제거  
-        핸들러를 등록할 때 지정했던 매개변수와 동일한 인자값의 핸들러가 삭제됨
-    - 예시
-    ```html
-    <button>눌러봐</button>    
-    ```
-    ```javascript
-    const btn = document.querySelector('button');
-      btn.addEventListener("click", function () {
-        console.log("3. 누름누름");
-      });
 
-      btn.addEventListener("click", handleclick); // () 없는 이유 : 호출하는 거 아니라서
+  - elem 요소노드에 event 발생시 실행할 handler 함수를 등록
+  - 중복으로 이벤트 설정 시 둘 다 작동
+  - 괄호 안에 들어갈 매개변수
+    - _event_: 이벤트 이름 (click, mousemove, keydown 등)
+    - _handler_: 핸들러 함수
+    - *useCaptur*e: 캡처링 단계의 이벤트 캐치 여부. 기본은 false이고 버블링 단계의 이벤트를 캐치
+  - 이벤트 핸들러 삭제 방법 : `elem.removeEventListener(event, handler, [useCapture])`
+    - elem 요소노드에 event 발생시 실행할 handler 함수를 제거  
+      핸들러를 등록할 때 지정했던 매개변수와 동일한 인자값의 핸들러가 삭제됨
+  - 예시
 
-      setTimeout(function () {
-        btn.removeEventListener("click", handleclick); // handler 함수 제거
-      }, 1000 * 2);
+  ```html
+  <button>눌러봐</button>
+  ```
 
-      function handleclick() {
-        console.log("나는 핸들클릭 함수!");
-      }
+  ```javascript
+  const btn = document.querySelector("button");
+  btn.addEventListener("click", function () {
+    console.log("3. 누름누름");
+  });
 
-    ```
+  btn.addEventListener("click", handleclick); // () 없는 이유 : 호출하는 거 아니라서
+
+  setTimeout(function () {
+    btn.removeEventListener("click", handleclick); // handler 함수 제거
+  }, 1000 * 2);
+
+  function handleclick() {
+    console.log("나는 핸들클릭 함수!");
+  }
+  ```
+
 ### 노드 생성/삽입/삭제/복사
+
 - 노드 생성
   - document 객체의 createXxx() 메소드를 이용
     | 메소드 | 설명 |
@@ -1230,42 +1246,42 @@ function getAge(year) {
     | `createAttribute(attributeName)` | 지정한 이름으로 속성 노드 생성 |
   - 예시
   ```javascript
-    const newLiNode = document.createElement("li");
-    const newTextNode = document.createTextNode("우유");
+  const newLiNode = document.createElement("li");
+  const newTextNode = document.createTextNode("우유");
   ```
 - 노드 추가
   - 요소노드.appendChild(childNode) : 지정한 노드를(childNode) 요소노드의 마지막 자식노드로 추가
   - 예시
   ```javascript
-    const newLiNode = document.createElement("li"); // 리스트 엘리먼트 생성
-    const newTextNode = document.createTextNode("우유"); // 우유 텍스트 엘리먼트 생성
-    newLiNode.appendChild(newTextNode); // 리스트 엘리먼트의 자식 요소로 텍스트 엘리먼트를 추가
+  const newLiNode = document.createElement("li"); // 리스트 엘리먼트 생성
+  const newTextNode = document.createTextNode("우유"); // 우유 텍스트 엘리먼트 생성
+  newLiNode.appendChild(newTextNode); // 리스트 엘리먼트의 자식 요소로 텍스트 엘리먼트를 추가
   ```
 - 노드 삽입
   - 요소노드.insertBefore(newNode, targetNode) : 지정한 노드를(newNode) targetNode 앞에 삽입
   - 예시
   ```javascript
-    const purchases = document.getElementById("purchases"); // ID가 purchases인 요소 가져옴
-    purchases.insertBefore(newLiNode, purchases.firstChild); // 가져온 요소 안의 타켓 요소 앞에 새 요소 삽입
-    // 부모요소.insertBefort(새 요소, 새 요소의 뒤에 올 요소)
+  const purchases = document.getElementById("purchases"); // ID가 purchases인 요소 가져옴
+  purchases.insertBefore(newLiNode, purchases.firstChild); // 가져온 요소 안의 타켓 요소 앞에 새 요소 삽입
+  // 부모요소.insertBefort(새 요소, 새 요소의 뒤에 올 요소)
   ```
 - 노드 삭제
   - 요소노드.removeChild(childNode) : 지정한 자식 노드를(childNode) 삭제
-  - 요소노드.remove() : 자기자신을 삭제  
+  - 요소노드.remove() : 자기자신을 삭제
   - 예시
   ```javascript
-    const purchases = document.getElementById("purchases");// ID가 purchases인 요소 가져옴
-    purchases.removeChild(purchases.firstElementChild); // purchases의 첫번 째 자식 노드(purchases.firstElementChild)를 삭제
-    purchases.firstElementChild.remove();
+  const purchases = document.getElementById("purchases"); // ID가 purchases인 요소 가져옴
+  purchases.removeChild(purchases.firstElementChild); // purchases의 첫번 째 자식 노드(purchases.firstElementChild)를 삭제
+  purchases.firstElementChild.remove();
   ```
 - 노드 복사
-  - 노드.cloneNode(haveChild) : 지정한 노드를 복사, 
+  - 노드.cloneNode(haveChild) : 지정한 노드를 복사,
     // `haveChild`가 `true`이면 하위 모든 노드를 같이 복사하고 `false(기본값)`이면 지정 노드만 복사
   - 예시
   ```javascript
-    const purchases = document.getElementById("purchases"); // ID가 purchases인 요소 가져옴
-    const cloneLi = purchases.firstChild.cloneNode(true); // purchases 하위 첫 자식과 그 하위의 모든 요소 복사
-    purchases.appendChild(cloneLi); // 복사한 노드를 추가
+  const purchases = document.getElementById("purchases"); // ID가 purchases인 요소 가져옴
+  const cloneLi = purchases.firstChild.cloneNode(true); // purchases 하위 첫 자식과 그 하위의 모든 요소 복사
+  purchases.appendChild(cloneLi); // 복사한 노드를 추가
   ```
     <br />
     <br />
@@ -1281,83 +1297,89 @@ function getAge(year) {
 ## 수업 내용
 
 ### addEventListener 사용 시 `load`와 `DOMContentLoaded`의 차이
+
 ```javascript
 // load : HTML 문서 로딩 완료(= DOM 객체 생성 완료)
 //        이미지/css/js파일 같은 외부 리소스까지 모두 로딩 된 후 발생하는 이벤트
-window.addEventListener('load', function(){});
-  // 모든 리소스가 완전히 로드된 후 실행할 코드
+window.addEventListener("load", function () {});
+// 모든 리소스가 완전히 로드된 후 실행할 코드
 
 // DOMContentLoaded : HTML 문서 로딩 완료(= DOM 객체 생성 완료) 후에 발생하는 이벤트
-document.addEventListener('DOMContentLoaded', function(){});
-  // DOM 트리가 완성되었을 때 실행할 코드
+document.addEventListener("DOMContentLoaded", function () {});
+// DOM 트리가 완성되었을 때 실행할 코드
 ```
 
 ### 다양한 방식으로 DOM 요소를 만들고 접근 (feat. ex05-05.html)
 
 ```html
-  <div class="todoinput">
-    <input type="text" autofocus onkeyup="handleKeyup(event)" /> <!--keyup이벤트-->
-    <button type="button" onclick="handleAdd()">추가</button>
-  </div>
+<div class="todoinput">
+  <input type="text" autofocus onkeyup="handleKeyup(event)" />
+  <!--keyup이벤트-->
+  <button type="button" onclick="handleAdd()">추가</button>
+</div>
 ```
+
 ```javascript
-  const liElem = document.createElement("li"); // <li> 엘리먼트 요소 생성
-  const noElem = document.createElement("span"); // <span> 엘리먼트 요소 생성
+const liElem = document.createElement("li"); // <li> 엘리먼트 요소 생성
+const noElem = document.createElement("span"); // <span> 엘리먼트 요소 생성
 
-  const noTxt = document.createTextNode(item.no); // 텍스트 요소 생성 : 3
+const noTxt = document.createTextNode(item.no); // 텍스트 요소 생성 : 3
 
-  noElem.appendChild(noTxt); // <span>3</span> 엘리먼트 요소의 자식으로 텍스트 요소 넣어서 조립
-  liElem.appendChild(noElem); // <li><span>3</span></li> 엘리먼트 요소의 자식으로 엘리먼트 요소 넣어서 조립
-  
-  liElem.setAttribute("type", "button"); // 속성 더하는 메소드
-  liElem.setAttribute("tabindex", 0); // 속성 더하는 메소드, 탭 포커싱 추가
+noElem.appendChild(noTxt); // <span>3</span> 엘리먼트 요소의 자식으로 텍스트 요소 넣어서 조립
+liElem.appendChild(noElem); // <li><span>3</span></li> 엘리먼트 요소의 자식으로 엘리먼트 요소 넣어서 조립
 
-  //삭제 버튼에 클릭 이벤트 핸들러 추가 (삭제방법1)
-  buttonElem.addEventListener("click", function (event) {
-    const btn = event.target; // click event가 발생한 요소 (button)
-    // closest = btn의 조상 중 기재한 셀렉터와 일치하는 가장 가까운 조상 찾기
-    const liNode = btn.closest("li");
-    liNode.firstChild.remove(); // 지정 요소의 첫번 쨰 자식 요소 삭제하기
-  });
+liElem.setAttribute("type", "button"); // 속성 더하는 메소드
+liElem.setAttribute("tabindex", 0); // 속성 더하는 메소드, 탭 포커싱 추가
 
+//삭제 버튼에 클릭 이벤트 핸들러 추가 (삭제방법1)
+buttonElem.addEventListener("click", function (event) {
+  const btn = event.target; // click event가 발생한 요소 (button)
+  // closest = btn의 조상 중 기재한 셀렉터와 일치하는 가장 가까운 조상 찾기
+  const liNode = btn.closest("li");
+  liNode.firstChild.remove(); // 지정 요소의 첫번 쨰 자식 요소 삭제하기
+});
 
-  function handleAdd() {
+function handleAdd() {
   // querySeletor로 요소 찾기 : todoinput class 안의 input 요소
-    const inputElem = document.querySelector(".todoinput > input");
+  const inputElem = document.querySelector(".todoinput > input");
 
-    if (inputElem.value.trim() !== "") {
-      addItem(" " + inputElem.value);
-      inputElem.value = ""; // 인풋 clear
-      inputElem.focus(); // 등록 후에 포커스 입력창에 가도록 설정
-    }
+  if (inputElem.value.trim() !== "") {
+    addItem(" " + inputElem.value);
+    inputElem.value = ""; // 인풋 clear
+    inputElem.focus(); // 등록 후에 포커스 입력창에 가도록 설정
   }
+}
 
-
-  function deleteItem(no) {
+function deleteItem(no) {
   const targetLi = document.querySelector(`.todolist > li[data-no="${no}"]`); // 특정 속성값을 가진 요소 찾기
   targetLi.remove();
-  }
-
+}
 ```
+
     <br />
     <br />
+
 ---
 
 ---
 
 # 2025-04-17
 
-**Javascript // HTML표준속성**
+**Javascript // HTML 속성 접근, style/class 다루기, 이벤트, 버블링과 캡처링**
 
 ## 수업 내용
 
 ###
 
+```javascript
+const titleEl = targetLi.querySelector("span:last-of-type"); // span인 자식들 중 마지막
+```
+
 선택자 기준
 :last-child 부모의 진짜 마지막 자식 부모의 마지막 요소가 li여야 함
 :last-of-type 같은 태그 중에서 마지막 li들 중 마지막이면 됨
 
-자바스크립트로 cllass 접근
+자바스크립트로 class 접근
 contextmenu -> 우클릭 이벤트
 
 target : 실제로 이벤트가 발생한 요소
@@ -1642,6 +1664,7 @@ UNPKG : https://unpkg.com/ 들어가서 주소 위에 lodash 붙인 후 엔터
 # 2025-04-25
 
 **Javascript // **
+**TypeScript // **
 
 ## 수업 내용
 
@@ -1650,17 +1673,755 @@ UNPKG : https://unpkg.com/ 들어가서 주소 위에 lodash 붙인 후 엔터
 리액트에 memoization 관련 기능 3가지 있음
 
 ### // 즉시실행함수(IIFE)
+
 - 함수를 괄호로 감싸tj 끝에 ()를 붙여서 실행 후 바로 없어지도록 함 : 메모리 절약 가능
-- 변수도 함수 내에서만 사용하므로 바깥의 변수와 충돌 X 독립적인 공간 확보 가능. 
+- 변수도 함수 내에서만 사용하므로 바깥의 변수와 충돌 X 독립적인 공간 확보 가능.
 - 특정 코드 블럭을 독립 모듈로 사용하느 효과
 - 라이브러리 래핑
   - ((some) => {})(Some.long.reference.to.c...) => 긴 이름을 즉시실행 함수로 감싸고 매개변수를 짧은 변수로 대테
 - 루프에서 사용
 
-forEach() // 
-
+forEach() //
 
 ### TypeScript
 
-$tsc --watch 하면 ts파일 수정 후 저장 시 알아서 컴파일!!
+`$tsc --watch` 하면 ts파일 수정 후 저장 시 알아서 컴파일!!
 tuple : 길이와 타입이 정해진 타입
+
+<br />
+<br />
+
+---
+
+---
+
+# 2025-04-28
+
+**TypeScript // 선택적 파라미터, 유니언 타입, 타입 별칭, 인터섹션 타입, 인터페이스**
+
+## 수업 내용
+
+- 수업 파일 세팅 (파일 가져오기, tsconfig.json 위치 변경(JS->workspace)readonly include/exclude 추가)
+- 휴일동안 과제 : 여태했던 예제들 ts로 바꿔서 만들어보기
+
+### 선택적 파라미터 (optional parameter)
+
+- js에서는 `함수를 정의할 때 넣은 매개변수 개수`와 `실행 시 넣은 인자 개수`가 달라도 에러나지 않지만 **ts는 에러 남**
+  : 선택적 파라미터를 사용해서 인자가 있으면 가져오고 없으면 없는 채로 실행되도록 구현
+- optional 매개변수는 뒤에 `?`를 붙여서 표시할 수 있음
+- 예시
+  ```typescript
+  function user(name: string, age?: number) {
+    console.log(name, age);
+  }
+  user("하루", 5);
+  user("이틀"); // 선택적 파라미터 사용하지 않으면 에러 발생
+  ```
+
+### 유니언 타입 (union type)
+
+- ts는 매개변수의 타입을 지정하기 때문에 하나의 매개변수에 다양한 타입의 값이 들어올 경우 에러 발생
+- 여러 종류의 타입을 허용하기 위해 `|`(OR연산자)로 연결해서 여러 타입을 기재하는 게 유니언 타입
+- 모든 타입을 허용하는 `any`타입과 달리 유니언 타입은 `|` 연산자로 연결된 타입 중 하나만을 허용
+- 예시
+
+  ```typescript
+  // print함수의 msg 매개변수에 string, number, boolean 타입을 인자로 넣을 수 있음
+  function print(msg: string | number | boolean) {
+    if (typeof msg === "string") {
+      // 타입 가드 : string일 경우
+      console.log(`${msg} 글자수: ${msg.length}`);
+    } else if (typeof msg === "number") {
+      // 타입 가드 : number 경우
+      console.log(`${msg} + 10 = ${msg + 10}`);
+    } else {
+      // 타입 가드 : boolean일 경우
+      console.log(`${msg}: ${msg ? "참" : "거짓"}`);
+    }
+  }
+
+  print("world");
+  print(200);
+  print(false);
+  ```
+
+### 타입 별칭(type alias)
+
+- 타입을 변수에 저장해서 사용하는 방법
+- 가독성 및 편의성을 위해, 유니언 타입 같이 복잡하고 긴 타입을 바로 쓰지 않고 별칭을 붙여서 사용
+- type 키워드로 선언하는 사용자 정의 타입
+  - 동일한 이름으로 중복 선언 불가
+  - JS로 컴파일 되면 제거됨
+  - 관례적인 명명 규칙 : `PascalCase` & 명사형
+- 예시
+
+  ```typescript
+  type Message = string | number; // 유니언 타입을 변수에 정의
+  function log(msg: Message): void {
+    // 매개변수의 타입에 변수를 입력
+    console.log(msg);
+  }
+  const msg3: Message = "world";
+  const msg4: Message = 200;
+  log(msg3);
+  log(msg4);
+  ```
+
+- 타입 별칭으로 객체의 타입 선언
+
+  - 객체의 속성명과 속성값의 타입을 지정
+  - 속성은 `,` 또는 `;` 으로 구분할 수 있지만 **공식 스타일 가이드에서는 `;`을 권장**
+  - 타입 별칭을 타입으로 지정한 객체는 타입 별칭에 정의된 속성명과 속성의 타입을 준수해야 함
+  - 예시
+
+    ```typescript
+    type User = {
+      name: string;
+      age: number;
+      color?: string; // optional
+    };
+    // 객체 생성
+    const ping1: User = { name: "유저핑", age: 30 };
+    const ping2: User = { name: "유저핑" }; // 컴파일 에러(age 속성이 없음)
+    const ping3: User = { name: "유저핑", age: "30" }; // 컴파일 에러(age 속성값이 number가 아님)
+    const ping4: User = { name: "유저핑", userAge: 30 }; // 컴파일 에러(age 속성이 없음)
+    console.log(ping1.age, ping1.color?.toUpperCase()); // color가 정의된 경우에만 출력되고 없으면 출력되지 않음
+    ```
+
+### 인터섹션 타입(intersection type)
+
+- 타입 여러개를 하나로 합치기 위해 `&`(AND 연산자) 로 연결한 타입. 타입 별칭을 확장할 때 주로 사용
+- 동일한 속성을 인터섹션 타입으로 추가할때 타입이 다르면 `never` 타입이 되면서 해당 속성은 사용이 불가함
+- 예시
+
+  ```typescript
+  type TodoRegist = {
+    id: string;
+    title: string;
+    content: string;
+  };
+  // Todo 타입 확장
+  type TodoInfo = TodoRegist & {
+    id: number; // id: string & number는 존재할 수 없기때문에 never 타입이 됨
+    done: boolean;
+  };
+  ```
+
+### 인터페이스
+
+- 객체의 구조(형식/타입)를 정의하기 위해 사용
+- 객체가 어떤 속성을 가지고 어떤 타입을 가져야 하는지, 어떤 메서드를 포함할 수 있는지를 설명(정의) 하는 규칙
+- 인터페이스를 타입으로 지정한 객체는 해당 인터페이스에 정의된 속성명과 속성의 타입을 준수해야 함
+- JS로 컴파일 하면 제거됨
+- 예시
+
+  ```typescript
+  // 객체의 타입 선언
+  interface Person {
+    name: string;
+    age: number;
+  }
+  const user: Person = {
+    name: "각박한",
+    age: 25,
+  };
+
+  // 변수, 함수의 매개변수, 함수의 리턴 타입 선언
+  interface User {
+    name: string;
+    age: number;
+  }
+  // 변수
+  const ping: User = { name: "유저핑", age: 30 };
+  // 함수의 매개 변수
+  function getAge(user: User): number {
+    return user.age;
+  }
+  // 함수의 리턴 타입
+  const createUser = function (name: string, age: number): User {
+    return { name, age };
+  };
+  const u3: User = createUser("유저3", 23);
+
+  // 클래스에 적용 : implements 키워드를 사용해 클래스가 인터페이스를 구현(implements)
+  interface Animal {
+    name: string;
+    move(): void;
+  }
+
+  class Dog implements Animal {
+    name: string;
+    constructor(name: string) {
+      this.name = name;
+    }
+    move() {
+      console.log(`${this.name}가 움직입니다.`);
+    }
+  }
+  ```
+
+  - 인터페이스와 타입의 차이
+    | 구분 | interface | type |
+    |:---|:---|:---|
+    | 확장(확장성) | `extends`, `implements` 키워드로 확장 가능 | `&`(인터섹션 타입)으로 확장 가능 |
+    | 중복 선언 | 가능 (자동으로 합쳐짐, Merge) | 불가능 (중복 선언 시 에러) |
+    | 표현 범위 | 주로 **객체 타입** 표현에 특화 | 객체, 유니언 타입, 기본 타입 등 **더 다양한 타입** 표현 가능 |
+    | 선언 방식 | `interface` 키워드 사용 | `type` 키워드 사용 |
+    | JS 변환 시 | 컴파일 후 코드에서 제거됨 (JS로 변환되지 않음) | 컴파일 후 코드에서 제거됨 (JS로 변환되지 않음) |
+    | 추천 용도 | 객체 지향 스타일 설계 (클래스, 구조화된 데이터 모델) | 복잡한 타입 조합, 유니언/인터섹션 타입 모델링 |
+
+### 선택적 프로퍼티(optional property)
+
+- 객체의 속성을 선택적으로 부여하고 싶을 때 사용
+- 인터페이스 속성명 뒤에 ?를 추가해서 선택 여부(=필수가 아님)를 표시
+  : 객체 생성 시 해당 속성을 생략할 수 있으며, 접근 시 없는 값은 `undefined`가 반환 됨
+- 예시
+
+```typescript
+interface Todo {
+  title: string;
+  content: string;
+  done?: boolean;
+}
+const todo1: Todo = {
+  title: "할일1",
+  content: "인터페이스 사용",
+  done: true,
+};
+const todo2: Todo = {
+  title: "할일2",
+  content: "done 생략",
+};
+```
+
+### 읽기 전용 프로퍼티(readonly)
+
+- 인터페이스의 속성명앞에 readonly 키워드 추가 : 초기값 저장 후 수정 불가(= 읽기 전용)
+- 객체 생성 시에만 값 할당이 가능하고 생성된 이후에는 수정할 수 없는 속성을 만들 때 사용
+- 예시
+
+  ```typescript
+  interface Todo {
+    readonly id: number; // 이후 수정 불가
+    title: string;
+    content: string;
+    done?: boolean;
+  }
+  const todo1: Todo = { id: 1, title: "할일1", content: "인터페이스 사용", done: true };
+  todo1.content = "수정함";
+  todo1.id = 2; // 컴파일 에러(id는 readonly 이므로 수정 불가)
+  const todo2: Todo = { id: 2, title: "할일2", content: "done 생략" };
+  ```
+
+### 인터페이스 상속
+
+- 부모 인터페이스의 속성과 메서드 정의를 자식 인터페이스가 물려 받고 확장
+- interface 선언부의 `extends` 키워드 뒤에 상속 받을 부모 인터페이스 지정
+- 예시
+
+  ```typescript
+  // 할일 등록 시 사용할 TodoRegist 인터페이스
+  interface TodoRegist {
+    title: string;
+    content: string;
+  }
+
+  // 할일 상세 조회 시 사용할 TodoInfo : extends로 TodoRegist를 상속 받음
+  interface TodoInfo extends TodoRegist {
+    // title: string;
+    // content: string;
+    id: number;
+    done: boolean;
+  }
+
+  const todo1: TodoRegist = {
+    title: "할일1",
+    content: "내용1",
+  };
+  const todo2: TodoInfo = {
+    id: 1,
+    title: "할일1",
+    content: "내용1",
+    done: false,
+  };
+  console.log("할일 상세 조회", todo2);
+  ```
+
+  <br />
+  <br />
+
+---
+
+---
+
+# 2025-04-29
+
+**TypeScript // **
+
+## 수업 내용
+
+### 인터페이스 상속
+
+- 계층 구조로 상속
+
+  - 인터페이스 상속은 여러 단계의 계층 구조로 구성 가능
+  - 예시
+
+    ```typescript
+    interface Todo {
+      title: string;
+      content: string;
+    }
+    interface TodoInfo extends Todo {
+      id: number;
+      done: boolean;
+    }
+    interface TodoInfoWithTime extends TodoInfo {
+      createdAt: Date;
+      updatedAt: Date;
+    }
+    ```
+
+- 다중 상속
+
+  - 둘 이상의 인터페이스를 상속 받는 것
+  - 예시
+
+    ```typescript
+    // 할일 등록 시 사용
+    interface TodoRegist {
+      title: string;
+      content: string;
+    }
+
+    // 할일 목록 조회 시 사용 : content 필요 없음
+    interface TodoList {
+      id: number;
+      title: string;
+      done: boolean;
+    }
+
+    // 할일 상세 조회 시 사용
+    interface TodoInfo extends TodoRegist, TodoList {
+      createdAt: Date;
+      updatedAt: Date;
+    }
+
+    // 인터페이스에서 일부 속성만 가져오는 유틸리티 타입 <Pick>
+    type TodoPick = Pick<TodoList, "id" | "title">;
+
+    const todo: TodoInfo = {
+      id: 3,
+      title: "할일3",
+      content: "내용3",
+      done: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    console.log(todo);
+    ```
+
+- 인터페이스 재선언(선언 병합)
+
+  - 동일한 이름의 인터페이스를 중복으로 선언 -> 기존 인터페이스에 없는 속성을 추가해서 확장
+  - 기존 속성과 중복으로 정의는 가능하지만 동일한 타입이어야 함
+  - 예시
+
+    ```typescript
+    interface Todo {
+      id: string;
+      title: string;
+      content: string;
+    }
+
+    interface Todo {
+      // id: number; // type이 다르면 동일한 속성 정의할 수 없음 : 컴파일 에러
+      title: string; // type이 같다면 동일한 속성도 상관 없음
+      done: boolean;
+      createAt: Date;
+    }
+
+    const todo: Todo = {
+      id: "1",
+      title: "할일1",
+      content: "내용1",
+      done: true,
+      createAt: new Date(),
+    };
+
+    console.log(todo);
+
+    // 인터섹션 타입을 이용한 Todo 타입 별칭 확장
+    type Todo = {
+      id: number;
+      title: string;
+      content: string;
+    };
+
+    type TodoInfo = Todo & {
+      id: string; // never 타입이 되면서 사용 불가
+      title: string; // 가능
+      done: boolean;
+    };
+    ```
+
+### 제네릭
+
+- 함수에서 사용할 매개변수/리턴 타입을 호출하는 시점에 지정하는 것
+- 함수 내부의 코드는 동일하고 매개 변수나 리턴 타입만 다를 경우, 제네릭 문법을 이용하면 하나의 함수에서 구현 가능
+  ※ 제넥릭에 지정한 문자 `T`는 *아무 문자*나 사용 가능하고 *여러 글자*도 사용 가능 (Type의 앞글자인 T 를 주로 사용)
+- 예시
+
+  ```typescript
+  function echo<T>(msg: T): T {
+    return msg;
+  }
+  console.log(echo<string>("hello"));
+  console.log(echo<number>(100));
+  console.log(echo<boolean>(true));
+  console.log(echo<string>(300)); // 타입과 달라서 에러 발생
+
+  console.log(echo<string | number>(100)); // 유니온 타입도 됨
+
+  type mytype = number | string | boolean;
+  console.log(echo<mytype>(false)); // 타입 별칭도 됨
+
+  // T타입을 받고 R타입을 반환하는 경우 이런 식으로 정의
+  function echo<T, R>(msg: T): R {
+    return msg;
+  }
+  console.log(echo<string, number>("hello"));
+  ```
+
+- 제네릭 타입 제약 : 제네릭에 전달받을 타입으로 `지정한 타입`만 가능하도록 제약 : `extends` 키워드 사용
+
+  - `<T extends string | number>`
+  - `<T extends { length: number }>`
+  - 예시
+
+    ```typescript
+    function echo<T extends string | number>(msg: T): T {
+      return msg;
+    }
+
+    console.log(echo<string>("hello"));
+    console.log(echo<number>(100));
+    // console.log(echo<boolean>(true)); // 타입 에러
+
+    const str = echo<string>("hello");
+    const num = echo<number>(3.14159265359);
+
+    console.log(str.toUpperCase(), num.toFixed(2));
+    console.log("---------------------------");
+
+    // length가 number인 객체만 허용
+    function echo2<T extends { length: number }>(msg: T): T {
+      return msg;
+    }
+
+    // echo2(100); // 조건에 맞지 않아 에러 발생 (length 속성 없음)
+    const str2 = echo2<string>("hello");
+    const num2 = echo2<number[]>([10, 20]);
+
+    console.log(str2.length, num2.length);
+    ```
+
+- 제네릭 사용처 : 함수, 인터페이스, 클래스 정의에 사용
+
+  - 예시
+
+    ```typescript
+
+    ```
+
+    여기 더 써야함
+
+### 타입 추론
+
+- 명시적으로 타입을 지정하지 않아도 타입스크립트가 코드를 해석하여 적절한 타입을 자동으로 정의
+- 변수의 타입 추론
+
+  - 할당된 값과 일치하는 타입으로 정의
+  - 선언만 된 상태라면 자동으로 any타입 부여
+  - 예시
+
+    ```typescript
+    let name = "이일구"; // string으로 타입 추론
+    name = 219; // 타입 에러
+
+    const age = 20; // number로 타입 추론
+
+    let name2; // any로 타입 추론
+    name2 = "이일구"; // string 타입이 되는게 아니고 여전히 any 타입
+    name2 = 219;
+    ```
+
+### 리터럴 타입
+
+- 특정 "값" 자체를 타입으로 사용
+- string 처럼 문자열 전체가 지정 가능한 타입이 아니라 '하루', '나무' 같은 특정 값만 가지도록 제한하는 타입
+- 잘못된 값의 입력을 미리 막아서 타입 안전성을 높임
+- 예시
+  ```typescript
+  function walkWithMyDog(name: "하루" | "나무", time: 1 | 2) {
+    console.log(`${time}시간 동안 ${name}와 산책합니다.`);
+  }
+  walkWithMyDog("하루", 1);
+  walkWithMyDog("나무", 2);
+  walkWithMyDog("이틀", 3); // 타입 에러
+  ```
+
+### 타입 단언 // 웬만하면 쓰지 말것
+
+- 타입스크립트의 타입 추론에 기대지 않고 명시적으로 직접 타입을 지정
+- `as` 키워드로 타입을 지정하면 _타입스크립트 컴파일러가 타입 검사를 수행하지 않음_
+- 넓은 범위의 타입을 더 구체적인 타입으로 지정할 때 사용
+
+채워햐앧
+
+### 타입 가드
+
+- 함수의 매개 변수로 여러 종류의 타입이 지정되었을 경우(유니온 타입) 정확한 타입 추론을 할수 있도록 TSC에 힌트를 주는 구문
+- 주로 조건문을 이용하고 TSC가 조건문의 구문을 인식해서 조건문 내부에서 만큼은 적절한 타입으로 추론할 수 있도록 도와주는 문법
+
+### Non-null assertion : `!`
+
+- Tyescript에서 변수 뒤에 ! 붙임 : 지정한 객체가 `null`이나 `undefined`가 아님을 단언
+- 예시
+
+  ```typescript
+  const a = document.querySelector('a[href="ch06/ex06-24.js"]');
+  a!.textContent += " 클릭"; // null값이 아니라고 단언함으로써 에러 예방 가능
+  ```
+
+  <br />
+  <br />
+
+---
+
+---
+
+# 2025-04-30
+
+**TypeScript // **
+
+## 수업 내용 : 주요 내장 함수
+
+- COPILOT 사용법
+
+### 주요 내장 함수 - parseInt, parseFloat
+
+- parseInt(string: string, radix?: number): number
+  - 지정한 문자열을 정수로 변환
+  - 타입 정의
+    - string: 숫자로 변환할 문자열
+    - radix: 2진수부터 36진수까지 변환할 진법. 기본은 10진수
+    - 리턴값: 변환된 숫자
+  - 예시
+    ```typescript
+    console.log(parseInt("100")); // 100
+    console.log(parseInt("100", 10)); // 100
+    console.log(parseInt("100", 2)); // 4
+    console.log(parseInt("100", 16)); // 256
+    console.log(parseInt("99.876")); // 99
+    ```
+- parseFloat(string: string): number
+  - 지정한 문자열을 부동소수점 방식의 숫자로 변환
+  - 타입 정의
+    - string: 숫자로 변환할 문자열
+    - 리턴값: 변환된 숫자
+  - 예시
+    ```typescript
+    console.log(parseFloat("99.876")); // 99.876
+    ```
+
+### 주요 내장 함수 - setTimeout, clearTimeout
+
+- setTimeout(handler: TimerHandler, timeout?: number, ...arguments): number
+
+  - 비동기적으로 호출되므로 setTimeout 이후의 코드가 먼저 실행
+  - delay 값이 0 이어도 현재 실행중인 함수의 코드가 먼저 실행된 후 실행됨
+  - 타입 정의
+    - handler: 지연 후 실행될 코드나 콜백 함수
+      - `type TimerHandler = string | Function;`
+    - timeout: 대기 시간( 밀리초 단위, 1초 = 1000ms)
+    - arguments: 콜백 함수에 전달될 추가 인자값들
+    - 리턴값: 예약을 중지할 때 사용하는 타이머 id(정수)
+  - 예시
+
+    ```typescript
+    console.log("시작");
+
+    const timerId = setTimeout(() => {
+      // 실행 시 3초간 멈춰있는 거X! 아래로 쭉쭉 내려가며 다른 코드들 다 실행하고 나서 3초 지나면 요거 실행 됨
+      // 등록 후 실행 없이 지나갔다가 다시 와서 실행하는 거기 때문에 0초를 주더라도 다른 코드들 실행 후에 실행하게 됨
+      console.log("3초 후 실행");
+    }, 1000 * 3); // 3초 후 실행
+    ```
+
+- clearTimeout(id: number | undefined): void
+  - 취소할 타이머 id (setTimeout()의 리턴값)
+  - id가 undefined일 경우 타이머 취소가 무시됨
+
+### 주요 내장 함수 - setInterval, clearInterval
+
+- setInterval(handler: TimerHandler, timeout?: number, ...arguments): number
+
+  - 지정된 시간 간격으로 특정 코드를 계속 실행하도록 예약
+  - 매개변수와 리턴값은 setTimeout과 동일
+
+- clearInterval(id: number | undefined): void
+
+  - 취소할 타이머 id (setInterval()의 리턴값)
+  - id가 undefined일 경우 타이머 취소가 무시됨
+
+  - 예시
+
+    ```typescript
+    console.log("시작");
+    const timerId = setInterval(() => {
+      console.log("3초 간격으로 실행");
+    }, 1000 * 3); // 3초 간격
+    // clearInterval(timerId);
+    console.log("종료");
+    ```
+
+### 내장 객체 - Math
+
+- Math.abs(x: number): number // 절대값
+- Math.round(x: number): number // 반올림
+- Math.ceil(x: number): number // 올림
+- Math.floor(x: number): number // 내림
+- Math.trunc(x: number): number // 소수 버림
+- Math.sign(x: number): number // 부호 반환, 양수: 1, 음수: -1, 0: 0
+- 예시
+  ```typescript
+  console.log(Math.abs(-5)); // 5 절대값
+  // 소수 첫째자리에서 반올림
+  console.log(Math.round(4.6)); // 5
+  // 소수 첫째자리에서 올림
+  console.log(Math.ceil(4.1)); // 5
+  // 소수 첫째자리에서 내림
+  console.log(Math.floor(4.9)); // 4
+  // 소수 첫째자리에서 내림
+  console.log(Math.floor(-4.9)); // -5
+  console.log(Math.trunc(4.9)); // 4 소수 버림
+  console.log(Math.trunc(-4.9)); // -4 소수 버림
+  // 부호, 양수: 1, 음수: -1, 0: 0
+  console.log(Math.sign(-10)); // -1
+  ```
+- Math.max(...values: number[]): number // 인자값들 중 최댓값
+- Math.min(...values: number[]): number // 인자값들 중 최솟값
+- Math.random(): number // 0이상 1미만 사이의 난수
+- Math.pow(x: number, y: number): number // 거듭제곱
+- Math.sqrt(x: number): number // 제곱근
+- Math.PI: number // 파이값, 3.141592653589793
+- 삼각함수 // Math.sin(), Math.cos(), Math.tan()
+- 예시
+  ```typescript
+  // 0 이상 1 미만 사이의 난수
+  console.log(Math.random()); // 인자값들 중 최대값
+  console.log(Math.max(1, 5, 3)); // 5 // 인자값들 중 최소값
+  console.log(Math.min(1, 5, 3)); // 1
+  console.log(Math.pow(2, 3)); // 8 거듭제곱
+  console.log(Math.sqrt(9)); // 3 제곱근
+  console.log(Math.PI); // 3.141592653589793
+  ```
+
+### 내장 객체 - JSON
+
+- 객체를 문자열로 변환하거나, 문자열을 다시 객체로 변환할 때 사용하는 내장 객체
+- JSON.stringify(value, replacer?, space?): string // JavaScript 값이나 객체를 JSON 문자열로 변환하는 함수
+  JavaScript 값이나 객체를 JSON 문자열로 변환하는 함수
+  객체를 네트워크로 전송하거나 파일에 저장할 때 문자열로 변환할 필요가 있음(직렬화)
+
+  매개변수
+  value: 변환할 값(객체, 배열, 숫자, 문자열 등)
+  replacer
+  함수: 변환하기 전에 값을 수정할 수 있음
+  배열: 변환에 포함할 속성만 지정 가능
+  space: 들여쓰기 설정(가독성을 위해 공백 추가)
+
+  반환값
+  변환된 JSON 형식의 문자열
+
+- JSON.parse(text, reviver?)
+  JSON 문자열의 구문을 분석하고, 그 결과에서 JavaScript 값이나 객체를 생성
+  선택적으로, reviver 함수를 인수로 전달할 경우, 결과를 반환하기 전에 변형할 수 있음
+
+매개변수
+text: 객체로 변환할 JSON 형식의 문자열
+reviver: 변환할 각 속성에 대해 호출되며 reviver가 반환한 값이 모여서 최종 parse()의 반환값이 됨
+
+### 내장 객체 - Object
+
+- 모든 객체의 부모 역할을 하는 내장 객체
+
+  - 객체를 생성하거나 객체 관련 작업을 할 때 사용
+  - static 메서드 들과 모든 객체에서 프로토타입 체인에 의해 호출 할 수 있는 메서드로 구성
+
+- Object.keys(o: object): string[] // 객체의 모든 키를 배열로 반환
+- Object.values(o: object): any[] // 객체의 모든 값을 배열로 반환
+- Object.entries(o: object): [string, any][] // 객체의 모든 속성을 [키, 값] 쌍의 배열로 반환
+- Object.assign(target: object, ...sources): any // sources 객체들의 속성을 복사해서 target 객체에 추가(객체의 속성을 병합)
+- 매개변수
+  - target: 복사된 속성을 저장할 객체
+  - sources: 복사할 객체들. 이곳에 지정한 객체들의 속성이 target에 추가됨
+  - 리턴값: sources 속성들이 복사된 target 객체
+- 예시
+
+  ```typescript
+  const haru = { name: "하루", age: 5 };
+
+  console.log(Object.keys(haru)); // ['name', 'age']
+  console.log(Object.values(haru)); // ['하루', 5]
+  console.log(Object.entries(haru)); // [['name', '하루'], ['age', 5]]
+
+  const newUser = Object.fromEntries([
+    ["name", "나무"],
+    ["age", 8],
+  ]);
+  console.log(newUser); // { name: '나무', age: 8 }
+
+  const haru2 = haru;
+  haru.age++;
+  console.log(haru.age, haru2.age); // 6 6
+
+  const haru3 = Object.assign({}, haru);
+  haru.age++;
+  console.log(haru.age, haru3.age); // 7 6
+  ```
+
+### 내장 객체 - String
+
+- 문자열 데이터를 다루기 위한 래퍼 객체
+  - string 값을 감싸 다양한 속성과 메서드를 사용할 수 있게함
+  - string 원시형 타입에서 바로 메서드를 호출하면 임시 String 객체를 생성해서 해당 메서드 실행 후 바로 삭제
+  - 유사 배열 객체: length 속성이 있고 0부터 시작해서 증가하는 index에 글자가 하나씩 저장되어 있음
+  - 모든 메서드는 기존의 문자열을 수정하지 않고 새로문 문자열을 만들어서 반환
+
+### Date
+
+index.htm에 jayjs script 추가
+
+### 내장 객체 Array - push(), pop()
+
+### 내장 객체 Array - unshift(), shift()
+
+### 내장 객체 Array - indexOf(), lastIndexOf()
+
+### 내장 객체 Array - includes(), concat()
+
+### 내장 객체 Array - splice()
+
+### 내장 객체 Array - slice()
+
+ㄴㄴ
+
+- splice와는 달리 원본 배열은 건드리지 않고 복사해서 사용
+
+for each : 함수 호출 후에 끝남. 어디 담지 않음 : 리턴 없음
+map : 함수 호출 후 빈 배열에 값 넣어뒀다가 새로운 배열 리턴
+
+## REDUCE : react 배울 때 한다고 함

@@ -80,9 +80,9 @@
 ## TypeScript Compiler 설치
 * node.js용 TypeScript Compiler 모듈을 global로 설치(어느 경로에서나 tsc 명령어 사용 가능)
 * VSCode > View > Terminal
-```sh
-npm i -g typescript
-```
+    ```sh
+    npm i -g typescript
+    ```
 
 ## 터미널 테스트
 * workspace/ch06/ex06-01.ts 파일 작성
@@ -118,14 +118,16 @@ npm i ts-node -g
 
 #### 실행
 ```sh
-ts-node ex06-01.ts
+cd workspace/ch06
+ts-node ex06-01.js
 ```
 
 ## 타입스크립트 설정 파일
 * tsconfig.json 파일은 타입스크립트의 설정 파일로, 컴파일러(tsc)가 코드를 어떻게 처리할지를 정의
 
 ### 타입스크립트 설정 파일(tsconfig.json) 생성
-* 프로젝트 루트로 이동 후 실행
+* 일반적으로 tsconfig.json 파일은 프로젝트 루트에 두지만 본 교육에서는 수강생과 강사의 설정 파일 충돌을 막기 위해서 workspace 하위에 생성
+* workspace 에서 실행
 ```sh
 tsc --init
 ```
@@ -140,17 +142,19 @@ tsc --init
 * ts 파일과 컴파일된 js 파일을 분리해서 관리
   - 일반적으로 ts와 js 파일 분리를 위해서 설정함
   - 이번 교육에서는 컴파일된 js 파일을 쉽게 확인하기 위해서 ts와 같은 폴더에 컴파일되도록 다음 설정은 하지 않음
-  - ~~"compilerOptions"의 "outDir": "./" 주석 해제 후 "./workspace/dist"로 수정~~
+  - ~~"compilerOptions"의 "outDir": "./" 주석 해제 후 "./dist"로 수정~~
 * workspace 하위의 모든 파일을 대상으로 컴파일
-  - "compilerOptions" 아래에 "include": ["workspace/**/*"] 추가
+  - tsconfig.json 파일이 프로젝트 루트에 있다면 아래의 설정이 필요하지만 tsconfig.json 파일을 workspace 폴더에 두었다면 불필요
+  - ~~"compilerOptions" 아래에 "include": ["workspace/**/*"] 추가~~
 * 컴파일에서 제외할 폴더나 파일 지정
-  - "compilerOptions" 아래에 "exclude": ["node_modules", "sample/**/*"] 추가
+  - tsconfig.json 파일이 프로젝트 루트에 있다면 아래의 설정이 필요하지만 tsconfig.json 파일을 workspace 폴더에 두었다면 불필요
+  - ~~"compilerOptions" 아래에 "exclude": ["node_modules", "sample/**/*"] 추가~~
 * 전체 옵션은 다음 URL 참고
   - <https://www.typescriptlang.org/ko/tsconfig>
 
 ## tsc --watch 옵션
 * 하위 폴더를 포함해서 ts 파일 변경을 감지하고 자동으로 컴파일한 후 outDir로 지정한 폴더에 js 파일 생성
-* 프로젝트 루트에서 실행
+* tsconfig.json 파일이 있는 폴더에서 실행
 
 ```sh
 tsc --watch
@@ -168,7 +172,7 @@ tsc --watch
 # 수업 진도
 ## 1주차 - 2일, 2025.03.27(목) ~ 2025.03.28(금)
 
-### 1일차(목)
+### 1일차(2025.03.27 목)
 #### 오전(3시간)
 * [JS 레포지토리 README](https://github.com/FEBC-13/JS)
 * 💻 개발환경 구성
@@ -182,7 +186,7 @@ tsc --watch
   - https://www.acmicpc.net/group/23092
   - 💻 Hello World- [boj/01/01.js](./workspace-ins/boj/01/01.js)
 
-### 2일차(금)
+### 2일차(2025.03.28 금)
 #### 오전(3시간)
 * 📜 자바스크립트 코드의 위치
   - 💻 [01-02 외부 자바스크립트 파일 로드](./workspace-ins/ch01/ex01-02.html)
@@ -215,7 +219,7 @@ tsc --watch
   - 💻 개: [boj/01/13.js](./workspace-ins/boj/01/13.js)
 
 ## 2주차 - 4일, 2025.03.31(월) ~ 2025.04.03(목)
-### 3일차(월)
+### 3일차(2025.03.31 월)
 #### 오전(3시간)
 * 📜 대입 연산자
   - 💻 [01-09 대입 연산자 =, +=, -=, *=, /=, %=, **=](./workspace-ins/ch01/ex01-09.js)
@@ -243,7 +247,7 @@ tsc --watch
 * 문제 추천
   - 두 수 비교하기: [boj/02/01.js](./workspace-ins/boj/02/01.js)
 
-### 4일차(화)
+### 4일차(2025.04.01 화)
 #### 오전(3시간)
 * 📜 if문
   - 💻 [01-16 if문](./workspace-ins/ch01/ex01-16.js)
@@ -273,7 +277,7 @@ tsc --watch
   - 💻 오븐 시계: [boj/02/06.js](./workspace-ins/boj/02/06.js)
   - 💻 주사위 세개: [boj/02/07.js](./workspace-ins/boj/02/07.js)
 
-### 5일차(수)
+### 5일차(2025.04.02 수)
 #### 오전(3시간)
 * 📜 if-else if문
   - 💻 [01-18-05 if-else if문을 사용하여 계산기, 요일, 계절 출력](./workspace-ins/ch01/ex01-18-05.js)
@@ -296,7 +300,7 @@ tsc --watch
 * 문제 풀이
   - 💻 두 수 비교하기 (if문으로 수정): [boj/02/01.js](./workspace-ins/boj/02/01.js)
 
-### 6일차(목)
+### 6일차(2025.04.03 목)
 #### 오전(3시간)
 * 📜 for문
   - 💻 [01-21-03 for문을 이용해서 구구단 작성](./workspace-ins/ch01/ex01-21-03.js)
@@ -329,7 +333,7 @@ tsc --watch
   - 💻 A+B - 4: [boj/03/12.js](./workspace-ins/boj/03/12.js)
 
 ## 3주차 - 5일, 2025.04.07(월) ~ 2025.04.11(금)
-### 7일차(월)
+### 7일차(2025.04.07 월)
 #### 오전(3시간)
 * 1일차에서 5일차까지 실습 정리
   - ex01-01.html ~ ex01-11.js
@@ -347,7 +351,7 @@ tsc --watch
   - 💻 1998년생인 내가 태국에서는 2541년생?! - [boj/01/08.js](./workspace-ins/boj/01/08.js)
   - 💻 나머지 - [boj/01/09.js](./workspace-ins/boj/01/09.js)
 
-### 8일차(화)
+### 8일차(2025.04.08 화)
 #### 오전(3시간)
 * boj 문제 풀이
   - 💻 곱셈 - [boj/01/10.js](./workspace-ins/boj/01/10.js)
@@ -367,7 +371,7 @@ tsc --watch
   - 💻 [01-24 JSON 표기법 - 리터럴 방식으로 객체 생성](./workspace-ins/ch01/ex01-24.js)
   - 💻 [01-24-02 총점과 평균을 메서드로 작성](./workspace-ins/ch01/ex01-24-02.js)
 
-### 9일차(수)
+### 9일차(2025.04.09 수)
 #### 오전(3시간)
 * 📜 JSON 표기법
   - 💻 [01-25 객체의 속성 관리](./workspace-ins/ch01/ex01-25.js)
@@ -385,7 +389,7 @@ tsc --watch
   - 💻 입력값 2차원 배열로 추출하는 샘플 완성 - [boj/input/sample.js](./workspace-ins/boj/input/sample.js)
   - 💻 오븐 시계 - [boj/02/06.js](./workspace-ins/boj/02/06.js)
 
-### 10일차(목)
+### 10일차(2025.04.10 목)
 #### 오전(3시간)
 * boj 문제 풀이
   - 💻 주사위 세개 - [boj/02/07.js](./workspace-ins/boj/02/07.js)
@@ -405,7 +409,7 @@ tsc --watch
   - 💻 0 0이 들어올 때까지 A+B를 출력하는 문제 - [boj/03/11.js](./workspace-ins/boj/03/11.js)
   - 💻 입력이 끝날 때까지 A+B를 출력하는 문제 - [boj/03/12.js](./workspace-ins/boj/03/12.js)
 
-### 11일차(금)
+### 11일차(2025.04.11 금)
 #### 오전(3시간)
 * boj 문제 풀이
   - 💻 공 넣기 - [boj/04/05.js](./workspace-ins/boj/04/05.js)
@@ -425,7 +429,7 @@ tsc --watch
 
 ## 4주차 - 4일, 2025.04.14(월) ~ 2025.04.17(목)
 
-### 12일차(월)
+### 12일차(2025.04.14 월)
 #### 오전(3시간)
 * 📜 5장 클라이언트 사이드 자바스크립트
 * 📜 DOM
@@ -444,7 +448,7 @@ tsc --watch
   - 💻 [05-01-04 CSS 셀렉터로 요소 찾기 = querySelector()](./workspace-ins/ch05/ex05-01-04.js)
   - 💻 [05-02 Counter](./workspace-ins/ch05/ex05-02.html)
 
-### 13일차(화)
+### 13일차(2025.04.15 화)
 #### 오전(3시간)
 * 📜 innerHTML, outerHTML, textContent, innerText
   - 💻 [05-03 쇼핑과 영화 목록](./workspace-ins/ch05/ex05-03.html)
@@ -455,14 +459,14 @@ tsc --watch
 * 📜 요소노드 생성, 추가, 삽입, 삭제, 복사
   - 💻 [05-03 쇼핑과 영화 목록](./workspace-ins/ch05/ex05-03.html)
 
-### 14일차(수)
+### 14일차(2025.04.16 수)
 #### 오전(3시간)
 * 💻 [05-05 Todo List - 할일 추가](./workspace-ins/ch05/ex05-05.html)
 
 #### 오후(4시간)
 * 💻 [05-05 Todo List - 할일 삭제](./workspace-ins/ch05/ex05-05.html)
 
-### 15일차(목)
+### 15일차(2025.04.17 목)
 #### 오전(3시간)
 * 💻 [05-05 Todo List - 완료/미완료 처리](./workspace-ins/ch05/ex05-05.html)
 * 💻 [05-05-02 Todo List - 다양한 방식의 toggleDone 구현](./workspace-ins/ch05/ex05-05-02.html)
@@ -483,7 +487,7 @@ tsc --watch
   - 💻 [05-11 이벤트 위임](./workspace-ins/ch05/ex05-11.html)
 
 ## 5주차 - 5일, 2025.04.21(월) ~ 2025.04.25(금)
-### 16일차(월)
+### 16일차(2025.04.21 월)
 #### 오전(3시간)
 * 2강 함수 시작
 * 📜 일급 객체
@@ -515,6 +519,90 @@ tsc --watch
   - 💻 [02-13 매개변수와 인자수, arguments](./workspace-ins/ch02/ex02-13.js)
   - 💻 [02-13-02 arguments 대신 나머지 매개변수 사용](./workspace-ins/ch02/ex02-13-02.js)
 
+### 17일차(2025.04.22 화)
+#### 오전(3시간)
+* 📜 함수 호출 방법 1 - 일반 함수
+  - 💻 [02-14 함수 호출 방법 1 - 일반 함수](./workspace-ins/ch02/ex02-14.js)
+* 📜 함수 호출 방법 2 - 메서드
+  - 💻 [02-15 함수 호출 방법 2 - 메서드](./workspace-ins/ch02/ex02-15.js)
+  - 💻 [02-16 함수 호출 방법 2 - 메서드(화살표 함수)](./workspace-ins/ch02/ex02-16.js)
+* 📜 함수 호출 방법 3 - apply(), call()
+  - 💻 [02-05 선언문](./workspace-ins/ch02/ex02-05.js)
+  - 💻 [02-15 함수 호출 방법 2 - 메서드](./workspace-ins/ch02/ex02-15.js)
+
+#### 오후(5시간)
+* 📜 함수 호출 방법 3 - apply(), call()
+  - 💻 [02-17 함수 내부의 this 바인딩 문제](./workspace-ins/ch02/ex02-17.js)
+  - 💻 [02-17-01 함수 내부의 this 바인딩 문제 해결](./workspace-ins/ch02/ex02-17-01.js)
+  - 💻 [02-17-02 함수 내부의 this 바인딩 문제 해결(call)](./workspace-ins/ch02/ex02-17-02.js)
+  - 💻 [02-17-03 함수 내부의 this 바인딩 문제 해결(화살표 함수)](./workspace-ins/ch02/ex02-17-03.js)
+  - 💻 [02-18 가변 인자 처리 - apply() 활용](./workspace-ins/ch02/ex02-18.js)
+  - 💻 [02-18-02 가변 인자 처리 - 전개 구문 활용](./workspace-ins/ch02/ex02-18-02.js)
+* 📜 함수 호출 방법 4 - 생성자 함수
+  - 💻 [02-19 생성자 함수](./workspace-ins/ch02/ex02-19.js)
+
+### 18일차(2025.04.23 수)
+#### 오전(3시간)
+* 📜 함수 호출 방법 4 - 생성자 함수
+  - 💻 [02-20 생성자 함수 활용](./workspace-ins/ch02/ex02-20.js)
+* 📜 익명 함수, 콜백 함수
+  - 💻 [02-21 익명함수와 콜백함수](./workspace-ins/ch02/ex02-21.html)
+* 📜 고차 함수
+  - 💻 [02-22 배열 다루기](./workspace-ins/ch02/ex02-22.js)
+
+#### 오후(3시간)
+* 📜 메모이제이션
+  - 💻 [02-23 소수 판별 (메모이제이션)](./workspace-ins/ch02/ex02-23.js)
+* 3강 프로토타입, 상속과 클래스
+* 📜 프로토타입
+  - 💻 [03-01 prototype 속성 - Score 생성자 함수](./workspace-ins/ch03/ex03-01.js)
+  - 💻 [03-02 함수를 중복으로 정의 - User 생성자 함수](./workspace-ins/ch03/ex03-02.js)
+
+### 19일차(2025.04.24 목)
+#### 오전(3시간)
+* 📜 프로토타입
+  - 💻 [03-03 prototype으로 함수의 중복을 제거 - User 생성자 함수](./workspace-ins/ch03/ex03-03.js)
+* 📜 상속
+  - 💻 [03-04 프로토타입 체인을 이용한 상속 기능 구현 - HighSchool, College 생성자 함수](./workspace-ins/ch03/ex03-04.js)
+  - 💻 [03-05 중계 클래스를 이용한 상속 - HighSchool, College 생성자 함수](./workspace-ins/ch03/ex03-05.js)
+* 📜 클래스
+  - 💻 [03-06 클래스 정의와 상속 - HighSchool, College 클래스](./workspace-ins/ch03/ex03-06.js)
+
+#### 오후(3시간)
+* 4강 클로저
+* 📜 클로저란?
+  - 💻 [04-01 클로저를 사용하는 예제](./workspace-ins/ch04/ex04-01.js)
+* 📜 클로저 용법 - 캡슐화
+  - 💻 [04-02 클로저를 활용한 private 변수](./workspace-ins/ch04/ex04-02.js)
+* 📜 클로저 용법 - 커링
+  - 💻 [04-03 커링](./workspace-ins/ch04/ex04-03.js)
+* 📜 클로저 용법 - Partial application
+  - 💻 [04-04 Partial application](./workspace-ins/ch04/ex04-04.js)
+  - 💻 [02-17-04 함수 내부의 this 바인딩 문제 해결(bind)](./workspace-ins/ch02/ex02-17-04.js)
+* 📜 클로저 용법 - 메모이제이션
+  - 💻 [04-05 메모이제이션](./workspace-ins/ch04/ex04-05.js)
+
+### 20일차(2025.04.25 금)
+#### 오전(3시간)
+* 📜 클로저 용법 - 메모이제이션
+  - 💻 [04-06 메모이제이션, 클로저 사용](./workspace-ins/ch04/ex04-06.js)
+* 📜 즉시 실행 함수
+  - 💻 [04-07 즉시실행 함수](./workspace-ins/ch04/ex04-07.js)
+
+#### 오후(3시간)
+* 📜 즉시 실행 함수
+  - 💻 [04-08 즉시실행 함수가 필요한 예제 (클로저)](./workspace-ins/ch04/ex04-08.html)
+* 타입스크립트
+* 📜 개발 환경 구성
+  - 💻 [06-01 개발 환경 확인](./workspace-ins/ch06/ex06-01.js)
+* 📜 주요 타입
+  - 💻 [06-02 주요 타입](./workspace-ins/ch06/ex06-02.js)
+
+#### 병아리반(1일차)
+* 프로그래머스 일일 도전 과제 day1
+  - 💻 [Day1-01 문자열 출력하기](./workspace-ins/programmers/daily/day01/01.js)
+  - 💻 [Day1-02 a와 b 출력하기](./workspace-ins/programmers/daily/day01/02.js)
+  - 💻 [Day1-03 문자열 반복해서 출력하기](./workspace-ins/programmers/daily/day01/03.js)
 
 # 참고 사이트
 ## 자바스크립트 학습
