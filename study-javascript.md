@@ -2425,3 +2425,477 @@ for each : 함수 호출 후에 끝남. 어디 담지 않음 : 리턴 없음
 map : 함수 호출 후 빈 배열에 값 넣어뒀다가 새로운 배열 리턴
 
 ## REDUCE : react 배울 때 한다고 함
+
+  <br />
+  <br />
+
+---
+
+---
+
+# 2025-05-07
+
+**TypeScript // 에러 핸들링, ESM, defer/async, use strict, 동기 방식과 비동기 방식**
+
+## 수업 내용
+
+### 에러 핸들링 - Error 클래스
+
+- Error 클래스 : 에러 정보를 표현하는 기본 클래스
+
+  - `new Error(message?: string, options?: ErrorOptions) => Error`
+    - message: 에러 메세지
+    - options: 원본 에러 객체. 중첩 에러를 만들때 cause 속성에 원본 에러를 지정하면 에러를 추적하기 용이함. ES2022에 추가됨
+
+- 주요 속성
+  - `name`: 에러 이름. 생성한 에러명(Error, TypeError, ReferenceError, SyntaxError 등)
+  - `message`: 에러 설명. 생성자 함수에 전달한 message 문자열
+  - `stack`: 콜 스택 정보. 에러가 발생한 시점의 콜스택 정보가 들어있는 문자열
+  - `cause`: 중첩 에러를 만들때 지정한 원본 에러
+
+### 에러 핸들링 - 주요 에러 객체
+
+- Error 클래스를 상속 받아서 세분화된 에러를 표현
+
+- TypeError
+
+  - 잘못된 타입 사용
+  - 예시: null.fn(), undefined.fn()
+  - Uncaught TypeError: Cannot read properties of null (reading 'fn')
+  - Uncaught TypeError: Cannot read properties of undefined (reading 'fn')
+
+- ReferenceError
+
+  - 선언되지 않은 변수 접근
+  - 예시: console.log(x)
+  - Uncaught ReferenceError: x is not defined
+
+- SyntaxError
+
+  - 문법 오류
+  - 예시: new Function('x', 'y', 'retrun x + y');
+
+- 사용자 정의 에러
+  - Error 클래스를 상속해서 구현
+
+### 에러 핸들링 - try...catch 문
+
+- 예외(에러)가 발생할 수 있는 코드를 안전하게 실행하기 위해서 사용
+- try...catch문 없이 실행되는 코드에서 에러가 발생하면 JS 엔진은 콘솔에 에러 메세지와 콜스택 정보를 출력하며 프로그램 실행을 중단
+- try...catch문을 사용할 경우 try 블럭 내에서 에러가 발생하면 catch 블럭이 실행된 후 catch 블럭 이후의 코드가 정상적으로 실행
+- 선택적으로 finally 블럭을 추가하면 try 블럭의 모든 코드가 정상 실행되거나 에러가 발생해서 catch 블럭이 실행되거나 상관없이 항상 try...catch 문의 마지막에 실행해야 하는 코드를 작성할 수 있음
+- 예시
+
+  ```javascript
+  function f1() {
+    try {
+      const fn = new Function("x", "y", "retrun x + y"); // SyntaxError 발생
+      console.log(fn(10, 20));
+    } catch (err) {
+      // 기본적으로 catch에 전달되는 에러는 unknown 타입이 됨 : 타입 체크 필요
+      if (err instanceof Error) {
+        // 타입 가드로 err 타입 체크
+        console.error("에러 발생: ", err.message);
+      }
+    }
+  }
+
+  function f2() {
+    f1();
+  }
+
+  f2();
+
+  console.log("프로그램 정상 종료");
+  ```
+
+### 에러 핸들링 - throw문
+
+- 개발자가 직접 에러를 발생시키는 문법
+- 에러를 직접 처리하지 않고 함수를 호출한 쪽으로 전달할때 주로 사용
+- 에러가 throw 되면 프로그램 실행이 중지되고 가까운 catch 블럭으로 이동
+- 예시
+
+  ```javascript
+  /**
+   * 두 수를 나눈 결과를 반환
+   * @param x 나누어지는 수
+   * @param y 나누는 수
+   * @returns 나눈 결과
+   * @throws 0으로 나눌 수 없습니다.
+   */
+  function divide(x: number, y: number) {
+    if (y === 0) {
+      throw new Error("0으로 나눌 수 없습니다.");
+    }
+    return x / y;
+  }
+
+  function f1() {
+    try {
+      const result1 = divide(10, Math.round(Math.random()));
+      console.log(result1);
+    } catch (err) {
+      if (err instanceof Error) {
+        // 타입 가드
+        console.log("에러 발생: ", err.message); // 에러 메세지 출력
+      }
+    }
+
+    const result2 = divide(10, 2);
+    console.log(result2);
+  }
+
+  function f2() {
+    f1();
+  }
+
+  f2();
+
+  console.log("정상 종료");
+  ```
+
+### Module
+
+- 모듈이란?
+  - 코드를 파일 단위로 분리하고, 불필요한 전역 오염 없이 재사용할 수 있게 해줌
+  - 파일 자체가 독립된 스코프를 가지므로 모듈내에서 선언한 변수는 전역변수가 아닌 모듈변수로써 모듈 내부에서만 접근 가능
+  - 모듈 구성 요소(변수, 함수, 클래스, 타입 별칭, 인터페이스 등)를 명시적으로 내보내기(export) 하면 다른 모듈에서 사용 가능
+  - 다른 모듈에서 export한 값을 참조하려면 import 구문을 사용
+  - 브라우저에서 모듈을 사용하려면 <script> 태그에 type="module" 속성을 추가
+  
+- **export** : 모듈 구성 요소(변수, 함수, 클래스, 타입 별칭, 인터페이스 등)를 외부로 내보내 다른 모듈에서 사용할 수 있게 해주는 키워드
+  - Named Export
+    - 내보내기할 각 구성 요소 앞에 `export` 키워드 지정하거나 `export { plus, minus }` 형태로 선언과 분리해서 따로 작성 가능
+    - export는 여러번 사용 가능
+    - import 시 중괄호 안에 정확한 구성 요소명을 사용
+      - `export function plus(a: number, b: number) { return a + b; }`
+      - `export function minus(a: number, b: number) { return a - b; }`
+      - `import { plus, minus } from './math.js';`
+  
+  - Default Export
+      - 내보내기할 구성 요소 앞에 export default 키워드 지정
+      - export default는 모듈 내에서 한번만 사용 가능
+      - import 시 이름은 자유롭게 지정 가능
+        - `export default function multiply(a: number, b: number) { return a * b; }`
+        - `import MyMath from './math.js';`
+  - 예시
+    ```typescript
+    // Named Export : 각 구성 요소 앞에 export 키워드 지정하거나 export { plus, minus } 형태로 선언과 분리해서 따로 작성 가능
+    export function plus(a: number, b: number) {
+      console.log(`${a} + ${b} = ${a + b}`);
+      return a + b;
+    }
+
+    export function minus(a: number, b: number) {
+      console.log(`${a} - ${b} = ${a - b}`);
+      return a - b;
+    }
+
+    // Default Export : 한 파일에서 1번만 가능. import하면서 이름을 정할 수 있음
+    export default function multiply(a: number, b: number) {
+      console.log(`${a} * ${b} = ${a * b}`);
+      return a * b;
+    }
+
+    // 타입 Export
+    export type Member = {
+      name: string;
+      age: number;
+    };
+
+    // export default {함수1, 함수2, 함수3} 이런 식으로 객체 형태로 여러개의 함수를 내보낼 수도 있음
+    export function plus1(a: number, b: number) {
+      console.log(`${a} + ${b} = ${a + b}`);
+      return a + b;
+    }
+
+    export function minus1(a: number, b: number) {
+      console.log(`${a} - ${b} = ${a - b}`);
+      return a - b;
+    }
+
+    export default { plus1, minus1 };
+    ```
+  
+  
+- **import** : 다른 모듈에서 export한 구성 요소를 가져올 때 사용하는 키워드  
+  - Named Import
+    - export로 내보낸 구성 요소를 중괄호로 감싸서 가져옴
+    - 이름이 정확히 일치 해야 하며 필요한 것만 선택해서 import 가능
+    - 별칭 사용 가능
+      - `import { plus as add, minus } from './math.js';`
+  
+  - Default Import
+    - export default 로 내보낸 구성 요소는 중괄호 없이 자유롭게 이름을 지정해서 import 가능
+    - `import MyMath from './math.js';`
+  
+  - Mixed Import
+    - Named Import와 Default Import를 같이 사용 (일관성과 가독성 저하로 권장하지 않음)
+    - `import MyMath, { plus, minus } from './math.js';`
+    
+  - Type Import
+    - 타입 별칭이나 인터페이스를 export 했을 경우 import 시 type 키워드 추가 (생략 가능)
+    - `import { type Member } from './math.js';`
+  
+  - 예시
+    ```typescript
+      // import 구문은 보통 모듈의 최상단에 정의!
+      import { plus, minus } from "./math.js"; // Named Export한 함수 import로 가져오기
+      plus(1, 2);
+      minus(2, 3);
+
+      // Default Export 가져오기 : 이름을 import할 때 마음대로 정함
+      import MathMultiply from "./math.js"; // Default Export 가져오기1<함수 1개>
+      import Math from "./math.js"; // Default Export 가져오기2<객체>
+      MathMultiply(3, 4);
+      Math.plus1(1, 2);
+      Math.minus1(2, 3);
+
+      // Named Import
+      import { plus as add } from "./math.js"; // Named Import로 이름 지정해서 가져오기
+      add(1, 2);
+
+      // Mixed Import : 섞어서 가져오기. 혼동을 유발함으로 권장하는 방법은 아님.
+      import YourMath, { plus, minus } from "./math.js";
+      YourMath.plus1(1, 2);
+      YourMath.minus1(2, 3);
+
+      // Type Import : 타입이라고 명시해주는 것이 좋음
+      import { type Member } from "./math.js";
+
+      const haru: Member = {
+        name: "하루",
+        age: 5,
+      };
+      console.log(haru);
+
+      // Dynamic Import
+      // ES2015 Promise 방식
+      if (Math.minus1(5, 6) < 0) {
+        console.log("다이내믹임포트실행");
+        import("./math.js").then((dynamicMath) => {
+          dynamicMath.plus(5, 6);
+        }); // import해서 js 파일 실행되고 나면 then 뒤의 함수를 호출한다 : callback 함수
+
+        //ES2017 async/await 방식
+        const dynamicMath2 = await import("./math.js");
+        console.log("다이내믹임포트2실행");
+        dynamicMath2.minus(8, 9);
+      }
+      ```
+
+- CJS vs ESM
+  - ESM (**E**CMA**S**cript **M**odules)
+    - ES2015에 도입된 자바스크립트의 공식 모듈 표준
+    - 내보내기: `export` 키워드 사용
+    - 가져오기: `import` 키워드 사용
+
+  - CJS (**C**ommon**JS**)
+    - Node.js에서 모듈화를 위해 만들어진 비표준 방식
+    - CommonJS: 브라우저 밖에서 실행되는 자바스크립트를 위한 표준
+    - 내보내기: `module.exports` 속성 사용
+    - 가져오기: `require()` 함수 사용
+    - Node.js 12 부터 package.json에 `"type": "module"` 속성을 추가하거나 .mjs 확장자로 만든 파일은 ESM 방식이 적용됨
+
+  - Node.js에서 js, cjs, mjs 확장자
+    - `.js`: package.json에 "type": "module" 속성이 있을 경우 ESM 방식으로, 해당 속성이 없을 경우 CJS 방식으로 사용
+    - `.cjs`: `"type": "module"` 속성과 상관 없이 CJS 방식의 모듈 사용
+    - `.mjs`: `"type": "module"` 속성과 상관 없이 ESM 방식의 모듈 사용
+
+### script 태그의 속성 defer, async
+
+- **기본 (속성 없음)** : 제일 느림  
+  - HTML 파싱을 중지하고 스크립트 다운로드
+  - 다운로드가 완료되면 스크립트를 즉시 실행
+  - 스크립트 실행이 완료되면 HTML 파싱을 재개
+  - 스크립트 실행 시간동안 페이지 렌더링 지연이 발생할 수 있음
+
+- **async** : 중간  
+  - HTML 파싱과 병렬로 스크립트 다운로드
+  - 다운로드가 완료되면 HTML 파싱을 멈추고 스크립트를 즉시 실행
+  - async 스크립트가 여러개 있을 경우 작성 순서와 상관없이 다운로드 완료된 스크립트 먼저 실행
+  - DOMContentLoaded 이벤트 발생 전, 후 아무때나 실행될 수 있음
+  - 스크립트간 실행 순서가 보장되지 않음
+  - 외부 스크립트에만(src 속성이 있는 경우) 적용됨
+  - 방문자 수 카운트, 접속 통계 기록 등 페이지 내의 스크립트와 독립적인 기능 사용시 주로 사용
+  - => DOM을 다루는 코드가 있다면 async 쓰기 부적합
+    화면에 DOM과 관련 없는 코드가 그려진다면, 혹은 로드/실행되는 순서가 상관 없는 독립적 기능을 실행할 떄 async 적합
+
+- **defer** : 제일 빠름
+  - HTML 파싱과 병렬로 스크립트 다운로드
+  - 다운로드가 완료되어도 HTML 파싱이 완료될 때까지 기다렸다가 실행
+  - DOMContentLoaded 이벤트 발생 직전에 실행
+  - defer 스크립트가 여러개 있을 경우 작성 순서대로 순차 실행
+  - 외부 스크립트에만(src 속성이 있는 경우) 적용됨
+  - type="module" 속성이 있으면 기본이 defer 속성으로 동작
+  - 페이지 렌더링이 우선시 되는 경우 주로 사용
+  - => defer 쓰면 DOMContentLoaded 필요 없음. 모듈 간에 의존관계 있는 경우 defer 사용.
+    **대부분의 script는 defer 쓰면 됨** 화면이 가장 빨리 그려지는 게 defer!
+
+### use strict
+
+- use strict란?
+
+  - 새로운 버전이 나오면서 보완된 자바스크립트의 **문제적인** 문법적 특징들은 하위 호환을 위해서 `default`가 비활성화 상태임
+  - 코드나 함수의 맨 위에 `"use strict"` 지시자를 사용하면 최신 버전 문법이 활성화됨
+    - 코드 실수 예방 & 예상치 못한 버그 감소 & 미래 JS 문법과 호환되는 코드 작성 가능
+  - 클래스와 모듈의 내부에서는 자동으로 적용됨
+  - 타입스크립트 tsconfig.json 파일에 `"strict": true` 나 `"alwaysStrict": true` 로 설정하면 컴파일된 js 파일에 `"use strict";` 자동으로 추가 됨
+
+- 엄격 모드에서 적용되는 주요 문법
+  - 선언 없이 변수 사용 시 오류 발생
+  - 함수 호출 시 this가 window가 아닌 undefined가 됨
+  - 중복 매개변수 사용 금지
+  - 미래에 사용될 수 있는 키워드는 식별자로 사용 못함 (지금은 없으나 차기 버전에서 사용될 수도 있는 키워드)
+    - `implements` , `interface`, `package`
+    - `private`, `protected`, `public` 등
+
+### 동기 방식과 비동기 방식
+
+- 일반 함수
+  - 일반 함수는 호출되면 내부의 코드가 순차적으로 실행된 뒤 값을 반환
+  - 함수를 호출한 코드는 해당 함수가 반환될 때까지 기다리며, 반환된 이후에 다음 코드가 실행됨
+  - 따라서 코드 실행 순서가 명확하며, 흐름의 일관성이 보장됨 (동기 방식)
+- 비동기 함수
+  - 비동기 함수는 호출되면 작업을 바로 시작하지만, 결과가 준비될 때까지 기다리지 않고 곧바로 리턴됨
+  - 비동기 함수는 나중에 결과를 전달할 것을 약속하며, 호출한 코드는 그 사이에 다른 작업을 계속 진행
+  - 따라서 코드 실행 순서가 고정되지 않고, 효율적인 작업 분산이 가능함 (비동기 방식)
+
+### 비동기 함수의 결과 처리
+
+- **콜백 방식**  
+  - 비동기 작업이 끝난 뒤에 실행할 함수를 인자로 전달해서 결과를 처리
+  - 작업이 완료되면 미리 등록한 콜백 함수가 호출돼 결과나 에러를 전달받아 처리하는 방식
+  - 예시
+   ```typescript
+   function f1(resolve: (result: string) => void) {
+     const delay = Math.random() * 1000 * 10;
+     setTimeout(() => {
+       console.log("f1 작업 완료.", delay);
+       resolve("f1의 작업 결과."); // 작업 완료 후 콜백 함수 호출
+     }, delay);
+   }
+   f1((result) => {
+     console.log("f1의 작업이 완료된 후 호출.", result);
+   });
+   console.log("작업 종료.");
+   ```
+
+- **Promise 방식**  
+  - 비동기 작업의 성공 또는 실패 결과를 나중에 전달하기 위한 객체(ES2015에 추가)
+  - 어떤 함수가 Promise 객체를 반환한다면 현재 작업을 처리 중이며 작업이 처리 완료되는 미래에 어떤 값을 준비해서 전달할 것이라는 약속
+  - Promise 객체를 반환하는 함수는 비동기 함수가 됨
+  - Promise 생성자 함수 : Promise 객체 생성에 사용
+   - **executor**: 비동기로 처리할 작업을 가진 함수
+     - Promise 생성자 함수의 executor 함수 작성 : executor 함수에서 처리할 작업 구현
+       - 작업 성공 시 resolve()를 호출하고 인자값으로 작업 결과 전달
+       - 작업 실패 시 reject()를 호출하고 인자값으로 실패 사유 전달
+   - **resolve**: 작업이 성공적으로 완료 되었을 때 호출할 함수. 인자값은 작업 결과를 전달하는데 사용
+   - **reject**: 작업이 실패 했을 때 호출할 함수. 인자값은 실패 사유를 전달하는데 사용
+
+  - 예시
+     ```typescript
+        function f1() { 
+            return new Promise<string>((resolve, reject) => { // 비동기함수 : Promise 반환
+
+              const delay = Math.floor(Math.random() * 1000 * 1);
+              console.log(`\t ${delay}ms 동안 작업중...`);
+
+              setTimeout(() => {
+                console.log(`\t f1 작업 완료.`, delay); 
+                if(delay < 500){
+                  resolve('f1 작업 결과.' + delay);
+                } else {
+                  reject('f1 작업 실패 :' + delay);
+                }
+              }, delay);
+            }); 
+          }
+     ```
+  - Promise 객체의 메서드
+    1. then : 작업이 성공했을 때 다음에 뭘 할지 정하는 함수
+      - **`promise.then(onfulfilled?, onrejected?);`**
+        `onFulfilled` : 작업이 성공(resolve)했을 때 실행할 콜백
+        `onRejected` : 작업이 실패(reject)했을 때 실행할 콜백      
+      - 예시 
+        ```typescript
+            function test(){          // f1()은 Promise를 반환하는 비동기 함수
+              f1().then((result) => { // 첫 번째 인자: f1이 성공(resolve)했을 때 실행될 콜백 함수
+                console.log('f1의 작업이 완료된 후 호출.', result);
+              }, (reason) => {       // 두 번째 인자: f1이 실패(reject)했을 때 실행될 콜백 함수
+                console.error('f1의 작업이 실패한 후 호출.', reason);
+              // 위의 then() 실행이 완료된 후 (성공이든 실패든) 실행될 다음 then
+              }).then(()=>{          // 두 번째 then() - 이전 then의 성공 결과든 실패든 무조건 실행됨     
+              }).then(()=>{          // 세 번째 then() - 앞선 then()이 성공했을 때 실행됨
+              }).then(()=>{          // 네 번째 then() - 앞선 then()이 성공했을 때 실행됨                
+              });
+            }
+        ```
+    2. catch : Promise에서 실패(reject)한 경우를 처리하는 전용 메서드 (내부적으로 `then(undefined, onRejected)`와 동일)
+      - **`promise.catch(onRejected);`**
+        `onrejected`: then()의 onrejected와 동일
+        `then()`의 두번째 인자인 onrejected에서 처리하지 않은 에러는 `catch()`에서 처리됨
+      - 예시 
+        ```typescript
+            const p = new Promise((resolve, reject) => {
+              reject("에러 발생");
+            });
+
+            p.catch(error => {
+              console.error("실패 처리:", error);
+            });
+        ```  
+    3. finally : 성공이든 실패든 무조건 마지막에 실행되는 처리 코드
+      - **`promise.finally(onFinally);`**
+        `onfinally`: Promise의 성공 실패와 상관없이 항상 호출되는 함수
+        로딩 스피너 닫기, 파일 닫기, 네트워크 연결 해제, 상태 초기화 등의 목적으로 주로 사용
+      - 예시
+        ```typescript
+          doSomethingAsync()
+          .then(result => {
+            console.log("성공:", result);
+          })
+          .catch(error => {
+            console.error("에러:", error);
+          })
+          .finally(() => {
+            console.log("무조건 실행됨");
+          });
+          ```
+
+  - Promise 객체의 static 메서드
+    1.  Promise.all(iterable) : 모든 Promise가 성공해야 결과 반환, 하나라도 실패하면 전체 실패
+      - 여러 개의 Promise를 동시에 실행한다.
+      - 모두 성공하면 각 Promise의 결과들을 모은 배열을 가진 fulfilled 상태의 새로운 Promise 반환
+      - 하나라도 실패하면 즉시 reject되고 가장 먼저 실패한 사유를 가진 rejected 상태의 새로운 Promise 반환
+
+    2.  Promise.any(iterable) : 하나라도 성공하면 그 값을 반환, 모두 실패하면 전체 실패 (`AggregateError`)
+      - 여러 개의 Promise를 동시에 실행한다.
+      - 가장 먼저 성공한 Promise의 결과 반환
+      - 모두 실패하면 각 Promise의 실패 사유를 모은 배열을 errors 속성으로 가진 결과 반환
+      
+    3.  Promise.race(iterable) : 가장 먼저 완료된 Promise의 결과 반환 (resolve 또는 reject 상관없음)
+      - 여러 개의 Promise를 동시에 실행
+      - 성공, 실패 여부와 상관없이 가장 먼저 끝난(settled) Promise의 결과 반환. 이후 결과는 무시됨
+  
+    4.  Promise.allSettled(iterable) : 모든 Promise가 완료(resolve 또는 reject)될 때까지 기다림. 모든 작업 결과 반환
+      - 여러 개의 Promise를 동시에 실행해서 모든 Promise가 settled 된 후 모든 결과 배열 반환
+      - 실패해도 reject 되지 않음
+      - 결과 배열에는 각 Promise의 상태(status: fulfilled | rejected)와 결과(value | reason: 결과 | 실패 이유)가 들어감
+      
+   
+- **async/await**  
+  - Promise를 쉽게 다루기 위해 ES2017에 추가된 문법
+  - 콜백헬이나 then()의 복잡한 체인 방식을 사용하지 않고도 비동기 함수의 순차적인 호출이 가능해서 비동기 코드를 마치 동기 코드처럼 작성할 수 있음
+  
+  - async 키워드 : 함수 선언부에 붙이는 키워드
+    - async 키워드가 붙은 함수는 자동으로 Promise 객체를 반환
+    - async 함수가 리턴한 값은 Promise의 resolve()에 값을 전달하는 효과
+    - async 함수가 throw한 값은 Promise의 reject()에 값을 전달하는 효과
+
+  - await 키워드 : Promise 객체 앞에 붙이는 키워드
+    - Promise가 처리될 때까지(settled) 기다렸다가, 그 결과값을 반환해주는 키워드
+    - async 함수 안에서만 사용 가능
+    - 코드의 흐름이 동기함수를 호출하는 것과 비슷해서 가독성이 좋아짐
+  

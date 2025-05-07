@@ -1,6 +1,6 @@
-/*
-전개 구문(Spread syntax)
-*/
-
-
-
+"use strict";
+(() => {
+    /*
+    전개 구문(Spread syntax)
+    */
+})();

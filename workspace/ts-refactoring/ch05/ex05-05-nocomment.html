@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List App</title>
+</head>
+<body>
+  <div id="todo">
+    <header>
+      <h1>Todo List - 목록 조회 🙂</h1>
+    </header>
+    <div id="main">
+      <div id="container">
+        <ul>
+          <li>
+            <h2>쇼핑 목록</h2>
+            <div class="todoinput">
+              <input type="text" autofocus onkeyup="if(event.key === 'Enter') handleAdd()">
+              <button type="button" onclick="handleAdd()">추가</button>
+            </div>
+            <ul class="todolist">
+              <li data-no="1">
+                <span>1</span>
+                <span><s>샘플1</s></span>
+                <button type="button">삭제</button>
+              </li>
+              <li data-no="2">
+                <span>2</span>
+                <span><s>샘플2</s></span>
+                <button type="button">삭제</button>
+              </li>
+              <li data-no="3">
+                <span>3</span>
+                <span>샘플3</span>
+                <button type="button">삭제</button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <footer>
+      <p>멋쟁이 사자처럼 FrontEnd BootCamp</p>
+    </footer>
+  </div>
+
+  <script src="ex05-05-nocomment.js"></script>
+</body>
+</html>

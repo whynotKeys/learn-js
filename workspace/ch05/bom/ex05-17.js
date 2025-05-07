@@ -1,0 +1,2 @@
+"use strict";
+// Geolocation API

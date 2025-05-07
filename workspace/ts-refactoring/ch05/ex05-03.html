@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>쇼핑목록</title>
+
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <!-- <style>
+    div > button {
+      background-color: red;
+    }
+  </style> -->
+
+
+  <script src="ex05-03.js"></script>
+
+</head>
+<body>
+  <h1>쇼핑 목록</h1>
+
+  <div>
+    <button>두번째 영화 찾기</button>
+    <!-- 이벤트 등록 방법 2: HTML 요소의 on<event> 속성의 값으로 이벤트 발생시 실행할 코드를 등록 -->
+    <button OnClIcK="addMilk();console.log('우유 추가 완료');">우유 추가</button>
+    <button>첫번째 항목 삭제</button>
+  </div>
+
+
+  <p>마트에서 사야할 목록</p>
+  <ul id="purchases" class="list">
+    <li>두부</li>
+    <li>계란</li>
+    <li>라면</li>
+  </ul>
+
+  <p>보고싶은 영화 목록</p>
+  <ul id="movies" class="list">
+    <li>어벤저스</li>
+    <li>다크나이트</li>
+    <li>미션임파서블</li>
+  </ul>
+
+</body>
+</html>

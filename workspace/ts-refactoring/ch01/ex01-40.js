@@ -1,6 +1,6 @@
-/*
-Template literals
-*/
-
-
-
+"use strict";
+(() => {
+    /*
+    Template literals
+    */
+})();
