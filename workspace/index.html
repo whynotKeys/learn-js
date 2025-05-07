@@ -6,61 +6,96 @@
     <link rel="shortcut icon" href="img/favicon.ico" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://unpkg.com/jquery@3.7.1/dist/jquery.js"></script>
-    <!--lodash library 추가 -->
     <script src="https://unpkg.com/lodash@4.17.21/lodash.js"></script>
     <script src="https://unpkg.com/dayjs@1.11.13/dayjs.min.js"></script>
     <script src="js/mylib.js"></script>
     <script>
-      $(function () {
-        $(".chapter-title").click(function () {
+      jQuery(function () {
+        (($) => {
+          $(".chapter-title").click(function () {
+            const openChapter = JSON.parse(localStorage.getItem("openChapter")) || [];
+            if ($(this).parent().toggleClass("chapter-open").hasClass("chapter-open")) {
+              $(this).children("button").text("예제목록 접기");
+              openChapter.push($(this).parent().index());
+            } else {
+              $(this).children("button").text("예제목록 펼치기");
+              openChapter.splice(openChapter.indexOf($(this).parent().index()), 1);
+            }
+            localStorage.setItem("openChapter", JSON.stringify(openChapter));
+          });
           const openChapter = JSON.parse(localStorage.getItem("openChapter")) || [];
-          if ($(this).parent().toggleClass("chapter-open").hasClass("chapter-open")) {
-            $(this).children("button").text("예제목록 접기");
-            openChapter.push($(this).parent().index());
-          } else {
-            $(this).children("button").text("예제목록 펼치기");
-            openChapter.splice(openChapter.indexOf($(this).parent().index()), 1);
+          for (let chapter of openChapter) {
+            $(".chapter").eq(chapter).addClass("chapter-open");
           }
-          localStorage.setItem("openChapter", JSON.stringify(openChapter));
-        });
-        const openChapter = JSON.parse(localStorage.getItem("openChapter")) || [];
-        for (let chapter of openChapter) {
-          $(".chapter").eq(chapter).addClass("chapter-open");
-        }
-      });
 
-      $(function () {
-        $(".paragraph > ul a").click(function (e) {
-          $(".paragraph > ul a").removeClass("clicked");
-          $(this).addClass("clicked");
-          const url = $(this).attr("href");
-          const extName = url.split(".")[1];
-          if (extName == "js") {
-            e.preventDefault();
-            console.clear();
-            var title = $(this).text();
-            console.log("<<< " + title + " 예제 실행 결과(" + url + ") >>>");
-            $.get(
-              url,
-              function (data) {
-                if (data.trim) {
-                  data = data.trim();
-                }
-                console.log(data);
-                console.log("\n\n");
+          $(".paragraph > ul a").click(function (e) {
+            $(".paragraph > ul a").removeClass("clicked");
+            $(this).addClass("clicked");
+            const url = $(this).attr("href");
+            const extName = url.split(".")[1];
+            if (extName == "js") {
+              e.preventDefault();
+              console.clear();
+              var title = $(this).text();
+              console.log("<<< " + title + " 예제 실행 결과(" + url + ") >>>");
+              $.get(
+                url,
+                function (data) {
+                  if (data.trim) {
+                    data = data.trim();
+                  }
+                  console.log(data);
+                  console.log("\n\n");
 
-                const script = document.createElement("script");
-                // script.type = "module"; // 요게 있으면 this가 window가 아니라 undefined로 나옴!
-                script.textContent = data;
+                  const script = document.createElement("script");
+                  script.type = "module";
+                  script.textContent = data;
 
-                const scriptResult = document.querySelector("#script-result");
-                scriptResult.firstElementChild?.remove();
-                scriptResult.appendChild(script);
-              },
-              "text"
-            );
+                  const scriptResult = document.querySelector("#script-result");
+                  scriptResult.firstElementChild?.remove();
+                  scriptResult.appendChild(script);
+                },
+                "text"
+              );
+            }
+          });
+
+          // TS 모드 체크
+          const toggleTS = () => {
+            console.log("TS");
+            localStorage.setItem("isTS", "yes");
+            $(".main-contents").addClass("ts");
+            // ch01/, ch02/, ch03/, ch04/ 로 시작하는 링크 주소 앞에 ts-refactoring 추가
+            $('.paragraph a[href^="ch01/"], .paragraph a[href^="ch02/"], .paragraph a[href^="ch03/"], .paragraph a[href^="ch04/"]').each(function () {
+              $(this).attr("href", "ts-refactoring/" + $(this).attr("href"));
+            });
+          };
+
+          // JS 모드 체크
+          const toggleJS = () => {
+            console.log("JS");
+            localStorage.removeItem("isTS");
+            $(".main-contents").removeClass("ts");
+            // ts-refactoring 로 시작하는 링크 주소에서 ts-refactoring/ 제거
+            $('.paragraph a[href^="ts-refactoring/"]').each(function () {
+              $(this).attr("href", $(this).attr("href").replace("ts-refactoring/", ""));
+            });
+          };
+
+          if (localStorage.getItem("isTS") == "yes") {
+            $("#language-toggle").prop("checked", true);
+            toggleTS();
           }
-        });
+
+          $("#language-toggle").change(function () {
+            console.log("change");
+            if ($(this).is(":checked")) {
+              toggleTS();
+            } else {
+              toggleJS();
+            }
+          });
+        })(jQuery);
       });
     </script>
   </head>
@@ -69,6 +104,13 @@
       <header class="header">
         <h1 class="example-title">Javascript 실습</h1>
       </header>
+      <div class="toggle-container">
+        <input type="checkbox" id="language-toggle" class="toggle-input" />
+        <label for="language-toggle" class="toggle-label">
+          <span class="toggle-ts">TS</span>
+          <span class="toggle-js">JS</span>
+        </label>
+      </div>
       <div class="main-contents">
         <section class="chapter">
           <div class="chapter-title">
@@ -336,16 +378,27 @@
             </ul>
           </section>
           <section class="paragraph">
-            <h4 class="paragraph-title">5.3 BOM</h4>
-            <ul></ul>
+            <h4 class="paragraph-title">5.3 Aajx</h4>
+            <ul>
+              <li><a href="ch05/ajax/ex05-12.html">05-12 랜덤 고양이 이미지 가져오기 - XMLHttpRequest 사용</a></li>
+              <li><a href="ch05/ajax/ex05-13.html">05-13 랜덤 고양이 이미지 가져오기 - Fetch API 사용</a></li>
+              <li><a href="ch05/ajax/ex05-14.html">05-14 랜덤 고양이 이미지 가져오기 - axios 라이브러리</a></li>
+            </ul>
           </section>
           <section class="paragraph">
-            <h4 class="paragraph-title">5.4 Aajx</h4>
-            <ul></ul>
+            <h4 class="paragraph-title">5.4 BOM</h4>
+            <ul>
+              <li><a href="ch05/bom/ex05-15.html">05-15 navigator 객체</a></li>
+              <li><a href="ch05/bom/ex05-16.html?name=haru&age=5">05-16 location 객체</a></li>
+            </ul>
           </section>
           <section class="paragraph">
             <h4 class="paragraph-title">5.5 Web APIs</h4>
-            <ul></ul>
+            <ul>
+              <li><a href="ch05/bom/ex05-17.html">05-17 Geolocation API</a></li>
+              <li><a href="ch05/bom/ex05-18.html">05-18 Web Storage API</a></li>
+              <li><a href="ch05/bom/ex05-19.html">05-19 Web Socket API</a></li>
+            </ul>
           </section>
         </section>
 
@@ -438,6 +491,7 @@
             </ul>
           </section>
         </section>
+
         <section class="chapter">
           <div class="chapter-title">
             <h3 tabindex="0">7강: 내장 함수, 내장 객체</h3>
@@ -503,6 +557,63 @@
               <li><a href="ch07/ex07-17.js">07-17 find(), findIndex(), filter()</a></li>
               <li><a href="ch07/ex07-18.js">07-18 some(), every()</a></li>
               <li><a href="ch07/ex07-19.js">07-19 reduce()</a></li>
+            </ul>
+          </section>
+        </section>
+
+        <section class="chapter">
+          <div class="chapter-title">
+            <h3 tabindex="0">8강: 기타</h3>
+            <button>예제목록 펼치기</button>
+          </div>
+          <section class="paragraph">
+            <h4 class="paragraph-title">8.1 에러 핸들링</h4>
+            <ul>
+              <li><a href="ch08/ex08-01.js">08-01 Error 객체</a></li>
+              <li><a href="ch08/ex08-02.js">08-02 에러가 발생하는 경우</a></li>
+              <li><a href="ch08/ex08-03.js">08-03 try...catch 문</a></li>
+              <li><a href="ch08/ex08-03-02.js">08-03-02 에러 전달1(throw)</a></li>
+              <li><a href="ch08/ex08-03-03.js">08-03-03 에러 전달2(throw)</a></li>
+              <li><a href="ch08/ex08-04.js">08-04 직접 에러 발생(throw)</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">8.2 Module</h4>
+            <ul>
+              <li><a href="ch08/ex08-05/index.html">08-05 Module 예제</a></li>
+            </ul>
+          </section>
+          <section class="paragraph">
+            <h4 class="paragraph-title">8.3 동기 방식과 비동기 방식</h4>
+            <ul>
+              <li><a href="ch08/ex08-06.js">08-06 일반 함수(동기 방식)</a></li>
+              <li><a href="ch08/ex08-07.js">08-07 비동기 함수</a></li>
+              <li><a href="ch08/ex08-07-02.js">08-07-02 비동기 함수 - 콜백 함수 사용</a></li>
+              <li><a href="ch08/ex08-07-03.js">08-07-03 비동기 함수 - 콜백 함수에 인자값 전달</a></li>
+              <li><a href="ch08/ex08-07-04.js">08-07-04 비동기 함수 - 결과의 순서가 보장되지 않음</a></li>
+              <li><a href="ch08/ex08-07-05.js">08-07-05 비동기 함수 - 결과의 순서 보장</a></li>
+              <li><a href="ch08/ex08-08.js">08-08 비동기 함수 - Promise 사용</a></li>
+              <li><a href="ch08/ex08-08-02.js">08-08-02 Promise - 에러 처리 추가</a></li>
+              <li><a href="ch08/ex08-08-03.js">08-08-03 Promise - 체인 방식으로 호출 1</a></li>
+              <li><a href="ch08/ex08-08-04.js">08-08-04 Promise - 체인 방식으로 호출 2</a></li>
+              <li><a href="ch08/ex08-08-05.js">08-08-05 Promise의 static 메서드</a></li>
+              <li><a href="ch08/ex08-09.js">08-09 async</a></li>
+              <li><a href="ch08/ex08-09-02.js">08-09-02 await</a></li>
+              <li><a href="ch08/ex08-10.js">08-10 async/await</a></li>
+            </ul>
+          </section>
+        </section>
+
+        <section class="chapter">
+          <div class="chapter-title">
+            <h3 tabindex="0">시험문제 풀이</h3>
+            <button>예제목록 펼치기</button>
+          </div>
+          <section class="paragraph">
+            <h4 class="paragraph-title">자바스크립트 시험</h4>
+            <ul>
+              <li><a href="exam/problem.html">Todo List 문제</a></li>
+              <li><a href="exam/solve.html">Todo List 정답</a></li>
             </ul>
           </section>
         </section>
