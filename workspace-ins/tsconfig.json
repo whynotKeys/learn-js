@@ -112,5 +112,6 @@
   },
   // "include": ["workspace-ins/**/*"],
   // "exclude": ["node_modules", "sample/**/*"]
-  "exclude": ["**/tempCodeRunnerFile.ts"] // code runner가 만든 임시 파일은 컴파일 제외
+  // "exclude": ["**/tempCodeRunnerFile.ts"] // code runner가 만든 임시 파일은 컴파일 제외
+  "exclude": ["**/tempCodeRunnerFile.ts", "ts-refactoring/**/*"] // code runner가 만든 임시 파일은 컴파일 제외
 }
