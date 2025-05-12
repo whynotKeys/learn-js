@@ -2899,3 +2899,231 @@ map : 함수 호출 후 빈 배열에 값 넣어뒀다가 새로운 배열 리�
     - async 함수 안에서만 사용 가능
     - 코드의 흐름이 동기함수를 호출하는 것과 비슷해서 가독성이 좋아짐
   
+<br />
+<br />
+---
+
+---
+
+# 2025-05-08
+
+**JavaScript // AJAX, BOM, Web APIs**
+
+## 수업 내용
+
+### AJAX(**A**synchronous **J**avascript **A**nd **X**ML)
+- 웹 어플리케이션 개발시에 클라이언트와 서버의 통신방법에 대한 형태로, 자바스크립트와 XML에 기반한 비동기 통신기법을 사용
+- 자바스크립트로 HTTP요청을 보내고 XML로 응답을 받아서 처리하는 개발 방식
+- 현재는 XML 보다 JSON을 더 선호함
+- 페이지 이동이나 새로고침 없이 서버에 HTTP 요청을 보내고 DOM API를 이용해 응답 데이터로 화면을 갱신하는 프로그래밍 방식
+
+### XMLHttpRequest
+- XMLHttpRequest 생성자 함수
+  - 서버와 비동기 통신을 하는 객체
+  - new XMLHttpRequest()
+
+- XMLHttpRequest 주요 메서드
+표 넣깅
+
+- XMLHttpRequest  속성
+ 표 넣깅
+- 예시
+  ```typescript
+      function getImages(): void {
+        // Ajax 프로그래밍 순서 (: 서버와 페이지 새로고침 없이 통신)
+        // 1. XMLHttpRequest 객체 생성
+        const xhr = new XMLHttpRequest();
+
+        // 2. 서버에 보낼 요청 준비(open)
+        xhr.open('GET', url, true); // get방식으로 url주소에 동기 방식(false)으로
+
+        // 3. 서버에서 받은 응답 데이터 처리
+        xhr.addEventListener('load', function() {  
+          const result = this.responseText; // 여기서 this : xhr
+          console.log(result);
+          const data : Cat[] = JSON.parse(result);
+          console.log(data[0]["url"]);
+          appendImages(data);
+
+        }); 
+
+        // 4. 서버에 요청(send())
+        xhr.send();
+      }
+  ```
+  
+### Fetch API
+- `fetch()`
+  - ES6에서 추가
+  - 콜백 기반인 XMLHttpRequest 와 달리 **Promise 기반으로** 설계된 HTTP 클라이언트
+  - XMLHttpRequest를 대체해서 사용할 수 있는 **표준** API
+  - XMLHttpRequest보다는 나은 선택이지만 단점 존재
+    - 응답 객체에서 본문을 바로 꺼낼 수 없음 : JSON이나 다른 데이터 타입으로 파싱 필요
+    - 네트워크 에러를 제외한 HTTP 응답 에러에 대해서 오류가 발생하지 않음 : 따로 체크 필요
+  - => 근래 현업(+react)에서는 axios-라이브러리 주로 사용. next.js 쓰면 fetch 써야 함
+  
+※ HTTP 상태 코드 (https://developer.mozilla.org/ko/docs/Web/HTTP/Reference/Status)
+  - 2xx 정상완료
+  - 3xx 리디렉션
+  - 4xx 클라이언트쪽오류
+  - 5xx 서버쪽오류
+  
+### axios 라이브러리
+- Node.js와 브라우저를 위한 Promise 기반 HTTP 클라이언트
+- XMLHttpRequest 객체를 기반으로 동작하므로 Fetch API 보다 호환성 좋음 (지금은 해당X. fetch 전부 가능함)
+- 요청 및 응답 인터셉트
+- JSON 데이터 자동 변환
+- timeout 설정 가능
+- `$npm i @types/axios`
+- 예시
+   ```typescript
+   const url = 'https://api.thecatapi.com/v1/images/search';
+   async function getImages() {
+     try{
+       const response = await axios.get<Cat[]>(url);
+       const data: Cat[] = response.data; // json 파싱이 필요 없음
+       console.log(data);
+     } catch(err) {
+       // 네트워크 에러나 4xx HTTP 응답 에러 일괄 처리
+       console.error(err);
+     }
+   }
+   ```
+
+### BOM(**B**rowser **O**bject **M**odel)
+- 웹페이지 외부의 브라우저 자체를 제어하기 위한 객체들의 집합을 정의한 표준
+- HTML 표준: https://html.spec.whatwg.org
+- window: BOM의 최상위 객체로 모든 전역 변수, 함수, 객체를 포함
+  - `alert()`, `setTimeout()`, `innerWidth`, `innerHeight` 등
+- window.navigator: 브라우저와 운영체제에 대한 정보 제공
+- window.location: 현재 페이지의 URL에 대한 제어(읽기, 수정)
+- window.history: 브라우저의 과거 페이지 이동 정보에 대한 제어(읽기, 수정)
+- window.screen: 화면 해상도 등의 정보를 제공
+  
+- **navigator 객체**
+  - 브라우저의 정보(버전, 언너, 플랫폼 등)에 접근할 수 있도록 해주는 객체
+  - 주로 사용자 환경을 파악하거나 기능 지원 여부를 확인할 때 사용
+  - `navigator.userAgent`: 사용자의 브라우저 및 OS 정보를 문자열로 제공
+  - `navigator.language`: 브라우저 기본 언어
+  - `navigator.platform`: 운영체제 정보
+  - `navigator.onLine`: 현재 온라인 상태 여부 확인
+  - `navigator.geolocation`: 위치 정보 확인 API
+  
+ - **location 객체**
+  - 현재 문서의 URL 정보를 읽거나 변경할 수 있게 해주는 객체
+  - 페이지 이동, 새로고침, 리디렉션 등에 자주 사용
+  - `location.assign(url)`: 주어진 URL 이동(history를 남김)
+  - `location.replace(url)`: 현재 페이지를 새 URL로 교체(history를 남기지 않음)
+  - `location.reload()`: 페이지 새로고침
+  - 현재 url 관련 속성
+    - https://example.com/about?category=book 일 경우
+    - `location.href`: 현재 URL 확인 또는 변경
+    - `location.hostname`: 도메인(example.com)
+    - `location.pathname`: 경로(/about)
+    - `location.protocol`: 프로토콜(https:)
+    - `location.search`: 쿼리 스트링(?category=book)
+history 객체 screen 객체 -> 안 하고 넘어감 react할 때 다시 나온다고 함
+
+Web APIs 란?
+
+여기 정리 필요
+
+
+<br />
+<br />
+---
+
+---
+
+# 2025-05-09
+
+**JavaScript // **
+
+## 수업 내용
+- 프로젝트 팀 오후에 발표. 오늘은 브레인스토밍-아이디어 정리 및 기획 예정
+- 다음주 월요일에 다같이 초기 환경세팅 예정
+- 프로젝트는 아이디어 잘 내서... UI에 너무 힘쓰지 말 것. AI의 도움을 적극적으로 받되, 이해하지 못하는 코드는 사용X
+- 의견 분립 시(2:2) 팀장 의견에 힘 싣을 것
+- 
+
+### Web Storage API
+- Web Storage
+  - key-value 형태의 데이터를 저장하기 위한 스토리지
+  - 자바스크립트 객체를 다루듯 사용법이 간단
+  - 저장 : 스토리지 속성에 값을 지정
+  - 읽기 : 스토리지 속성에 접근
+  - 로컬 스토리지와 세션 스토리지로 구분
+  - 도메인별 각각 별도의 공간에 생성되기 때문에 다른 도메인에서는 접근 불가능
+
+- Web Storage vs. Cookie
+  - 기본 크기는 5M byte(쿠키는 4K byte)
+  - 서버로 데이터를 보내지 않음(쿠키는 요청 헤더에 자동으로 포함)
+  - 만료 기간이 없음(쿠키는 만료기간 지정)
+  - 자바스크립트 객체를 저장할 수 있음(쿠키는 문자열만 저장)
+  
+- 로컬 스토리지
+  - 프로그램이나 사용자가 삭제 하지 않는 이상 영구적인 데이터 저장
+  - "오늘 하루 이창을 열지 않음" 같이 보안이 필요하지 않은 데이터 저장에 적합
+  - 꼭 로그인해서 써야하는 서비스의 경우 자동로그인 여기서 사용
+
+- 세션 스토리지
+  - 브라우저(window 객체)와 같은 생존 기간을 가지는 저장 영역
+  - 브라우저 탭이 닫히면 세션 스토리지 정보도 사라짐
+  - 새로고침이나 페이지 이동 시에는 세션 스토리지 정보는 유지됨
+  - 로그인한 사용자 정보 처럼 보안이 필요한 임시 데이터에 적합
+  - 다른 종류의 브라우저가 같은 도메인에 접속하더라도 로컬 스토리지나 세션 스토리지는 브라우저 별로 따로 생성
+  - 로그인 해서 쓸 수도, 안 하고 쓸 수도 있는 경우 세션 스토리지 사용해서 자동로그인 구현 (: 보안 안전)
+  
+- 스토리지에 접근
+  - 로컬 스토리지 : `window.localStorage` 속성
+  - 세션 스토리지 : `window.sessionStorage` 속성
+
+- 스토리지에 값 저장
+  - key값을 스토리지 객체의 속성명으로, value값을 속성값으로 직접 저장
+  - `localStorage.userId = 'haru';`
+  - `localStorage['userId'] = 'namu';`
+  - `setItem()` 메서드 이용
+  - `localStorage.setItem('userId', 'haru');`
+
+- 스토리지의 값 읽기
+  - 스토리지 객체의 속성명으로 읽기
+  - `const userId = localStorage.userId;`
+  - `const userId = localStorage['userId'];`
+  - `getItem()` 메서드 이용
+  - `const userId = localStorage.getItem('userId');`
+  
+- 스토리지의 데이터 삭제
+  - delete 연산자 이용
+    - `delete localStorage.userId;`
+    - `delete localStorage['userId'];`
+  - removeItem() 메서드 이용
+    - `localStorage.removeItem('userId');`
+
+- 스토리지의 모든 데이터 삭제
+  - clear() 메서드 이용 : `localStorage.clear();`
+
+- 기타 스토리지의 속성과 메서드
+  - length : 스토리지에 저장된 데이터의 수
+  - key(index) : 지정한 인덱스의 키를 반환(없으면 null)
+
+### Web Socket API
+- websocket 프로토콜
+  - IETF http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol
+  - 브라우저와 서버간 양방향 전이중 통신(Full Duplex)을 구현
+  - 일반 통신은 ws 프로토콜, 보안 통신은 wss 프로토콜 사용
+
+- websocket을 이용한 통신
+  - websocket 프로토콜 구현 서버 필요 (웹소켓 서버)
+  - websocket 프로토콜 구현 클라이언트 필요 (웹 브라우저)
+
+- Web Socket Server
+  - websocket 프로토콜 구현 서버
+  - jWebSocket, pywebsocket, phpwebsocket, web-socket-ruby, socket.io 등
+  
+- socket.io
+  - Node.js의 확장 모듈
+  - 이벤트 기반의 통신 API 제공
+  - 웹 브라우저가 지원하는 통신 방식으로 자동 접속(web socket, xhr-polling 등)
+
+※ **CORS policy(Cross Origin Resource Sharing)** : 다른 출처(origin)의 리소스에 브라우저가 접근할 수 있도록 허용해주는 보안 정책 (출처(origin)는 다음 3요소가 모두 같아야 같은 출처:`프로토콜://호스트:포트`)
+-> 브라우저는 보안 때문에 cross-origin 요청을 제한 : 승인 없이 서버끼리 resource를 주고받는 걸 브라우저가 막는 보안정책
